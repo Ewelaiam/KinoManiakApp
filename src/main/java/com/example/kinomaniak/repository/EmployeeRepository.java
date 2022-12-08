@@ -4,5 +4,7 @@ import com.example.kinomaniak.model.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 //@Repository
-public interface UserRepository extends JpaRepository<Employee, Integer> {
+public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
+
+    Employee findByMail(String mail);
 }
