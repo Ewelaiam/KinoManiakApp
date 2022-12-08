@@ -6,11 +6,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.kinomaniak.controller.LoginController"
-            minHeight="550.0" minWidth="850.0"
-            prefHeight="400.0" prefWidth="600.0">
-    <Label fx:id="labelAdd" text="Search for photos:" prefWidth="120" onMouseClicked="#addHall"/>
-<!--    <Button text="add hall" prefWidth="120" ></Button>-->
-</AnchorPane>
+            stylesheets="css/LoginView.css">
+    <center>
+        <VBox alignment="CENTER" maxWidth="150">
+            <Label text="Sign in"/>
+            <TextField fx:id="mailField"/>
+            <TextField fx:id="passwordField"/>
+            <Button fx:id="confirmButton" text="OK" onMouseClicked="#signIn"/>
+        </VBox>
+    </center>
+
+
+</BorderPane>
