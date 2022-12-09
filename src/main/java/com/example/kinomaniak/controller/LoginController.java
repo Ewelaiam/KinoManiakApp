@@ -44,5 +44,13 @@ public class LoginController {
         }
     }
 
+    public void signUp(MouseEvent mouseEvent){
+        if (authService.addUser(mailField.getText().toString(), passwordField.getText().toString())){
+            System.out.println("GIT");
+        } else {
+            System.out.println("NOT GIT");
+        }
+    }
+
 
 }
