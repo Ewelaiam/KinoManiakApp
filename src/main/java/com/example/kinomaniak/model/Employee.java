@@ -27,6 +27,12 @@ public class Employee {
 
     public Employee() {}
 
+    public Employee(String mail, String password) {
+        this.mail = mail;
+        this.password = password;
+    }
 
-
+    public String getPassword() {
+        return password;
+    }
 }

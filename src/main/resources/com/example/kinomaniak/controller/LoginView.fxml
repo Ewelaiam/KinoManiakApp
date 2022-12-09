@@ -12,10 +12,10 @@
             stylesheets="../css/LoginView.css">
     <center>
         <VBox alignment="CENTER" maxWidth="150">
-            <Label text="Sign in"/>
+            <Label text="Sign up"/>
             <TextField fx:id="mailField"/>
             <TextField fx:id="passwordField"/>
-            <Button fx:id="confirmButton" text="OK" onMouseClicked="#signIn"/>
+            <Button fx:id="confirmButton" text="OK" onMouseClicked="#signUp"/>
         </VBox>
     </center>
 
