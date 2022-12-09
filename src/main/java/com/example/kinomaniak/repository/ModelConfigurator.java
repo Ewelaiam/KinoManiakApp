@@ -17,7 +17,7 @@ public class ModelConfigurator {
                                         EmployeeRepository employeeRepository) {
         return args -> {
             Hall kowalski = new Hall();
-            hallRepository.save(kowalski);
+            //hallRepository.save(kowalski);
         };
     }
 }
