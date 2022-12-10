@@ -14,5 +14,15 @@ public class MovieCategory {
 
     public MovieCategory(){}
 
+    public MovieCategory(String categoryName) {
+        this.categoryName = categoryName;
+    }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
 }

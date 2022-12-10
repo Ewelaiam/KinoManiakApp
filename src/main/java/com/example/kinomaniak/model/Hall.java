@@ -19,4 +19,21 @@ public class Hall {
 
     public Hall(){
     }
+
+    public Hall(Integer hallNo, Integer capacity){
+        this.hallNo = hallNo;
+        this.capacity = capacity;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public Integer getHallNo() {
+        return hallNo;
+    }
+
+    public Integer getCapacity() {
+        return capacity;
+    }
 }

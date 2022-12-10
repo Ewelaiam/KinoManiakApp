@@ -29,10 +29,17 @@ public class Employee {
 
     public Employee() {}
 
+    public Employee(Role role, String name, String surName, String mail, String password) {
+        this.role = role;
+        this.name = name;
+        this.surName = surName;
+    }
+
     public Employee(String mail, String password) {
         this.mail = mail;
         this.password = password;
     }
+
 
     public Employee(String mail, String password, String name, String surname) {
         this.mail = mail;
@@ -40,8 +47,33 @@ public class Employee {
         this.name = name;
         this.surName = name;
     }
+    public Integer getId() {
+        return id;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurName() {
+        return surName;
+    }
+
+    public String getMail() {
+        return mail;
+
+    }
 
     public String getPassword() {
         return password;
     }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
 }

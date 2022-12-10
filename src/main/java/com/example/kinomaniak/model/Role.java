@@ -19,4 +19,8 @@ public class Role {
     private String roleName;
 
     public Role() {}
+
+    public String getRoleName() {
+        return roleName;
+    }
 }

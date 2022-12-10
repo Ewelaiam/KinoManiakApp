@@ -25,9 +25,30 @@ public class FilmShow {
 
     public FilmShow(){}
 
-
-    public void addTicket(){
-
+    public FilmShow(Hall hall, Movie movie, ZonedDateTime date, Double ticketPrice){
+        this.hall = hall;
+        this.movie = movie;
+        this.date = date;
+        this.ticketPrice = ticketPrice;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public Hall getHall() {
+        return hall;
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public ZonedDateTime getDate() {
+        return date;
+    }
+
+    public Double getTicketPrice() {
+        return ticketPrice;
+    }
 }
