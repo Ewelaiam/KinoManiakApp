@@ -40,6 +40,13 @@ public class Employee {
         this.password = password;
     }
 
+
+    public Employee(String mail, String password, String name, String surname) {
+        this.mail = mail;
+        this.password = password;
+        this.name = name;
+        this.surName = name;
+    }
     public Integer getId() {
         return id;
     }
@@ -58,6 +65,7 @@ public class Employee {
 
     public String getMail() {
         return mail;
+
     }
 
     public String getPassword() {

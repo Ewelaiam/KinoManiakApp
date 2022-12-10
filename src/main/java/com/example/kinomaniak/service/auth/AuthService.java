@@ -32,8 +32,11 @@ public class AuthService {
         return false;
     }
 
-    public boolean addUser(String mail, String password) {
-        Employee employee = new Employee(mail, passwordEncoder.encode(password));
+    public boolean addUser(String mail,
+                           String password,
+                           String name,
+                           String surname) {
+        Employee employee = new Employee(mail, passwordEncoder.encode(password), name, surname);
 
         employeeRepository.save(employee);
         return true;
