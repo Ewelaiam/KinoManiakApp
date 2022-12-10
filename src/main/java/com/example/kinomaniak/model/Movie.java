@@ -22,4 +22,45 @@ public class Movie {
     private Integer ageRestriction;
     public Movie(){}
 
+    public Movie(String title, String director, String description, MovieCategory category, Integer duration, LocalDate premierDate, Integer ageRestriction) {
+        this.title = title;
+        this.director = director;
+        this.description = description;
+        this.category = category;
+        this.duration = duration;
+        this.premierDate = premierDate;
+        this.ageRestriction = ageRestriction;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public MovieCategory getCategory() {
+        return category;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public LocalDate getPremierDate() {
+        return premierDate;
+    }
+
+    public Integer getAgeRestriction() {
+        return ageRestriction;
+    }
 }
