@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-//@Repository
+@Repository
 public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 
     @Query(value = "SELECT TOP 1 * FROM Ticket t GROUP BY t.employee ORDER BY COUNT(t) DESC", nativeQuery = true)

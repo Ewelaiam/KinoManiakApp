@@ -1,9 +1,14 @@
 package com.example.kinomaniak.repository;
 
+import com.example.kinomaniak.model.FilmShow;
 import com.example.kinomaniak.model.Hall;
+import com.example.kinomaniak.model.Movie;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.time.ZonedDateTime;
+import java.util.Optional;
 
 @Configuration
 public class ModelConfigurator {
@@ -16,8 +21,17 @@ public class ModelConfigurator {
                                         TicketRepository ticketRepository,
                                         EmployeeRepository employeeRepository) {
         return args -> {
-            Hall kowalski = new Hall();
-            //hallRepository.save(kowalski);
+            if(filmShowRepository.findAll().size() == 0){
+                System.out.println("no films");
+                Optional<Movie> movieOptional = movieRepository.findMovieByTitle("Inception");
+                Optional<Hall> hallOptional = hallRepository.findHallByHallNo(1);
+                if(movieOptional.isPresent() && hallOptional.isPresent()){
+                    FilmShow show = new FilmShow(hallOptional.get(),movieOptional.get(), ZonedDateTime.now(),12.99);
+                    filmShowRepository.save(show);
+                    System.out.println("found");
+                }
+            }
+
         };
     }
 }

@@ -13,4 +13,6 @@ import java.util.Optional;
 public interface MovieRepository extends JpaRepository<Movie, Integer> {
 
     Page<Movie> findAll(Pageable pageable);
+
+    Optional<Movie> findMovieByTitle(String title);
 }
