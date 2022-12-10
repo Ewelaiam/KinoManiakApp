@@ -8,10 +8,12 @@ import javax.persistence.ManyToOne;
 
 import java.util.HashSet;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 @Entity
 public class Employee {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = IDENTITY)
     private Integer id;
 
     @ManyToOne
@@ -27,10 +29,13 @@ public class Employee {
 
     public Employee() {}
 
-    public Employee(Role role, String name, String surName, String mail, String password){
+    public Employee(Role role, String name, String surName, String mail, String password) {
         this.role = role;
         this.name = name;
         this.surName = surName;
+    }
+
+    public Employee(String mail, String password) {
         this.mail = mail;
         this.password = password;
     }
@@ -62,4 +67,5 @@ public class Employee {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }

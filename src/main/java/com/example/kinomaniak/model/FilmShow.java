@@ -4,11 +4,13 @@ import javax.persistence.*;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 @Entity
 public class FilmShow {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = IDENTITY)
     private Integer id;
 
     @ManyToOne

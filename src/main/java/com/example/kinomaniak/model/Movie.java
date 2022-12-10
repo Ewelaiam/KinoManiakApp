@@ -7,9 +7,11 @@ import com.example.kinomaniak.model.MovieCategory;
 
 import java.time.LocalDate;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 @Entity
 public class Movie {
-    @GeneratedValue
+    @GeneratedValue(strategy = IDENTITY)
     @Id
     private Integer id;
     private String title;
