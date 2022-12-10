@@ -58,11 +58,11 @@ public class AdminController {
     }
 
     public Hall showTheOftenChosenHallForEvents(){
-//        return adminService.showTheOftenChosenHallForEvents();
+        return adminService.showTheOftenChosenHallForEvents();
     }
 
     public Movie showMovieWithTheMostViewer(){
-//        return adminService.showMovieWithTheMostViewer();
+        return adminService.showMovieWithTheMostViewer();
     }
 
 }
