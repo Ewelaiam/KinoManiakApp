@@ -8,10 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.HashSet;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 @Entity
 public class Role {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = IDENTITY)
     private Integer id;
 
     private String roleName;

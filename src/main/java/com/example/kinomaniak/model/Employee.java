@@ -8,10 +8,12 @@ import javax.persistence.ManyToOne;
 
 import java.util.HashSet;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 @Entity
 public class Employee {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = IDENTITY)
     private Integer id;
 
     @ManyToOne
