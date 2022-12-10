@@ -1,3 +1,22 @@
+insert into role(id,role_name) values (0,'admin');
+insert into role(id,role_name) values (1,'manager');
+insert into role(id,role_name) values (2,'cashier');
+
+insert into employee(id, mail, name, password, sur_name, role_id)
+values(0,'admin@mail.com','Adam','admin','Adminski',0);
+insert into employee(id, mail, name, password, sur_name, role_id)
+values(1,'cashier1@mail.com','Jan','cashier','Kowalski',2);
+insert into employee(id, mail, name, password, sur_name, role_id)
+values(2,'cashier2@mail.com','Michal','cashier','Kowalski',2);
+insert into employee(id, mail, name, password, sur_name, role_id)
+values(3,'manager@mail.com','Magda','manager','Nowak',1);
+
+insert into hall(id, capacity, hall_no) values (0,100,1);
+insert into hall(id, capacity, hall_no) values (1,100,2);
+insert into hall(id, capacity, hall_no) values (2,100,3);
+insert into hall(id, capacity, hall_no) values (3,100,4);
+
+
 insert into movie_category(id,category_name)
 values(0,'comedy');
 insert into movie_category(id,category_name)
