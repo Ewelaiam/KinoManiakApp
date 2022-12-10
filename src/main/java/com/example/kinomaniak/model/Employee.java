@@ -34,6 +34,13 @@ public class Employee {
         this.password = password;
     }
 
+    public Employee(String mail, String password, String name, String surname) {
+        this.mail = mail;
+        this.password = password;
+        this.name = name;
+        this.surName = name;
+    }
+
     public String getPassword() {
         return password;
     }
