@@ -52,6 +52,8 @@ public class AuthService {
             Employee employee = new Employee(mail, passwordEncoder.encode(password), name, surname);
 
             employeeRepository.save(employee);
+            currentlyLoggedEmployee = employee;
+
             return true;
         }
 
