@@ -29,9 +29,9 @@ public class CashierService {
     }
 
     public void changePassword(String mail, String password){
-        Employee employeeAccount = employeeRepository.findByMail(mail);
-        employeeAccount.setPassword(password);
-        employeeRepository.save(employeeAccount);
+        Optional<Employee> employeeAccount = employeeRepository.findByMail(mail);
+        employeeAccount.get().setPassword(password);
+        employeeRepository.save(employeeAccount.get());
     }
 
     public Ticket reserveTicketsForGivenFilm(FilmShow filmShow, Employee employee, Integer seatNo) {

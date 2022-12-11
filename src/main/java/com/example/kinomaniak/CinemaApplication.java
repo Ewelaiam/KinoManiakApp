@@ -27,7 +27,6 @@ public class CinemaApplication extends Application {
 
     @Override
     public void init() {
-
         applicationContext = new SpringApplicationBuilder()
                 .sources(KinoManiakApplication.class)
                 .run(getParameters().getRaw().toArray(new String[0]));

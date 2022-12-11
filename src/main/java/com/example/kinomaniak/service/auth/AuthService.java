@@ -8,6 +8,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class AuthService {
 
@@ -15,7 +17,7 @@ public class AuthService {
 
     private final EmployeeRepository employeeRepository;
 
-    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
     public AuthService(EmployeeRepository employeeRepository){
@@ -23,9 +25,9 @@ public class AuthService {
     }
 
     public boolean authenticateUser(String mail, String password){
-        Employee foundEmployee = employeeRepository.findByMail(mail);
-        if (foundEmployee != null && passwordEncoder.matches(password, foundEmployee.getPassword())) {
-            currentlyLoggedEmployee = foundEmployee;
+        Optional<Employee> foundEmployee = employeeRepository.findByMail(mail);
+        if (foundEmployee.isPresent() && passwordEncoder.matches(password, foundEmployee.get().getPassword())) {
+            currentlyLoggedEmployee = foundEmployee.get();
             return true;
         }
 

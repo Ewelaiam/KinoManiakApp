@@ -9,8 +9,9 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.kinomaniak.controller.LoginController"
-            stylesheets="../css/LoginView.css">
+            stylesheets="../css/LoginView.css"
+            fx:controller="com.example.kinomaniak.controller.LoginController">
+
     <center>
         <VBox alignment="CENTER" maxWidth="150">
             <opaqueInsets>
