@@ -33,8 +33,8 @@ public class ModelConfigurator {
                     System.out.println("found");
                 }
             }
-            Optional<Movie> movieOptional = movieRepository.findMovieByTitle("Schindler's List");
-            movieOptional.ifPresent(movie -> movie.getCategories().stream().map(MovieCategory::getCategoryName).forEach(System.out::println));
+//            Optional<Movie> movieOptional = movieRepository.findMovieByTitle("Schindler's List");
+//            movieOptional.ifPresent(movie -> movie.getCategories().stream().map(MovieCategory::getCategoryName).forEach(System.out::println));
 
 
         };
