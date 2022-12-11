@@ -36,6 +36,10 @@ public class AuthService {
         return false;
     }
 
+    public Employee getCurrentlyLoggedEmployee() {
+        return currentlyLoggedEmployee;
+    }
+
     public boolean addUser(String mail,
                            String password,
                            String name,
