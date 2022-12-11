@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.Set;
 
 @Service
 public class ManagerService {
@@ -25,13 +26,16 @@ public class ManagerService {
     }
 
 
-    public FilmShow addFilmShow(Hall hall, Movie movie, ZonedDateTime date, Double ticketPrice){
-        FilmShow filmShow = new FilmShow(hall, movie, date, ticketPrice);
+    public FilmShow addFilmShow(Hall hall, Movie movie, ZonedDateTime date, Double ticketPrice,Boolean withSubtitles,Boolean is3D){
+        FilmShow filmShow = new FilmShow(hall, movie, date, ticketPrice,withSubtitles,is3D);
         return filmShowRepository.save(filmShow);
     }
 
-    public Movie addMovie(String title, String director, String description, MovieCategory category, Integer duration, LocalDate premierDate, Integer ageRestriction){
-        Movie movie = new Movie(title, director, description, category, duration, premierDate, ageRestriction);
+    public Movie addMovie(String title, String director, String description, Set<MovieCategory> categories, Integer duration, LocalDate premierDate, Integer ageRestriction){
+        Movie movie = new Movie(title, director, description, duration, premierDate, ageRestriction);
+        for(MovieCategory category: categories){
+            movie.addCategory(category);
+        }
         return movieRepository.save(movie);
     }
 

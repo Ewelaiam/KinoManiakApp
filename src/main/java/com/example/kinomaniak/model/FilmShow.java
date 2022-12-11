@@ -23,13 +23,18 @@ public class FilmShow {
 
     private Double ticketPrice;
 
+    private Boolean withSubtitles;
+    private Boolean is3D;
+
     public FilmShow(){}
 
-    public FilmShow(Hall hall, Movie movie, ZonedDateTime date, Double ticketPrice){
+    public FilmShow(Hall hall, Movie movie, ZonedDateTime date, Double ticketPrice,Boolean withSubtitles,Boolean is3D){
         this.hall = hall;
         this.movie = movie;
         this.date = date;
         this.ticketPrice = ticketPrice;
+        this.withSubtitles = withSubtitles;
+        this.is3D = is3D;
     }
 
     public Integer getId() {
@@ -50,5 +55,13 @@ public class FilmShow {
 
     public Double getTicketPrice() {
         return ticketPrice;
+    }
+
+    public Boolean getWithSubtitles() {
+        return withSubtitles;
+    }
+
+    public Boolean getIs3D() {
+        return is3D;
     }
 }
