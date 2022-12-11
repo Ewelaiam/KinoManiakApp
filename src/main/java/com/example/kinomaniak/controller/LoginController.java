@@ -1,9 +1,6 @@
 package com.example.kinomaniak.controller;
 
-import com.example.kinomaniak.model.Hall;
-import com.example.kinomaniak.repository.HallRepository;
-import com.example.kinomaniak.service.auth.AuthService;
-import javafx.event.ActionEvent;
+import com.example.kinomaniak.service.AuthService;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
