@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Service
 public class AuthService {
@@ -28,8 +29,10 @@ public class AuthService {
         Optional<Employee> foundEmployee = employeeRepository.findByMail(mail);
         if (foundEmployee.isPresent() && passwordEncoder.matches(password, foundEmployee.get().getPassword())) {
             currentlyLoggedEmployee = foundEmployee.get();
+
             return true;
         }
+
 
         return false;
     }
@@ -38,10 +41,30 @@ public class AuthService {
                            String password,
                            String name,
                            String surname) {
-        Employee employee = new Employee(mail, passwordEncoder.encode(password), name, surname);
 
-        employeeRepository.save(employee);
-        return true;
+        if (performEmailValidation(mail) && performPasswordValidation(password)){
+            Employee employee = new Employee(mail, passwordEncoder.encode(password), name, surname);
+
+            employeeRepository.save(employee);
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean performEmailValidation(String mail){
+        String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
+                + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+
+        boolean isAvailable = employeeRepository.findByMail(mail).isEmpty();
+
+        return Pattern.compile(regexPattern)
+                .matcher(mail)
+                .matches() && isAvailable;
+    }
+
+    private boolean performPasswordValidation(String password){
+        return password.length() >= 8;
     }
 
 }

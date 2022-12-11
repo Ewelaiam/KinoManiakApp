@@ -40,7 +40,11 @@ public class LoginController {
     @FXML
     public Label promptLabel;
 
+    @FXML
+    public Label errorPrompt;
+
     private final AuthService authService;
+
 
 
     private boolean isLogin = false;
@@ -58,7 +62,9 @@ public class LoginController {
         System.out.println(mailField.getText().toString());
         if (authService.authenticateUser(mailField.getText().toString(), passwordField.getText().toString())){
             System.out.println("GIT");
+            errorPrompt.setText("");
         } else {
+            errorPrompt.setText("Wrong email or password");
             System.out.println("NOT GIT");
         }
     }
@@ -69,7 +75,9 @@ public class LoginController {
                 nameField.getText().toString(),
                 surnameField.getText().toString())){
             System.out.println("GIT");
+            errorPrompt.setText("");
         } else {
+            errorPrompt.setText("Wrong mail or password");
             System.out.println("NOT GIT");
         }
     }
@@ -88,7 +96,7 @@ public class LoginController {
                 public void handle(MouseEvent event) {
                     signUp();
                 }
-            });;
+            });
         } else {
             nameField.setManaged(false);
             surnameField.setManaged(false);
@@ -107,6 +115,8 @@ public class LoginController {
 
         isLogin = !isLogin;
     }
+
+
 
 
 }
