@@ -9,13 +9,13 @@ import com.example.kinomaniak.service.ManagerService;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AdminController {
+public class HomeController {
 
     private final ManagerService managerService;
     private final CashierService cashierService;
     private final AdminService adminService;
 
-    public AdminController(ManagerService managerService, CashierService cashierService, AdminService adminService) {
+    public HomeController(ManagerService managerService, CashierService cashierService, AdminService adminService) {
         this.managerService = managerService;
         this.cashierService = cashierService;
         this.adminService = adminService;
