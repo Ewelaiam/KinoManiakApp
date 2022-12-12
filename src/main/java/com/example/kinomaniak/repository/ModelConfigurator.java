@@ -24,7 +24,7 @@ public class ModelConfigurator {
                                         EmployeeRepository employeeRepository) {
         return args -> {
             if(filmShowRepository.findAll().size() == 0){
-                System.out.println("no films");
+//                System.out.println("no films");
                 Optional<Movie> movieOptional = movieRepository.findMovieByTitle("Inception");
                 Optional<Hall> hallOptional = hallRepository.findHallByHallNo(1);
                 if(movieOptional.isPresent() && hallOptional.isPresent()){
