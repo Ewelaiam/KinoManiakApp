@@ -30,7 +30,7 @@ public class ModelConfigurator {
                 if(movieOptional.isPresent() && hallOptional.isPresent()){
                     FilmShow show = new FilmShow(hallOptional.get(),movieOptional.get(), ZonedDateTime.now(),12.99,true,false);
                     filmShowRepository.save(show);
-                    System.out.println("found");
+//                    System.out.println("found");
                 }
             }
 //            Optional<Movie> movieOptional = movieRepository.findMovieByTitle("Schindler's List");
