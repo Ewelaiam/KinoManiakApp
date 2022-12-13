@@ -1,13 +1,13 @@
 package com.example.kinomaniak.service;
 
-import com.example.kinomaniak.model.Employee;
-import com.example.kinomaniak.model.Hall;
-import com.example.kinomaniak.model.Movie;
-import com.example.kinomaniak.model.Role;
+import com.example.kinomaniak.model.*;
 import com.example.kinomaniak.repository.EmployeeRepository;
 import com.example.kinomaniak.repository.FilmShowRepository;
 import com.example.kinomaniak.repository.TicketRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AdminService {
@@ -27,22 +27,27 @@ public class AdminService {
     }
 
     public Employee showEmployeeWhoSoldTheMostTickets(){
-        return ticketRepository.findBestEmployee().getEmployee();
+        Optional<Ticket> ticketData = ticketRepository.findBestEmployee();
+        return ticketData.map(Ticket::getEmployee).orElse(null);
     }
 
-    public Integer numberOfCashier(){
-        return employeeRepository.findAllByRoleRoleName("cashier").size();
-    }
+//    public Integer numberOfCashier(){
+//        Optional<List<Employee>> cashiers = employeeRepository.findAllByRoleName("cashier");
+//        return cashiers.map(List::size).orElse(0);
+//    }
 
-    public Integer numberOfManagers(){
-        return employeeRepository.findAllByRoleRoleName("manager").size();
-    }
+//    public Integer numberOfManagers(){
+//        Optional<List<Employee>> managers = employeeRepository.findAllByRoleName("manager");
+//        return managers.map(List::size).orElse(0);
+//    }
 
     public Hall showTheOftenChosenHallForEvents(){
-        return filmShowRepository.findTheOftenChosenHallForEvents().getHall();
+        Optional<FilmShow> oftenChosenHallData = filmShowRepository.findTheOftenChosenHallForEvents();
+        return oftenChosenHallData.map(FilmShow::getHall).orElse(null);
     }
 
     public Movie showMovieWithTheMostViewer(){
-        return ticketRepository.findBestMovie().getFilmShow().getMovie();
+        Optional<Ticket> ticketData = ticketRepository.findBestMovie();
+        return ticketData.map(ticket -> ticket.getFilmShow().getMovie()).orElse(null);
     }
 }

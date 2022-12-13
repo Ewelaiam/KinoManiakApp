@@ -62,12 +62,10 @@ public class LoginController {
 
     public void signIn(){
         if (authService.authenticateUser(mailField.getText().toString(), passwordField.getText().toString())){
-            System.out.println("GIT");
             errorPrompt.setText("");
             loadHomeView();
         } else {
             errorPrompt.setText("Wrong email or password");
-            System.out.println("NOT GIT");
         }
     }
 
@@ -76,12 +74,10 @@ public class LoginController {
                 passwordField.getText().toString(),
                 nameField.getText().toString(),
                 surnameField.getText().toString())){
-            System.out.println("GIT");
             errorPrompt.setText("");
             loadHomeView();
         } else {
             errorPrompt.setText("Wrong mail or password");
-            System.out.println("NOT GIT");
         }
     }
 
