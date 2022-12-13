@@ -1,16 +1,17 @@
 package com.example.kinomaniak.controller;
 
-import com.example.kinomaniak.model.Hall;
-import com.example.kinomaniak.repository.HallRepository;
-import com.example.kinomaniak.service.auth.AuthService;
-import javafx.event.ActionEvent;
+import com.example.kinomaniak.service.AuthService;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -43,26 +44,27 @@ public class LoginController {
     @FXML
     public Label errorPrompt;
 
+    private final FxWeaver fxWeaver;
+
     private final AuthService authService;
 
-
+    private Stage stage;
 
     private boolean isLogin = false;
 
-
-
     @Autowired
-    public LoginController(AuthService authService){
+    public LoginController(
+            AuthService authService,
+            FxWeaver fxWeaver) {
+        this.fxWeaver = fxWeaver;
         this.authService = authService;
     }
 
-
     public void signIn(){
-
-        System.out.println(mailField.getText().toString());
         if (authService.authenticateUser(mailField.getText().toString(), passwordField.getText().toString())){
             System.out.println("GIT");
             errorPrompt.setText("");
+            loadHomeView();
         } else {
             errorPrompt.setText("Wrong email or password");
             System.out.println("NOT GIT");
@@ -76,6 +78,7 @@ public class LoginController {
                 surnameField.getText().toString())){
             System.out.println("GIT");
             errorPrompt.setText("");
+            loadHomeView();
         } else {
             errorPrompt.setText("Wrong mail or password");
             System.out.println("NOT GIT");
@@ -116,7 +119,16 @@ public class LoginController {
         isLogin = !isLogin;
     }
 
+    private void loadHomeView(){
+        fxWeaver.loadController(HomeController.class).setStage(this.stage);
+        Parent root = fxWeaver.loadView(HomeController.class);
+        Scene scene = new Scene(root, 800, 400);
+        stage.setScene(scene);
+        stage.show();
+    }
 
-
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
 
 }

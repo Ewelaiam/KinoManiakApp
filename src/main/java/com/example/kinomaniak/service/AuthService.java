@@ -1,4 +1,4 @@
-package com.example.kinomaniak.service.auth;
+package com.example.kinomaniak.service;
 
 import com.example.kinomaniak.model.Employee;
 import com.example.kinomaniak.repository.EmployeeRepository;
@@ -33,8 +33,11 @@ public class AuthService {
             return true;
         }
 
-
         return false;
+    }
+
+    public Employee getCurrentlyLoggedEmployee() {
+        return currentlyLoggedEmployee;
     }
 
     public boolean addUser(String mail,
@@ -42,10 +45,15 @@ public class AuthService {
                            String name,
                            String surname) {
 
-        if (performEmailValidation(mail) && performPasswordValidation(password)){
+        if (performEmailValidation(mail)
+                && performCredentialsValidation(name, surname)
+                && performPasswordValidation(password)){
+
             Employee employee = new Employee(mail, passwordEncoder.encode(password), name, surname);
 
             employeeRepository.save(employee);
+            currentlyLoggedEmployee = employee;
+
             return true;
         }
 
@@ -67,4 +75,7 @@ public class AuthService {
         return password.length() >= 8;
     }
 
+    private boolean performCredentialsValidation(String name, String surName){
+        return name.length() > 0 && surName.length() > 0;
+    }
 }

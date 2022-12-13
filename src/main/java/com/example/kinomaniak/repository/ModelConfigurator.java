@@ -24,13 +24,13 @@ public class ModelConfigurator {
                                         EmployeeRepository employeeRepository) {
         return args -> {
             if(filmShowRepository.findAll().size() == 0){
-                System.out.println("no films");
+//                System.out.println("no films");
                 Optional<Movie> movieOptional = movieRepository.findMovieByTitle("Inception");
                 Optional<Hall> hallOptional = hallRepository.findHallByHallNo(1);
                 if(movieOptional.isPresent() && hallOptional.isPresent()){
                     FilmShow show = new FilmShow(hallOptional.get(),movieOptional.get(), ZonedDateTime.now(),12.99,true,false);
                     filmShowRepository.save(show);
-                    System.out.println("found");
+//                    System.out.println("found");
                 }
             }
 //            Optional<Movie> movieOptional = movieRepository.findMovieByTitle("Schindler's List");
