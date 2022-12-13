@@ -1,9 +1,10 @@
 ﻿
 <h1 align="center">KinoManiak - dokumentacja</h1>
 
-###1. **Wstęp**
+<h2>1. **Wstęp**</h2>
 
-Aplikacja KinoManiak ma w założeniach dostarczać podstawowych funkcjonalności systemu do obsługi multipleksu kinowego. System ma w minimalnych założeniach umożliwiać:
+Aplikacja KinoManiak ma w założeniach dostarczać podstawowych funkcjonalności
+systemu do obsługi multipleksu kinowego. System ma w minimalnych założeniach umożliwiać:
 
 - Wprowadzenie nowego użytkownika: imię, nazwisko i email (poprawność danych)
 - Obsługę wielu sal
@@ -20,7 +21,7 @@ Do napisania aplikacji użyte zostały następujące technologie:
 - baza danych PostgreSQL umieszczona w kontenerze Docker
 
 
-###2. **Role użytkowników i funkcje aplikacji**
+<h2>2. **Role użytkowników i funkcje aplikacji**</h2>
 
 
 W aplikacji realizowany będzie podział użytkowników na 3 role:
@@ -34,7 +35,7 @@ W aplikacji realizowany będzie podział użytkowników na 3 role:
 - Ma możliwość przyznawania ról użytkownikom systemu
 - Ma możliwość podejrzenia statystyk
 
-1) **Manager**
+2) **Manager**
 
 - Posiada wszystkie uprawnienia Kasjera
 - Ma możliwość dodawania seansów
@@ -42,14 +43,12 @@ W aplikacji realizowany będzie podział użytkowników na 3 role:
 - Ma możliwość wysyłania maili
 
 
-1) **Kasjer**
+3) **Kasjer**
 
 - Ma możliwość sprzedawania biletów
 - Ma możliwość wyświetlenia seansów, filmów
 - Ma możliwość generowania polecanego repertuaru (na podstawie daty premiery filmu)
 
 
-
-###3. **Model bazodanowy**
-###4. **Model dziedzinowy**
-
+<h2>3. **Model bazodanowy**</h2>
+<h2>4. **Model dziedzinowy**</h2>
