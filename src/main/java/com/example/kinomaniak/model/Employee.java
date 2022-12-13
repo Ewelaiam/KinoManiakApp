@@ -45,7 +45,7 @@ public class Employee {
         this.mail = mail;
         this.password = password;
         this.name = name;
-        this.surName = name;
+        this.surName = surname;
     }
     public Integer getId() {
         return id;

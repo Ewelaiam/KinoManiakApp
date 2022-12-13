@@ -31,15 +31,15 @@ public class AdminService {
         return ticketData.map(Ticket::getEmployee).orElse(null);
     }
 
-    public Integer numberOfCashier(){
-        Optional<List<Employee>> cashiers = employeeRepository.findAllByRoleName("cashier");
-        return cashiers.map(List::size).orElse(0);
-    }
+//    public Integer numberOfCashier(){
+//        Optional<List<Employee>> cashiers = employeeRepository.findAllByRoleName("cashier");
+//        return cashiers.map(List::size).orElse(0);
+//    }
 
-    public Integer numberOfManagers(){
-        Optional<List<Employee>> managers = employeeRepository.findAllByRoleName("manager");
-        return managers.map(List::size).orElse(0);
-    }
+//    public Integer numberOfManagers(){
+//        Optional<List<Employee>> managers = employeeRepository.findAllByRoleName("manager");
+//        return managers.map(List::size).orElse(0);
+//    }
 
     public Hall showTheOftenChosenHallForEvents(){
         Optional<FilmShow> oftenChosenHallData = filmShowRepository.findTheOftenChosenHallForEvents();
