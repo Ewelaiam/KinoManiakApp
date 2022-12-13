@@ -44,7 +44,6 @@ public class CinemaApplication extends Application {
 
     private void setControllersStages(FxWeaver fxWeaver, Stage primaryStage){
         fxWeaver.loadController(LoginController.class).setStage(primaryStage);
-//        fxWeaver.loadController(HomeController.class).setStage(primaryStage);
     }
 
 
