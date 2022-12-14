@@ -51,32 +51,35 @@ c) **Kasjer**
 
 
 <h2>3. Model bazodanowy</h2>
+
+  
 ![Scheme](images/baza.jpg)
 
+  
 **Opis tabel:**
 
 **Role** - zawiera role użytkowników systemu    
 **Employee** -  zawiera wszystkich użytkowników systemu, każdy z nich posiada role, mail,hasło  
-**Movie** - zawiera dane dotyczące filmów wyświetlanych w kinie
-**Movie_Category** - zawiera nazwy gatunków filmów jak np. horror czy fantasy
+**Movie** - zawiera dane dotyczące filmów wyświetlanych w kinie       
+**Movie_Category** - zawiera nazwy gatunków filmów jak np. horror czy fantasy       
 **Movie_Categories** - tabela łącznikowa - jeden film może mieć wiele kategorii,
-jedną kategorie może mieć wiele filmów  
+jedną kategorie może mieć wiele filmów   
 **Hall** - zawiera informacje dotyczące sal kinowych - nr sali, ilość miejsc    
-**FilmShow** - zawiera informacje dotyczące konkretnych seansów jak godzina, cena biletów, jest połączona z konkretnym filmem i salą
+**FilmShow** - zawiera informacje dotyczące konkretnych seansów jak godzina, cena biletów, jest połączona z konkretnym filmem i salą    
 **Ticket** - zawiera informacje dotyczące biletów. Bilet ma numer fotela, powiązany jest z konkretnym seansem i kasjerem, który obsługiwał jego biletu
 
 
 <h2>4. Model dziedzinowy</h2>
+  
 ![Scheme](images/KinoManiak.jpeg)
-
+  
 
 Rozszerzenie modelu (przyszłość projektu):
 
 ![Scheme](images/Extend.jpeg)
 
-
 **Funkcje klas:**
-- Klasy uruchamiające system 
+- Klasy uruchamiające system
   - Oznaczone kolorem szarym
   - Odpowiadają za uruchomienie aplikacji wraz z początkową konfiguracją i synchronizacją używanych frameworków
 
@@ -106,7 +109,7 @@ Rozszerzenie modelu (przyszłość projektu):
 Do skorzystania z aplikacji KinoManiak, należy mieć zainstalowane lokalnie:
 - Java 17
 - Docker
-    
+
 Pobieramy obraz z dockera:
 ```
 docker pull pwgacek/kinomaniak_db
@@ -115,12 +118,13 @@ Odpalamy kontener z bazą danych:
 ```
 docker run --name kinomaniak --env PGDATA=postgres -d -p 5433:5432 -i pwgacek/kinomaniak_db
 ```
-W application.properties sprawdzamy czy user, hasło i numer portu są poprawnie ustawione:   
+W application.properties sprawdzamy czy user, hasło i numer portu są poprawnie ustawione:
 
 **Port:5433**   
 **User: postgres**  
-**Password: postgres** 
+**Password: postgres**
 
 Baza jest gotowa do użytku
 
 Aby uruchomić aplikację, należy zbudować projekt gradle i wystartować klasę KinoManiakApplication zawierającą metodę main().
+
