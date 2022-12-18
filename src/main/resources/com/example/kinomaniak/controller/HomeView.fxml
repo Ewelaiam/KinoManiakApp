@@ -12,14 +12,24 @@
     <left>
         <VBox>
             <Label fx:id="credentialsLabel"/>
-            <Button fx:id="screeningsButton">Seanse</Button>
-            <Button fx:id="moviesButton">Filmy</Button>
-            <Button fx:id="hallButton">Sale</Button>
-            <Button fx:id="logoutButton">Wyloguj</Button>
+            <HBox fx:id="usageModeRadioButtons">
+                <RadioButton fx:id="cashierModeButton" text="Cashier" onAction="#changeMode"></RadioButton>
+                <RadioButton fx:id="managerModeButton" text="Manager" onAction="#changeMode"></RadioButton>
+                <RadioButton fx:id="adminModeButton" text="Admin" onAction="#changeMode"></RadioButton>
+            </HBox>
+            <VBox fx:id="viewButtons">
+                <Button fx:id="screeningsButton">Seanse</Button>
+                <Button fx:id="moviesButton">Filmy</Button>
+                <Button fx:id="hallButton">Sale</Button>
+                <Button fx:id="statisticsButton">Statystyki</Button>
+                <Button fx:id="usersButton">Użytkownicy</Button>
+                <Button fx:id="emailButton">E-mail</Button>
+                <Button fx:id="logoutButton">Wyloguj</Button>
+            </VBox>
         </VBox>
     </left>
     <center>
-        <BorderPane>
+        <BorderPane fx:id="mainContent">
 
         </BorderPane>
     </center>

@@ -16,6 +16,9 @@ public class AuthService {
 
     private Employee currentlyLoggedEmployee;
 
+    // states in which mode (cashier, manager or admin) we are currently browsing in
+    private String displayMode = "Cashier";
+
     private final EmployeeRepository employeeRepository;
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -77,5 +80,13 @@ public class AuthService {
 
     private boolean performCredentialsValidation(String name, String surName){
         return name.length() > 0 && surName.length() > 0;
+    }
+
+    public void setDisplayMode(String displayMode) {
+        this.displayMode = displayMode;
+    }
+
+    public String getDisplayMode() {
+        return displayMode;
     }
 }
