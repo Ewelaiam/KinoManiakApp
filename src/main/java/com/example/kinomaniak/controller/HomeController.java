@@ -171,7 +171,6 @@ public class HomeController {
 
             }
             case "Admin" -> {
-                System.out.println("DUPA");
                 disableAllButtons();
                 usersButton.setManaged(true);
                 emailButton.setManaged(true);
