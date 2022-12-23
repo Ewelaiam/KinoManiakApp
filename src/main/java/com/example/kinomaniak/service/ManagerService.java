@@ -31,8 +31,8 @@ public class ManagerService {
         return filmShowRepository.save(filmShow);
     }
 
-    public Movie addMovie(String title, String director, String description, Set<MovieCategory> categories, Integer duration, LocalDate premierDate, Integer ageRestriction){
-        Movie movie = new Movie(title, director, description, duration, premierDate, ageRestriction);
+    public Movie addMovie(String title, String director, String description, Set<MovieCategory> categories, Integer duration, LocalDate premierDate, Integer ageRestriction, String posterURL){
+        Movie movie = new Movie(title, director, description, duration, premierDate, ageRestriction,posterURL);
         for(MovieCategory category: categories){
             movie.addCategory(category);
         }

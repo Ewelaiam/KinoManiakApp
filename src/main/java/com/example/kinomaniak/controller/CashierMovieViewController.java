@@ -2,27 +2,28 @@ package com.example.kinomaniak.controller;
 
 import com.example.kinomaniak.model.Movie;
 import com.example.kinomaniak.model.MovieCategory;
-import com.example.kinomaniak.service.AuthService;
 import com.example.kinomaniak.service.CashierService;
-import javafx.beans.Observable;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
-import org.springframework.beans.PropertyValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.imageio.ImageIO;
+import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDate;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Component
@@ -55,8 +56,13 @@ public class CashierMovieViewController {
     public Pane bottomPane;
     @FXML
     public Button hideBottomPaneButton;
+
     @FXML
-    public TextArea descriptionTextArea;
+    public ImageView moviePosterImageView;
+    @FXML
+    public Label descriptionLabel;
+    @FXML
+    public Button resetFiltersButton;
 
     private FxWeaver fxWeaver;
 
@@ -83,7 +89,7 @@ public class CashierMovieViewController {
         this.movies = cashierService.getMovies();
         this.movieCategories = cashierService.getMovieCategories();
         this.genreComboBox.getItems().add("not specified");
-        this.genreComboBox.getItems().addAll(movieCategories.stream().map(MovieCategory::getCategoryName).toList());
+        this.genreComboBox.getItems().addAll(movieCategories.stream().map(MovieCategory::getCategoryName).sorted().toList());
         this.genreComboBox.setPromptText("not specified");
         this.ageRestrictionComboBox.getItems().add("not specified");
         this.ageRestrictionComboBox.getItems().addAll(movies.stream().map(Movie::getAgeRestriction).map(Object::toString).collect(Collectors.toSet()));
@@ -107,7 +113,9 @@ public class CashierMovieViewController {
                 bottomPane.setPrefHeight(bottomPane.getPrefHeight() - 100.0);
                 bottomPane.setVisible(false);
             }else{
-                descriptionTextArea.textProperty().bind(new SimpleStringProperty(newValue.getDescription()));
+                descriptionLabel.textProperty().bind(new SimpleStringProperty(newValue.getDescription()));
+
+                moviePosterImageView.imageProperty().bind(new SimpleObjectProperty<>(new Image(newValue.getPosterURL())));
             }
 
 
@@ -117,6 +125,7 @@ public class CashierMovieViewController {
 
     }
     private ObservableList<Movie> filterResults() {
+        removeSelection();
         return FXCollections.observableList(movies
                 .stream()
                 .filter(movie -> {
@@ -141,7 +150,7 @@ public class CashierMovieViewController {
 
         );
     }
-
+    @FXML
     private void resetFilters(){
         genreComboBox.setValue("not specified");
         searchTextField.setText("");
@@ -160,7 +169,10 @@ public class CashierMovieViewController {
 
     }
 
-    public void removeSelection() {
+    @FXML
+    private void removeSelection() {
         moviesTable.getSelectionModel().clearSelection();
     }
+
+
 }

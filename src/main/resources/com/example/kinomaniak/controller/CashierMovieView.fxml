@@ -7,11 +7,12 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
 <GridPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.kinomaniak.controller.CashierMovieViewController"
-            prefHeight="400.0" prefWidth="600.0" gridLinesVisible="true"
-            stylesheets="@../css/CashierMovieView.css">
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="com.example.kinomaniak.controller.CashierMovieViewController"
+          prefHeight="400.0" prefWidth="600.0" gridLinesVisible="true"
+          stylesheets="@../css/CashierMovieView.css">
     <padding><Insets right="25" left="25"/></padding>
     <Pane GridPane.rowIndex="0" GridPane.hgrow="ALWAYS" prefHeight="50">
         <VBox>
@@ -21,6 +22,7 @@
                 <ComboBox fx:id="genreComboBox"/>
                 <Label text="age limit:"/>
                 <ComboBox fx:id="ageRestrictionComboBox"/>
+                <Button fx:id="resetFiltersButton" text="Reset Filters" onAction="#resetFilters"/>
                 <Button fx:id="recommendedMoviesButton" text="Recommended Movies" onAction="#showRecommendedMovies"/>
             </HBox>
 
@@ -45,8 +47,10 @@
 
     <Pane fx:id="bottomPane" GridPane.rowIndex="2" prefHeight="0" visible="false" >
     <HBox >
-        <Label text="image" prefWidth="150"/>
-        <TextArea fx:id="descriptionTextArea" editable="false" wrapText="true" text="description" prefWidth="300" prefHeight="100"/>
+        <ImageView fx:id="moviePosterImageView" fitHeight="98" fitWidth="67"/>
+        <Label fx:id="descriptionLabel" wrapText="true" text="description" prefWidth="300" prefHeight="100"
+               style="-fx-padding: 5 5 5 5;"/>
+
         <VBox alignment="TOP_RIGHT">
             <Button fx:id="hideBottomPaneButton" prefWidth="20" prefHeight="20"  text="X" onAction="#removeSelection"/>
             <Button fx:id="showScreeningsButton" prefWidth="100" text="find Screening"/>
