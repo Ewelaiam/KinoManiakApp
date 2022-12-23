@@ -19,9 +19,6 @@ import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.imageio.ImageIO;
-import java.io.IOException;
-import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -63,6 +60,8 @@ public class CashierMovieViewController {
     public Label descriptionLabel;
     @FXML
     public Button resetFiltersButton;
+    @FXML
+    public Label titleLabel;
 
     private FxWeaver fxWeaver;
 
@@ -77,7 +76,22 @@ public class CashierMovieViewController {
 
     @FXML
     private void initialize(){
+        //load data from database once
+        loadData();
 
+        setUpMoviesTable();
+        setUpGenreComboBox();
+        setUpAgeRestrictionComboBox();
+
+        setUpSearchTextField();
+
+    }
+
+    private void setUpSearchTextField() {
+        searchTextField.textProperty().addListener(title-> moviesTable.setItems(filterResults()));
+    }
+
+    private void setUpMoviesTable() {
         moviesTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -86,20 +100,7 @@ public class CashierMovieViewController {
         premierDateColumn.setCellValueFactory(new PropertyValueFactory<>("premierDate"));
         ageRestrictionColumn.setCellValueFactory(new PropertyValueFactory<>("ageRestriction"));
 
-        this.movies = cashierService.getMovies();
-        this.movieCategories = cashierService.getMovieCategories();
-        this.genreComboBox.getItems().add("not specified");
-        this.genreComboBox.getItems().addAll(movieCategories.stream().map(MovieCategory::getCategoryName).sorted().toList());
-        this.genreComboBox.setPromptText("not specified");
-        this.ageRestrictionComboBox.getItems().add("not specified");
-        this.ageRestrictionComboBox.getItems().addAll(movies.stream().map(Movie::getAgeRestriction).map(Object::toString).collect(Collectors.toSet()));
-        this.ageRestrictionComboBox.setPromptText("not specified");
         moviesTable.setItems(movies);
-
-
-        searchTextField.textProperty().addListener(title-> moviesTable.setItems(filterResults()));
-        genreComboBox.valueProperty().addListener(genre-> moviesTable.setItems(filterResults()));
-        ageRestrictionComboBox.valueProperty().addListener(age->moviesTable.setItems(filterResults()));
 
         moviesTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
         {
@@ -113,48 +114,60 @@ public class CashierMovieViewController {
                 bottomPane.setPrefHeight(bottomPane.getPrefHeight() - 100.0);
                 bottomPane.setVisible(false);
             }else{
+                titleLabel.textProperty().bind(new SimpleStringProperty(newValue.getTitle()));
                 descriptionLabel.textProperty().bind(new SimpleStringProperty(newValue.getDescription()));
-
                 moviePosterImageView.imageProperty().bind(new SimpleObjectProperty<>(new Image(newValue.getPosterURL())));
             }
-
-
-
-
         } );
+    }
+
+    private void setUpAgeRestrictionComboBox() {
+        this.ageRestrictionComboBox.getItems().add("not specified");
+        this.ageRestrictionComboBox.getItems().addAll(movies.stream().map(Movie::getAgeRestriction).map(Object::toString).collect(Collectors.toSet()));
+        this.ageRestrictionComboBox.getSelectionModel().selectFirst();
+        ageRestrictionComboBox.valueProperty().addListener(age->moviesTable.setItems(filterResults()));
 
     }
+
+    private void setUpGenreComboBox() {
+        this.genreComboBox.getItems().add("not specified");
+        this.genreComboBox.getItems().addAll(movieCategories.stream().map(MovieCategory::getCategoryName).sorted().toList());
+        this.genreComboBox.getSelectionModel().selectFirst();
+        genreComboBox.valueProperty().addListener(genre-> moviesTable.setItems(filterResults()));
+
+    }
+
+    private void loadData() {
+        this.movies = cashierService.getMovies();
+        this.movieCategories = cashierService.getMovieCategories();
+    }
+
     private ObservableList<Movie> filterResults() {
         removeSelection();
         return FXCollections.observableList(movies
                 .stream()
+                .filter(movie -> movie.getTitle().toLowerCase().contains(searchTextField.getText()))
                 .filter(movie -> {
-                    String title = movie.getTitle().toLowerCase();
-                    return title.contains(searchTextField.getText());
-
-                }).filter(movie -> {
-                    if(genreComboBox.getValue() == null || genreComboBox.getValue().equals("not specified"))
+                    if(genreComboBox.getValue().equals("not specified"))
                         return true;
                     return movie.getCategories()
                             .stream()
                             .map(MovieCategory::getCategoryName)
                             .collect(Collectors.toSet())
-                            .contains(genreComboBox.getValue());
-                }).filter(movie -> {
-                    if(ageRestrictionComboBox.getValue() == null || ageRestrictionComboBox.getValue().equals("not specified"))
+                            .contains(genreComboBox.getValue());})
+                .filter(movie -> {
+                    if(ageRestrictionComboBox.getValue().equals("not specified"))
                         return true;
-                    return movie.getAgeRestriction().toString().equals(ageRestrictionComboBox.getValue());
-
-                })
+                    return movie.getAgeRestriction().toString().equals(ageRestrictionComboBox.getValue());})
                 .collect(Collectors.toList())
 
         );
     }
     @FXML
     private void resetFilters(){
-        genreComboBox.setValue("not specified");
+        genreComboBox.getSelectionModel().selectFirst();
+        ageRestrictionComboBox.getSelectionModel().selectFirst();
         searchTextField.setText("");
-        ageRestrictionComboBox.setValue("not specified");
     }
 
 

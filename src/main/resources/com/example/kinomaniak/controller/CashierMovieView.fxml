@@ -48,12 +48,16 @@
     <Pane fx:id="bottomPane" GridPane.rowIndex="2" prefHeight="0" visible="false" >
     <HBox >
         <ImageView fx:id="moviePosterImageView" fitHeight="98" fitWidth="67"/>
-        <Label fx:id="descriptionLabel" wrapText="true" text="description" prefWidth="300" prefHeight="100"
-               style="-fx-padding: 5 5 5 5;"/>
+        <VBox prefWidth="380" prefHeight="100">
+            <Label fx:id="titleLabel" style="-fx-padding: 5 5 0 5; -fx-font-weight: bold;"/>
+            <Label fx:id="descriptionLabel" wrapText="true" text="description"
+                   style="-fx-padding: 5 5 5 5;"/>
+        </VBox>
+
 
         <VBox alignment="TOP_RIGHT">
             <Button fx:id="hideBottomPaneButton" prefWidth="20" prefHeight="20"  text="X" onAction="#removeSelection"/>
-            <Button fx:id="showScreeningsButton" prefWidth="100" text="find Screening"/>
+            <Button fx:id="showScreeningsButton" prefWidth="100" prefHeight="80" text="Show Screenings" wrapText="true"/>
 
         </VBox>
     </HBox>
