@@ -25,7 +25,7 @@
 }
 
 #viewButtons .button {
-    -fx-pref-width: 150px;
+    -fx-pref-width: 180px;
     -fx-background-color: linear-gradient(to top, -fx-maincolor2, -fx-maincolor3);
     -fx-border-radius: 15px;
     -fx-text-fill: white;

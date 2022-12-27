@@ -11,6 +11,7 @@
             xmlns:fx="http://javafx.com/fxml"
             stylesheets="@../css/GlobalStyles.css"
             fx:controller="com.example.kinomaniak.controller.HomeController">
+
     <left>
         <VBox fx:id="mainNavBar">
             <Label fx:id="credentialsLabel">
@@ -75,8 +76,15 @@
         </VBox>
     </left>
     <center>
-        <BorderPane fx:id="mainContent">
-        </BorderPane>
+        <VBox>
+
+            <BorderPane fx:id="mainContent">
+                <VBox.margin>
+                    <Insets bottom="25.0" left="25.0" right="25.0" top="25.0"/>
+                </VBox.margin>
+            </BorderPane>
+        </VBox>
+
     </center>
 
 </BorderPane>

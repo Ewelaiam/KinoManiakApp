@@ -3,6 +3,10 @@ package com.example.kinomaniak.controller;
 import com.example.kinomaniak.model.Movie;
 import com.example.kinomaniak.model.MovieCategory;
 import com.example.kinomaniak.service.CashierService;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -13,7 +17,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +57,7 @@ public class CashierMovieViewController {
     @FXML
     public Button showScreeningsButton;
     @FXML
-    public Pane bottomPane;
+    public BorderPane bottomPane;
     @FXML
     public Button hideBottomPaneButton;
 
@@ -62,6 +69,12 @@ public class CashierMovieViewController {
     public Button resetFiltersButton;
     @FXML
     public Label titleLabel;
+    @FXML
+    public VBox filtersVBox;
+    @FXML
+    public VBox tableActionsVBox;
+    @FXML
+    public Button toggleFiltersButton;
 
     private FxWeaver fxWeaver;
 
@@ -84,6 +97,8 @@ public class CashierMovieViewController {
         setUpAgeRestrictionComboBox();
 
         setUpSearchTextField();
+
+        setColumnsWidthPercentage();
 
     }
 
@@ -108,11 +123,13 @@ public class CashierMovieViewController {
                 moviesTable.setPrefHeight(moviesTable.getPrefHeight() - 100.0);
                 bottomPane.setPrefHeight(bottomPane.getPrefHeight()+ 100.0);
                 bottomPane.setVisible(true);
+                bottomPane.setManaged(true);
             }
             if(newValue == null){
                 moviesTable.setPrefHeight(moviesTable.getPrefHeight() + 100.0);
                 bottomPane.setPrefHeight(bottomPane.getPrefHeight() - 100.0);
                 bottomPane.setVisible(false);
+                bottomPane.setManaged(false);
             }else{
                 titleLabel.textProperty().bind(new SimpleStringProperty(newValue.getTitle()));
                 descriptionLabel.textProperty().bind(new SimpleStringProperty(newValue.getDescription()));
@@ -188,4 +205,23 @@ public class CashierMovieViewController {
     }
 
 
+    private void setColumnsWidthPercentage() {
+        titleColumn.prefWidthProperty().bind(moviesTable.widthProperty().multiply(0.4));
+        directorColumn.prefWidthProperty().bind(moviesTable.widthProperty().multiply(0.2));
+        premierDateColumn.prefWidthProperty().bind(moviesTable.widthProperty().multiply(0.2));
+        ageRestrictionColumn.prefWidthProperty().bind(moviesTable.widthProperty().multiply(0.1));
+        durationColumn.prefWidthProperty().bind(moviesTable.widthProperty().multiply(0.1));
+    }
+
+    public void toggleFilters(){
+        filtersVBox.setManaged(!filtersVBox.managedProperty().getValue());
+        filtersVBox.setVisible(!filtersVBox.visibleProperty().getValue());
+//        if (filtersVBox.isVisible()){
+//            moviesTable.setPrefHeight(moviesTable.getPrefHeight() - filtersVBox.getPrefHeight());
+//        } else {
+//            moviesTable.setPrefHeight(moviesTable.getPrefHeight() + filtersVBox.getPrefHeight());
+//        }
+
+
+    }
 }
