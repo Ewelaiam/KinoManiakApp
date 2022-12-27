@@ -117,6 +117,7 @@ public class LoginController {
             });
         }
 
+        resetTextFields();
         isLogin = !isLogin;
     }
 
@@ -126,6 +127,13 @@ public class LoginController {
         Scene scene = new Scene(root, 800, 400);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void resetTextFields(){
+        mailField.clear();
+        passwordField.clear();
+        nameField.clear();
+        surnameField.clear();
     }
 
     public void setStage(Stage stage) {

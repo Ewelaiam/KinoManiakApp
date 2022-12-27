@@ -5,8 +5,12 @@
 }
 
 #mainNavBar {
-    -fx-pref-width: 200px;
+    -fx-pref-width: 250px;
     -fx-background-color: -fx-maincolor1;
+    -fx-alignment: TOP_CENTER;
+}
+
+#usageModeRadioButtons {
     -fx-alignment: TOP_CENTER;
 }
 
