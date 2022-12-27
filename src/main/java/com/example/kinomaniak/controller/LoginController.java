@@ -50,7 +50,7 @@ public class LoginController {
 
     private Stage stage;
 
-    private boolean isLogin = false;
+    private boolean isLogin = true;
 
     @Autowired
     public LoginController(
@@ -58,6 +58,11 @@ public class LoginController {
             FxWeaver fxWeaver) {
         this.fxWeaver = fxWeaver;
         this.authService = authService;
+    }
+
+    @FXML
+    private void initialize(){
+        switchLogin();
     }
 
     public void signIn(){
