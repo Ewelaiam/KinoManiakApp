@@ -7,12 +7,8 @@ import com.example.kinomaniak.service.AdminService;
 import com.example.kinomaniak.service.AuthService;
 import com.example.kinomaniak.service.CashierService;
 import com.example.kinomaniak.service.ManagerService;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -23,13 +19,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 @FxmlView("homeView.fxml")
@@ -179,6 +173,12 @@ public class HomeController {
                 usersButton.setVisible(true);
                 emailButton.setVisible(true);
                 logoutButton.setVisible(true);
+                usersButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        showAccountsAdmin();
+                    }
+                });
             }
             default -> {
             }
@@ -225,6 +225,12 @@ public class HomeController {
         System.out.println("Films cashier");
         GridPane cashierMoviePane = fxWeaver.loadView(CashierMovieViewController.class);
         mainContent.setCenter(cashierMoviePane);
+    }
+
+    public void showAccountsAdmin(){
+        System.out.println("Accounts admin");
+        GridPane adminAccountsPane = fxWeaver.loadView(AdminAccountsViewController.class);
+        mainContent.setCenter(adminAccountsPane);
     }
 
     public void showFilmsManager() {
@@ -284,4 +290,30 @@ public class HomeController {
         this.stage = stage;
     }
 
+    public boolean showAccountEditDialog(Employee employee) {
+        // Load the fxml file and create a new stage for the dialog
+//            FXMLLoader loader = new FXMLLoader();
+//            loader.setLocation(HomeController.class.getResource("../resources/com/example/kinomaniak/controller/AccountEditDialog.fxml"));
+//            BorderPane page = loader.load();
+
+        BorderPane page = fxWeaver.loadView(AccountEditDialogPresenter.class);
+
+        // Create the dialog Stage.
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Edit Account");
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(stage);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+
+        // Set the transaction into the presenter.
+        AccountEditDialogPresenter presenter = fxWeaver.loadController(AccountEditDialogPresenter.class);
+        presenter.setDialogStage(dialogStage);
+        presenter.setData(employee);
+
+        // Show the dialog and wait until the user closes it
+        dialogStage.showAndWait();
+        return presenter.isApproved();
+
+    }
 }
