@@ -89,7 +89,7 @@ public class AccountEditDialogPresenter {
         String name = nameTextField.getText();
         String surname = surnameTextField.getText();
         String mail = mailTextField.getText();
-        Optional<Role> role =  adminService.roleRepository.getRoleByRoleName(roleComboBox.getSelectionModel().getSelectedItem());
+        Optional<Role> role =  adminService.roleRepository.findByRoleName(roleComboBox.getSelectionModel().getSelectedItem());
 
         if(authService.performCredentialsValidation(name,surname) && (mail.equals(employee.getMail()) || authService.performEmailValidation(mail)) &&
                 (roleComboBox.getSelectionModel().getSelectedItem().equals("none") || role.isPresent())){

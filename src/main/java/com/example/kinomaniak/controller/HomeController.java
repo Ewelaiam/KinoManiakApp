@@ -8,10 +8,8 @@ import com.example.kinomaniak.service.AdminService;
 import com.example.kinomaniak.service.AuthService;
 import com.example.kinomaniak.service.CashierService;
 import com.example.kinomaniak.service.ManagerService;
-
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -20,7 +18,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -227,24 +224,14 @@ public class HomeController {
             }
             case "Admin" -> {
                 disableAllButtons();
-
-                usersButton.setManaged(true);
-                emailButton.setManaged(true);
-                logoutButton.setManaged(true);
-                usersButton.setVisible(true);
-                emailButton.setVisible(true);
-                logoutButton.setVisible(true);
+                isUsersVisible.set(true);
+                isEmailVisible.set(true);
                 usersButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
                         showAccountsAdmin();
                     }
                 });
-            }
-            default -> {
-
-                isUsersVisible.set(true);
-                isEmailVisible.set(true);
 
             }
         }
