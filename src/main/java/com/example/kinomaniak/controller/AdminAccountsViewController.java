@@ -37,8 +37,6 @@ public class AdminAccountsViewController {
     @FXML
     public ComboBox<String> roleComboBox;
     @FXML
-    public Button addAccountButton;
-    @FXML
     public Button editAccountButton;
     @FXML
     public Button deleteAccountButton;
@@ -66,7 +64,7 @@ public class AdminAccountsViewController {
     }
     @FXML
     private void initialize(){
-        accountsTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        accountsTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         loadData();
         setUpAccountsTable();
@@ -74,7 +72,7 @@ public class AdminAccountsViewController {
         setUpRoleComboBox();
 
         deleteAccountButton.disableProperty().bind(Bindings.isEmpty(accountsTable.getSelectionModel().getSelectedItems()));
-        editAccountButton.disableProperty().bind(Bindings.size(accountsTable.getSelectionModel().getSelectedItems()).isNotEqualTo(1));
+        editAccountButton.disableProperty().bind(Bindings.isEmpty(accountsTable.getSelectionModel().getSelectedItems()));
     }
 
 
@@ -134,14 +132,13 @@ public class AdminAccountsViewController {
         searchTextField.setText("");
     }
 
-    @FXML
-    private void handleAddAccount(ActionEvent actionEvent) {
-    }
+
     @FXML
     private void handleEditAccount(ActionEvent actionEvent) {
         homeController.showAccountEditDialog(accountsTable.getSelectionModel().getSelectedItem());
     }
     @FXML
     private void handleDeleteAccount(ActionEvent actionEvent) {
+        homeController.showAccountDeleteDialog(accountsTable.getSelectionModel().getSelectedItem());
     }
 }

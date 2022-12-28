@@ -40,16 +40,15 @@
     </TableView>
 
 
-    <BorderPane GridPane.rowIndex="2" prefHeight="30" style="-fx-padding: 5 120;">
-        <left>
-            <Button fx:id="addAccountButton" text="Add" prefWidth="80" onAction="#handleAddAccount"/>
-        </left>
+    <BorderPane GridPane.rowIndex="2" prefHeight="30" style="-fx-padding: 5;">
+
         <center>
-            <Button fx:id="editAccountButton" text="Edit" prefWidth="80" onAction="#handleEditAccount"/>
+            <HBox spacing="100" style="-fx-alignment: center;">
+                <Button fx:id="editAccountButton" text="Edit" prefWidth="80" onAction="#handleEditAccount"/>
+                <Button fx:id="deleteAccountButton" text="Delete" prefWidth="80" onAction="#handleDeleteAccount"/>
+            </HBox>
         </center>
-        <right>
-            <Button fx:id="deleteAccountButton" text="Delete" prefWidth="80" onAction="#handleDeleteAccount"/>
-        </right>
+
 
     </BorderPane>
 </GridPane>

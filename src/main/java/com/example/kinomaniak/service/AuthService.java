@@ -63,7 +63,7 @@ public class AuthService {
         return false;
     }
 
-    private boolean performEmailValidation(String mail){
+    public boolean performEmailValidation(String mail){
         String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
                 + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 
@@ -78,7 +78,7 @@ public class AuthService {
         return password.length() >= 8;
     }
 
-    private boolean performCredentialsValidation(String name, String surName){
+    public boolean performCredentialsValidation(String name, String surName){
         return name.length() > 0 && surName.length() > 0;
     }
 

@@ -8,11 +8,39 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.image.ImageView?>
-<BorderPane xmlns="http://javafx.com/javafx"
+<GridPane  xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
           fx:controller="com.example.kinomaniak.controller.AccountEditDialogPresenter"
-          prefHeight="100.0" prefWidth="200.0">
-    <padding><Insets right="25" left="25"/></padding>
+          prefHeight="230.0" prefWidth="250.0"
+          gridLinesVisible="true"
+             >
+    <padding><Insets right="10" left="10" top="10" bottom="10"/></padding>
+    <VBox GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-padding: 10 7 7 7;"><Label  text="Name: "/></VBox>
+    <VBox GridPane.columnIndex="1" GridPane.rowIndex="0" style="-fx-padding: 7 7 7 7;">
+        <TextField fx:id="nameTextField"/>
+    </VBox>
+    <VBox GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-padding: 10 7 7 7;"><Label  text="Surname: "/></VBox>
+    <VBox GridPane.columnIndex="1" GridPane.rowIndex="1" style="-fx-padding: 7 7 7 7;">
+        <TextField fx:id="surnameTextField"/>
+    </VBox>
+    <VBox GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-padding: 10 7 7 7;"><Label  text="Mail: "/></VBox>
+    <VBox GridPane.columnIndex="1" GridPane.rowIndex="2" style="-fx-padding: 7 7 7 7;">
+        <TextField fx:id="mailTextField"/>
+    </VBox>
+    <VBox GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-padding: 10 7 7 7;"><Label  text="Role: "/></VBox>
+    <VBox GridPane.columnIndex="1" GridPane.rowIndex="3" style="-fx-padding: 7 7 7 7;">
+        <ComboBox fx:id="roleComboBox" prefWidth="150"/>
+    </VBox>
+    <HBox GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.columnSpan="2" style="-fx-alignment: center;" spacing="40">
+        <Label fx:id="errorPrompt" style="-fx-text-fill: red;" />
 
-</BorderPane>
+    </HBox>
+
+
+    <HBox GridPane.columnIndex="0" GridPane.rowIndex="5" GridPane.columnSpan="2" style="-fx-padding: 20 30 10 30;" spacing="40">
+        <Button fx:id="saveButton" text="Save" prefWidth="60" onAction="#handleSaveAction"/>
+        <Button fx:id="cancelButton" text="Cancel" prefWidth="60" onAction="#handleCancelAction"/>
+    </HBox>
+
+</GridPane>
 

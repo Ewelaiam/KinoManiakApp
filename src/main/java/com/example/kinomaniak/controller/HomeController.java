@@ -21,6 +21,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
@@ -290,30 +291,48 @@ public class HomeController {
         this.stage = stage;
     }
 
-    public boolean showAccountEditDialog(Employee employee) {
-        // Load the fxml file and create a new stage for the dialog
-//            FXMLLoader loader = new FXMLLoader();
-//            loader.setLocation(HomeController.class.getResource("../resources/com/example/kinomaniak/controller/AccountEditDialog.fxml"));
-//            BorderPane page = loader.load();
+    public void showAccountEditDialog(Employee employee) {
+        FxControllerAndView<AccountEditDialogPresenter, GridPane> fxControllerAndView =
+                fxWeaver.load(AccountEditDialogPresenter.class,null);
 
-        BorderPane page = fxWeaver.loadView(AccountEditDialogPresenter.class);
 
         // Create the dialog Stage.
         Stage dialogStage = new Stage();
         dialogStage.setTitle("Edit Account");
         dialogStage.initModality(Modality.WINDOW_MODAL);
         dialogStage.initOwner(stage);
-        Scene scene = new Scene(page);
+        Scene scene = new Scene(fxControllerAndView.getView().get());
         dialogStage.setScene(scene);
 
         // Set the transaction into the presenter.
-        AccountEditDialogPresenter presenter = fxWeaver.loadController(AccountEditDialogPresenter.class);
-        presenter.setDialogStage(dialogStage);
-        presenter.setData(employee);
+        fxControllerAndView.getController().setDialogStage(dialogStage);
+        fxControllerAndView.getController().setData(employee,this);
 
         // Show the dialog and wait until the user closes it
         dialogStage.showAndWait();
-        return presenter.isApproved();
+
+    }
+
+    public void showAccountDeleteDialog(Employee employee) {
+
+        FxControllerAndView<AccountDeleteDialogPresenter, BorderPane> fxControllerAndView =
+                fxWeaver.load(AccountDeleteDialogPresenter.class,null);
+
+
+        // Create the dialog Stage.
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Delete Account");
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(stage);
+        Scene scene = new Scene(fxControllerAndView.getView().get());
+        dialogStage.setScene(scene);
+
+        // Set the transaction into the presenter.
+        fxControllerAndView.getController().setDialogStage(dialogStage);
+        fxControllerAndView.getController().setData(employee,this);
+
+        // Show the dialog and wait until the user closes it
+        dialogStage.showAndWait();
 
     }
 }
