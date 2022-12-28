@@ -29,10 +29,12 @@ public class Employee {
 
     public Employee() {}
 
-    public Employee(Role role, String name, String surName, String mail, String password) {
+    public Employee(Role role, String mail, String password, String name, String surname) {
         this.role = role;
         this.name = name;
-        this.surName = surName;
+        this.surName = surname;
+        this.mail = mail;
+        this.password = password;
     }
 
     public Employee(String mail, String password) {

@@ -3,12 +3,24 @@ package com.example.kinomaniak.controller;
 import com.example.kinomaniak.model.Employee;
 import com.example.kinomaniak.model.Hall;
 import com.example.kinomaniak.model.Movie;
+import com.example.kinomaniak.model.Role;
 import com.example.kinomaniak.service.AdminService;
 import com.example.kinomaniak.service.AuthService;
 import com.example.kinomaniak.service.CashierService;
 import com.example.kinomaniak.service.ManagerService;
+
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -77,6 +89,13 @@ public class HomeController {
     @FXML
     public Button logoutButton;
 
+    private final SimpleBooleanProperty isScreeningsVisible = new SimpleBooleanProperty();
+    private final SimpleBooleanProperty isMoviesVisible = new SimpleBooleanProperty();
+    private final SimpleBooleanProperty isHallVisible = new SimpleBooleanProperty();
+    private final SimpleBooleanProperty isStatisticsVisible = new SimpleBooleanProperty();
+    private final SimpleBooleanProperty isUsersVisible = new SimpleBooleanProperty();
+    private final SimpleBooleanProperty isEmailVisible = new SimpleBooleanProperty();
+
     public HomeController(ManagerService managerService,
                           CashierService cashierService,
                           AdminService adminService,
@@ -94,6 +113,24 @@ public class HomeController {
         setCredentialsLabel();
         setModeButtonGroup();
 
+        setBindings();
+        setModeButtonsVisibility();
+    }
+
+    private void setBindings(){
+        screeningsButton.managedProperty().bind(isScreeningsVisible);
+        moviesButton.managedProperty().bind(isMoviesVisible);
+        hallButton.managedProperty().bind(isHallVisible);
+        statisticsButton.managedProperty().bind(isStatisticsVisible);
+        usersButton.managedProperty().bind(isUsersVisible);
+        emailButton.managedProperty().bind(isEmailVisible);
+
+        screeningsButton.visibleProperty().bind(isScreeningsVisible);
+        moviesButton.visibleProperty().bind(isMoviesVisible);
+        hallButton.visibleProperty().bind(isHallVisible);
+        statisticsButton.visibleProperty().bind(isStatisticsVisible);
+        usersButton.visibleProperty().bind(isUsersVisible);
+        emailButton.visibleProperty().bind(isEmailVisible);
     }
 
     private void setModeButtonGroup(){
@@ -101,6 +138,36 @@ public class HomeController {
         cashierModeButton.setToggleGroup(modeButtonsGroup);
         managerModeButton.setToggleGroup(modeButtonsGroup);
         adminModeButton.setToggleGroup(modeButtonsGroup);
+
+        cashierModeButton.setSelected(true);
+        changeMode();
+    }
+
+    private void setModeButtonsVisibility(){
+        if (authService.getCurrentlyLoggedEmployee().getRole() == null){
+            usageModeRadioButtons.setVisible(false);
+            usageModeRadioButtons.setManaged(false);
+            return;
+        }
+
+        switch (authService.getCurrentlyLoggedEmployee().getRole().getRoleName()){
+            case "Cashier" -> {
+                usageModeRadioButtons.setVisible(false);
+                usageModeRadioButtons.setManaged(false);
+            }
+            case "Manager" -> {
+                usageModeRadioButtons.setVisible(true);
+                usageModeRadioButtons.setManaged(true);
+                adminModeButton.setVisible(false);
+                adminModeButton.setManaged(false);
+            }
+            case "Admin" -> {
+                usageModeRadioButtons.setVisible(true);
+                usageModeRadioButtons.setManaged(true);
+                adminModeButton.setVisible(true);
+                adminModeButton.setManaged(true);
+            }
+        }
     }
 
     public void changeMode(){
@@ -115,12 +182,9 @@ public class HomeController {
         switch (authService.getDisplayMode()) {
             case "Cashier" -> {
                 disableAllButtons();
-                moviesButton.setManaged(true);
-                screeningsButton.setManaged(true);
-                logoutButton.setManaged(true);
-                moviesButton.setVisible(true);
-                screeningsButton.setVisible(true);
-                logoutButton.setVisible(true);
+                isMoviesVisible.set(true);
+                isScreeningsVisible.set(true);
+
                 screeningsButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
@@ -136,16 +200,11 @@ public class HomeController {
             }
             case "Manager" -> {
                 disableAllButtons();
-                moviesButton.setManaged(true);
-                screeningsButton.setManaged(true);
-                hallButton.setManaged(true);
-                statisticsButton.setManaged(true);
-                logoutButton.setManaged(true);
-                moviesButton.setVisible(true);
-                screeningsButton.setVisible(true);
-                hallButton.setVisible(true);
-                statisticsButton.setVisible(true);
-                logoutButton.setVisible(true);
+                isMoviesVisible.set(true);
+                isScreeningsVisible.set(true);
+                isHallVisible.set(true);
+                isStatisticsVisible.set(true);
+
                 screeningsButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
@@ -168,6 +227,7 @@ public class HomeController {
             }
             case "Admin" -> {
                 disableAllButtons();
+
                 usersButton.setManaged(true);
                 emailButton.setManaged(true);
                 logoutButton.setManaged(true);
@@ -182,26 +242,23 @@ public class HomeController {
                 });
             }
             default -> {
+
+                isUsersVisible.set(true);
+                isEmailVisible.set(true);
+
             }
         }
     }
 
     private void disableAllButtons(){
-        moviesButton.setManaged(false);
-        screeningsButton.setManaged(false);
-        logoutButton.setManaged(false);
-        hallButton.setManaged(false);
-        statisticsButton.setManaged(false);
-        emailButton.setManaged(false);
-        usersButton.setManaged(false);
+        isEmailVisible.set(false);
+        isMoviesVisible.set(false);
+        isScreeningsVisible.set(false);
+        isHallVisible.set(false);
+        isStatisticsVisible.set(false);
+        isEmailVisible.set(false);
+        isUsersVisible.set(false);
 
-        moviesButton.setVisible(false);
-        screeningsButton.setVisible(false);
-        logoutButton.setVisible(false);
-        hallButton.setVisible(false);
-        statisticsButton.setVisible(false);
-        emailButton.setVisible(false);
-        usersButton.setVisible(false);
     }
 
     public void setCredentialsLabel(){
@@ -212,10 +269,6 @@ public class HomeController {
 
     public void showScreeningsCashier() {
         System.out.println("Screenings Cashier");
-//        BorderPane test = fxWeaver.loadView(LoginController.class);
-//        loader.setController(new Startpage(m));
-//        Pane mainPane = loader.load();
-//        mainContent.setCenter(test);
     }
 
     public void showScreeningsManager() {
@@ -241,6 +294,17 @@ public class HomeController {
 
     public void showHallsManager() {
         System.out.println("Halls manager");
+    }
+
+    public void logout(){
+        authService.logout();
+
+        fxWeaver.loadController(LoginController.class).setStage(this.stage);
+        fxWeaver.loadController(LoginController.class).resetTextFields();
+        Parent root = fxWeaver.loadView(LoginController.class);
+        Scene scene = new Scene(root, 800, 400);
+        stage.setScene(scene);
+        stage.show();
     }
 
     public void reserveTicketsForGivenFilm() {

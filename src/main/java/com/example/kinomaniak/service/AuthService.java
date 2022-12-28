@@ -1,7 +1,9 @@
 package com.example.kinomaniak.service;
 
 import com.example.kinomaniak.model.Employee;
+import com.example.kinomaniak.model.Role;
 import com.example.kinomaniak.repository.EmployeeRepository;
+import com.example.kinomaniak.repository.RoleRepository;
 import javafx.beans.property.StringProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,12 +22,15 @@ public class AuthService {
     private String displayMode = "Cashier";
 
     private final EmployeeRepository employeeRepository;
+    private final RoleRepository roleRepository;
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
-    public AuthService(EmployeeRepository employeeRepository){
+    public AuthService(EmployeeRepository employeeRepository,
+                       RoleRepository roleRepository){
         this.employeeRepository = employeeRepository;
+        this.roleRepository = roleRepository;
     }
 
     public boolean authenticateUser(String mail, String password){
@@ -52,7 +57,8 @@ public class AuthService {
                 && performCredentialsValidation(name, surname)
                 && performPasswordValidation(password)){
 
-            Employee employee = new Employee(mail, passwordEncoder.encode(password), name, surname);
+            Role userRole = roleRepository.findByRoleName("admin").get();
+            Employee employee = new Employee(userRole, mail, passwordEncoder.encode(password), name, surname);
 
             employeeRepository.save(employee);
             currentlyLoggedEmployee = employee;
@@ -88,5 +94,9 @@ public class AuthService {
 
     public String getDisplayMode() {
         return displayMode;
+    }
+
+    public void logout(){
+        currentlyLoggedEmployee = null;
     }
 }

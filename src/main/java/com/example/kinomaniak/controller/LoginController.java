@@ -50,7 +50,7 @@ public class LoginController {
 
     private Stage stage;
 
-    private boolean isLogin = false;
+    private boolean isLogin = true;
 
     @Autowired
     public LoginController(
@@ -58,6 +58,11 @@ public class LoginController {
             FxWeaver fxWeaver) {
         this.fxWeaver = fxWeaver;
         this.authService = authService;
+    }
+
+    @FXML
+    private void initialize(){
+        switchLogin();
     }
 
     public void signIn(){
@@ -112,15 +117,25 @@ public class LoginController {
             });
         }
 
+        resetTextFields();
         isLogin = !isLogin;
     }
 
     private void loadHomeView(){
         fxWeaver.loadController(HomeController.class).setStage(this.stage);
         Parent root = fxWeaver.loadView(HomeController.class);
-        Scene scene = new Scene(root, 800, 400);
+        Scene scene = new Scene(root, 1000, 550);
+        stage.setMinWidth(1000);
+        stage.setMinHeight(550);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void resetTextFields(){
+        mailField.clear();
+        passwordField.clear();
+        nameField.clear();
+        surnameField.clear();
     }
 
     public void setStage(Stage stage) {
