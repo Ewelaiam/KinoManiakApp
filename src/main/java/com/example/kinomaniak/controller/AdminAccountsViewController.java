@@ -112,12 +112,10 @@ public class AdminAccountsViewController {
                 .filter(account ->{
                     String accountData = account.getName() + " " + account.getSurName() + " " + account.getMail();
                     return accountData.toLowerCase().contains(searchTextField.getText().toLowerCase());})
-                .filter(account -> {
-                    return switch (roleComboBox.getValue()) {
-                        case "not specified" -> true;
-                        case "none" -> account.getRole() == null;
-                        default -> roleComboBox.getValue().equals(account.getRole().getRoleName());
-                    };
+                .filter(account -> switch (roleComboBox.getValue()) {
+                    case "not specified" -> true;
+                    case "none" -> account.getRole() == null;
+                    default -> account.getRole()!=null && roleComboBox.getValue().equals(account.getRole().getRoleName());
                 })
                 .collect(Collectors.toList()));
     }
