@@ -35,46 +35,46 @@ import java.util.stream.Collectors;
 public class CashierMovieViewController {
     private final CashierService cashierService;
     @FXML
-    public TableView<Movie> moviesTable;
+    private TableView<Movie> moviesTable;
     @FXML
-    public TableColumn<Movie,String> titleColumn;
+    private TableColumn<Movie,String> titleColumn;
     @FXML
-    public TableColumn<Movie,String> directorColumn;
+    private TableColumn<Movie,String> directorColumn;
     @FXML
-    public TableColumn<Movie,Integer> durationColumn;
+    private TableColumn<Movie,Integer> durationColumn;
     @FXML
-    public TableColumn<Movie, LocalDate> premierDateColumn;
+    private TableColumn<Movie, LocalDate> premierDateColumn;
     @FXML
-    public TableColumn<Movie,Integer> ageRestrictionColumn;
+    private TableColumn<Movie,Integer> ageRestrictionColumn;
     @FXML
-    public TextField searchTextField;
+    private TextField searchTextField;
     @FXML
-    public ComboBox<String> genreComboBox;
+    private ComboBox<String> genreComboBox;
     @FXML
-    public Button recommendedMoviesButton;
+    private Button recommendedMoviesButton;
     @FXML
-    public ComboBox<String> ageRestrictionComboBox;
+    private ComboBox<String> ageRestrictionComboBox;
     @FXML
-    public Button showScreeningsButton;
+    private Button showScreeningsButton;
     @FXML
-    public BorderPane bottomPane;
+    private BorderPane bottomPane;
     @FXML
-    public Button hideBottomPaneButton;
+    private Button hideBottomPaneButton;
 
     @FXML
-    public ImageView moviePosterImageView;
+    private ImageView moviePosterImageView;
     @FXML
-    public Label descriptionLabel;
+    private Label descriptionLabel;
     @FXML
-    public Button resetFiltersButton;
+    private Button resetFiltersButton;
     @FXML
-    public Label titleLabel;
+    private Label titleLabel;
     @FXML
-    public VBox filtersVBox;
+    private VBox filtersVBox;
     @FXML
-    public VBox tableActionsVBox;
+    private VBox tableActionsVBox;
     @FXML
-    public Button toggleFiltersButton;
+    private Button toggleFiltersButton;
 
     private FxWeaver fxWeaver;
 
