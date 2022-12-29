@@ -12,20 +12,21 @@
           xmlns:fx="http://javafx.com/fxml"
           fx:controller="com.example.kinomaniak.controller.AccountEditDialogPresenter"
           prefHeight="230.0" prefWidth="250.0"
-          gridLinesVisible="true"
+           fx:id="mainGrid"
+           stylesheets="@../css/PopupViewStyles.css"
              >
     <padding><Insets right="10" left="10" top="10" bottom="10"/></padding>
     <VBox GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-padding: 10 7 7 7;"><Label  text="Name: "/></VBox>
     <VBox GridPane.columnIndex="1" GridPane.rowIndex="0" style="-fx-padding: 7 7 7 7;">
-        <TextField fx:id="nameTextField"/>
+        <TextField fx:id="nameTextField" prefWidth="150"/>
     </VBox>
     <VBox GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-padding: 10 7 7 7;"><Label  text="Surname: "/></VBox>
     <VBox GridPane.columnIndex="1" GridPane.rowIndex="1" style="-fx-padding: 7 7 7 7;">
-        <TextField fx:id="surnameTextField"/>
+        <TextField fx:id="surnameTextField" prefWidth="150"/>
     </VBox>
     <VBox GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-padding: 10 7 7 7;"><Label  text="Mail: "/></VBox>
     <VBox GridPane.columnIndex="1" GridPane.rowIndex="2" style="-fx-padding: 7 7 7 7;">
-        <TextField fx:id="mailTextField"/>
+        <TextField fx:id="mailTextField" prefWidth="150"/>
     </VBox>
     <VBox GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-padding: 10 7 7 7;"><Label  text="Role: "/></VBox>
     <VBox GridPane.columnIndex="1" GridPane.rowIndex="3" style="-fx-padding: 7 7 7 7;">

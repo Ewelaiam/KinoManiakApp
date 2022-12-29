@@ -11,22 +11,48 @@
 <GridPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
           fx:controller="com.example.kinomaniak.controller.AdminAccountsViewController"
-          prefHeight="400.0" prefWidth="600.0" gridLinesVisible="true"
-          stylesheets="@../css/AdminAccountsView.css">
-    <padding><Insets right="25" left="25"/></padding>
-    <Pane GridPane.rowIndex="0" GridPane.hgrow="ALWAYS" prefHeight="25">
-        <VBox>
-            <HBox>
-                <TextField fx:id="searchTextField" promptText="Enter user data..." prefWidth="300"/>
-                <Label  text="role:"  prefWidth="30"/>
-                <ComboBox fx:id="roleComboBox" prefWidth="120"/>
-                <Button fx:id="resetFiltersButton" text="Reset Filters" onAction="#resetFilters" prefWidth="100"/>
-            </HBox>
-        </VBox>
+          prefWidth="600.0"
+          fx:id="mainGrid"
+          stylesheets="@../css/DashboardViewStyles.css">
+    <padding><Insets bottom="25" right="25" left="25" top="25"/></padding>
+    <VBox fx:id="filtersVBox" GridPane.rowIndex="0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"  spacing="10">
+        <BorderPane >
+            <left>
+                <VBox prefWidth="150"/>
+            </left>
+            <right>
+                <VBox prefWidth="150"/>
+            </right>
+            <center>
+                <VBox alignment="CENTER" spacing="5">
+                    <padding><Insets bottom="5" right="5" left="5" top="5"/></padding>
+                    <BorderPane>
+                        <padding><Insets bottom="5" right="5" left="5" top="5"/></padding>
+                        <left>
+                            <VBox spacing="5">
+                                <Label text="Search user: " prefHeight="25"/>
+                                <Label text="Role: " prefHeight="25"/>
+                            </VBox>
+                        </left>
+                        <right>
+                            <VBox spacing="5">
+                                <TextField fx:id="searchTextField" promptText="Enter user data..." prefHeight="25"/>
+                                <ComboBox fx:id="roleComboBox" prefHeight="25"/>
+                            </VBox>
 
-    </Pane>
+                        </right>
+                    </BorderPane>
+                    <Button fx:id="resetFiltersButton" text="Reset Filters" onAction="#resetFilters" prefWidth="100"/>
+                </VBox>
+            </center>
 
-    <TableView fx:id="accountsTable" prefHeight="345" prefWidth="550" GridPane.rowIndex="1">
+        </BorderPane>
+    </VBox>
+
+    <TableView fx:id="accountsTable"
+               prefHeight="650"
+               prefWidth="550"
+               GridPane.rowIndex="1">
         <columns>
             <TableColumn fx:id="nameColumn" prefWidth="100.0"  text="Name"/>
             <TableColumn fx:id="surnameColumn" prefWidth="100.0"  text="Surname" />

@@ -289,7 +289,9 @@ public class HomeController {
         fxWeaver.loadController(LoginController.class).setStage(this.stage);
         fxWeaver.loadController(LoginController.class).resetTextFields();
         Parent root = fxWeaver.loadView(LoginController.class);
-        Scene scene = new Scene(root, 800, 400);
+        Scene scene = new Scene(root, 1000, 550);
+        stage.setMinWidth(1000);
+        stage.setMinHeight(550);
         stage.setScene(scene);
         stage.show();
     }

@@ -11,7 +11,9 @@
 <BorderPane  xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
            fx:controller="com.example.kinomaniak.controller.AccountDeleteDialogPresenter"
-           prefHeight="100.0" prefWidth="220.0">
+           prefHeight="100.0" prefWidth="220.0"
+            stylesheets="@../css/PopupViewStyles.css"
+            fx:id="mainGrid">
     <padding><Insets right="10" left="10" top="10" bottom="10"/></padding>
     <top>
         <VBox style="-fx-alignment: center;">

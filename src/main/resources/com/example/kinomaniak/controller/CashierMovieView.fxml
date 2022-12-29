@@ -13,7 +13,7 @@
           fx:controller="com.example.kinomaniak.controller.CashierMovieViewController"
           prefWidth="600.0"
           fx:id="mainGrid"
-          stylesheets="@../css/CashierMovieView.css">
+          stylesheets="@../css/DashboardViewStyles.css">
     <padding><Insets bottom="25" right="25" left="25" top="25"/></padding>
     <BorderPane fx:id="mainOptions" GridPane.rowIndex="0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" minHeight="50">
             <center>
