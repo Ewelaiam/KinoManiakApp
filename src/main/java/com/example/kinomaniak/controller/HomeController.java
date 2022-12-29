@@ -281,6 +281,8 @@ public class HomeController {
 
     public void showHallsManager() {
         System.out.println("Halls manager");
+        GridPane managerHallPane = fxWeaver.loadView(ManagerHallViewController.class);
+        mainContent.setCenter(managerHallPane);
     }
 
     public void logout(){

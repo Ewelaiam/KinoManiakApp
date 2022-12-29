@@ -64,8 +64,6 @@ public class AdminAccountsViewController {
     }
     @FXML
     private void initialize(){
-        accountsTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-
         loadData();
         setUpAccountsTable();
         setUpSearchTextField();
