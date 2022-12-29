@@ -12,7 +12,6 @@ sourceCompatibility = '17'
 repositories {
     mavenCentral()
 }
-
 javafx {
     version = '17'
     modules = ['javafx.base', 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.media',
@@ -21,6 +20,7 @@ javafx {
 }
 
 dependencies {
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.14.0'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     runtimeOnly 'org.postgresql:postgresql'
