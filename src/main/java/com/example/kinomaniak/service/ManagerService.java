@@ -41,6 +41,10 @@ public class ManagerService {
         return movieRepository.saveAndFlush(movie);
     }
 
+    public void removeMovie(Movie movie){
+        movieRepository.delete(movie);
+    }
+
     public Hall addHall(Integer hallNo, Integer capacity){
         Hall hall = new Hall(hallNo, capacity);
         return hallRepository.save(hall);

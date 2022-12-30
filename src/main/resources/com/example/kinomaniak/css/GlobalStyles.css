@@ -41,3 +41,7 @@
 #viewButtons .button:selected {
     -fx-background-color: -fx-maincolor3;
 }
+
+.error {
+    -fx-text-fill: red;
+}

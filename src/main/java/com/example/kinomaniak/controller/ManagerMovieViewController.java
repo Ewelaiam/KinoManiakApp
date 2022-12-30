@@ -4,9 +4,12 @@ import com.example.kinomaniak.model.Movie;
 import com.example.kinomaniak.model.MovieCategory;
 import com.example.kinomaniak.service.CashierService;
 import com.example.kinomaniak.service.ManagerService;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import net.rgielen.fxweaver.core.FxmlView;
@@ -22,11 +25,25 @@ import java.util.stream.Collectors;
 @FxmlView("managerMovieView.fxml")
 public class ManagerMovieViewController {
 
+    // remove movie
+    private final SimpleStringProperty currentMovieTitleToRemove;
+    @FXML
+    public TableView<Movie> movieTable;
+    @FXML
+    public VBox deleteMovieConfirmation;
+    @FXML
+    public Label titleToDelete;
+    @FXML
+    public TableColumn<Movie, String> movieColumn;
+    @FXML
+    public VBox removeMovieForm;
+
+    // add movie
+
     private final CashierService cashierService;
     private final ManagerService managerService;
     private List<MovieCategory> movieCategories;
-    private List<Movie> movies;
-
+    private ObservableList<Movie> movies;
     private SpinnerValueFactory<Integer> valueFactory;
 
     @FXML
@@ -47,10 +64,6 @@ public class ManagerMovieViewController {
     public DatePicker premierDatePicker;
     @FXML
     public Spinner<Integer> durationSpinner;
-
-    // todo: zmienić na checkbox list
-//    @FXML
-//    public ComboBox<String> categoryComboBox;
     @FXML
     public Button addMovieBtn;
     @FXML
@@ -59,16 +72,24 @@ public class ManagerMovieViewController {
     public VBox addMovieForm;
 
 
+
     @FXML
-    public void showAddMovieForm(){
+    public void toggleAddMovie(){
+        removeMovieForm.setManaged(false);
+        removeMovieForm.setVisible(false);
+        addMovieForm.setManaged(true);
         addMovieForm.setVisible(true);
+    }
+    @FXML
+    public void toggleRemoveMovie(){
+        addMovieForm.setManaged(false);
+        addMovieForm.setVisible(false);
+        removeMovieForm.setManaged(true);
+        removeMovieForm.setVisible(true);
     }
 
     @FXML
-    public void removeMovie(){}
-
-    @FXML
-    public void addMovieToProgram(){
+    public void submitAddingMovie(){
         Set<String> chosenMovieCategoryNames = new HashSet<>();
 
         for (Node category : categoryTilePane.getChildren()){
@@ -89,16 +110,25 @@ public class ManagerMovieViewController {
     }
 
     @FXML
+    public void submitDeletingMovie() {
+        Movie movieToDelete = movies.stream().filter(movie -> (movie.getTitle().equals(currentMovieTitleToRemove.getValue()))).limit(1).findAny().get();
+        managerService.removeMovie(movieToDelete);
+    }
+
+    @FXML
     private void initialize(){
         setUpCategories();
         setUpDurationSpinner();
         setUpPremierDatePicker();
         setUpAgeRestrictionComboBox();
+
+        setUpMovieTable();
     }
 
     public ManagerMovieViewController(CashierService cashierService, ManagerService managerService) {
         this.cashierService = cashierService;
         this.managerService = managerService;
+        currentMovieTitleToRemove = new SimpleStringProperty();
     }
 
     public void setUpCategories(){
@@ -143,24 +173,44 @@ public class ManagerMovieViewController {
             errorMsg += "Title field is required!";
         }
         if(director.isBlank() || !director.contains(" ")){
-            errorMsg += "\t Director field needs name and surname of director!";
+            errorMsg += "\t\t Director field needs name and surname of director!";
         }
         if(description.isBlank() || description.length() > 255){
-            errorMsg += "\t Description field cannot be blank and max length is 255!";
+            errorMsg += "\t\t Description field cannot be blank and max length is 255!";
         }
         if(categories.isEmpty()){
-            errorMsg += "\t At least one category is required!";
+            errorMsg += "\t\t At least one category is required!";
         }
         if(ageRestriction.equals("not specified")){
-            errorMsg += "\t Age restriction is not specified!";
+            errorMsg += "\t\t Age restriction is not specified!";
         }
         if(posterURL.isBlank()){
-            errorMsg += "\t Poster URL field is required!";
+            errorMsg += "\t\t Poster URL field is required!";
         }
 
         addMovieErrorPrompt.setText(errorMsg);
 
         return addMovieErrorPrompt.getText().isBlank();
+    }
+
+    public void setUpMovieTable(){
+        movieColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        movieTable.setItems(movies);
+
+        movieTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
+        {
+            if(oldValue == null){
+                deleteMovieConfirmation.setVisible(true);
+                deleteMovieConfirmation.setManaged(true);
+            }
+            if(newValue == null){
+                deleteMovieConfirmation.setVisible(false);
+                deleteMovieConfirmation.setManaged(false);
+            }else{
+                currentMovieTitleToRemove.setValue(newValue.getTitle());
+                titleToDelete.textProperty().bind(currentMovieTitleToRemove);
+            }
+        } );
     }
 
 
