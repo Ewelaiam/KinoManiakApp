@@ -11,56 +11,101 @@
 <GridPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
           fx:controller="com.example.kinomaniak.controller.CashierMovieViewController"
-          prefHeight="400.0" prefWidth="600.0" gridLinesVisible="true"
-          stylesheets="@../css/CashierMovieView.css">
-    <padding><Insets right="25" left="25"/></padding>
-    <Pane GridPane.rowIndex="0" GridPane.hgrow="ALWAYS" prefHeight="50">
-        <VBox>
-            <TextField fx:id="searchTextField" promptText="Enter title..." prefWidth="550"/>
-            <HBox>
-                <Label text="genre:"/>
-                <ComboBox fx:id="genreComboBox"/>
-                <Label text="age limit:"/>
-                <ComboBox fx:id="ageRestrictionComboBox"/>
-                <Button fx:id="resetFiltersButton" text="Reset Filters" onAction="#resetFilters"/>
-                <Button fx:id="recommendedMoviesButton" text="Recommended Movies" onAction="#showRecommendedMovies"/>
-            </HBox>
+          prefWidth="600.0"
+          fx:id="mainGrid"
+          stylesheets="@../css/DashboardViewStyles.css">
+    <padding><Insets bottom="25" right="25" left="25" top="25"/></padding>
+    <BorderPane fx:id="mainOptions" GridPane.rowIndex="0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" minHeight="50">
+            <center>
+                <VBox fx:id="tableActionsVBox" alignment="CENTER">
+                    <Button fx:id="toggleFiltersButton" text="Filters" onMouseClicked="#toggleFilters"/>
+                </VBox>
+            </center>
+    </BorderPane>
 
-        </VBox>
+    <VBox fx:id="filtersVBox" GridPane.rowIndex="1" visible="false" managed="false" spacing="10">
+        <BorderPane >
+            <left>
+                <VBox prefWidth="150"/>
+            </left>
+            <right>
+                <VBox prefWidth="150"/>
+            </right>
+            <center>
+                <VBox alignment="CENTER" spacing="5">
+                    <padding><Insets bottom="5" right="5" left="5" top="5"/></padding>
+                    <BorderPane>
+                        <padding><Insets bottom="5" right="5" left="5" top="5"/></padding>
+                        <left>
+                            <VBox spacing="5">
+                                <Label text="Search title: " prefHeight="25"/>
+                                <Label text="Genre: " prefHeight="25"/>
+                                <Label text="Age limit: " prefHeight="25"/>
+                            </VBox>
+                        </left>
+                        <right>
+                            <VBox spacing="5">
+                                <TextField fx:id="searchTextField" promptText="Enter title..." prefHeight="25"/>
+                                <ComboBox fx:id="genreComboBox" prefHeight="25"/>
+                                <ComboBox fx:id="ageRestrictionComboBox" prefHeight="25"/>
+                            </VBox>
 
-    </Pane>
+                        </right>
+                    </BorderPane>
+                    <Button fx:id="resetFiltersButton" text="Reset Filters" onAction="#resetFilters"/>
+                    <Button fx:id="recommendedMoviesButton" text="Recommended Movies" onAction="#showRecommendedMovies"/>
+                </VBox>
+            </center>
 
-    <TableView fx:id="moviesTable" prefHeight="350" prefWidth="550" GridPane.rowIndex="1">
+        </BorderPane>
+      </VBox>
+
+    <TableView fx:id="moviesTable"
+
+               GridPane.rowIndex="2"
+               prefHeight="650"
+               prefWidth="550"
+                >
         <columns>
-            <TableColumn fx:id="titleColumn" prefWidth="160.0" resizable="false" text="Title"/>
-            <TableColumn fx:id="directorColumn" prefWidth="160.0" resizable="false" text="Director" />
-            <TableColumn fx:id="premierDateColumn" prefWidth="90.0" resizable="false" text="Premier Date" />
-            <TableColumn fx:id="durationColumn" prefWidth="60.0" resizable="false" text="Duration" />
-            <TableColumn fx:id="ageRestrictionColumn" prefWidth="65.0" resizable="false" text="Age Limit" />
-
+            <TableColumn fx:id="titleColumn" prefWidth="160.0" maxWidth="Infinity"  text="Title"/>
+            <TableColumn fx:id="directorColumn" prefWidth="160.0"  text="Director" />
+            <TableColumn fx:id="premierDateColumn" prefWidth="90.0"  text="Premier Date" />
+            <TableColumn fx:id="durationColumn" prefWidth="60.0"  text="Duration" />
+            <TableColumn fx:id="ageRestrictionColumn" prefWidth="65.0"  text="Age Limit" />
         </columns>
-        <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-        </columnResizePolicy>
+
     </TableView>
 
 
-    <Pane fx:id="bottomPane" GridPane.rowIndex="2" prefHeight="0" visible="false" >
-    <HBox >
-        <ImageView fx:id="moviePosterImageView" fitHeight="98" fitWidth="67"/>
-        <VBox prefWidth="380" prefHeight="100">
-            <Label fx:id="titleLabel" style="-fx-padding: 5 5 0 5; -fx-font-weight: bold;"/>
-            <Label fx:id="descriptionLabel" wrapText="true" text="description"
-                   style="-fx-padding: 5 5 5 5;"/>
-        </VBox>
+    <BorderPane fx:id="bottomPane" GridPane.rowIndex="3" prefHeight="0" visible="false" managed="false">
+            <left>
+                <ImageView fx:id="moviePosterImageView" fitHeight="98" fitWidth="67"/>
+            </left>
+
+            <center>
+                <VBox>
+                    <Label fx:id="titleLabel" style="-fx-padding: 5 5 0 5; -fx-font-weight: bold;"/>
+                    <Label fx:id="descriptionLabel" wrapText="true" text="description"
+                           style="-fx-padding: 5 5 5 5;"/>
+                </VBox>
+            </center>
 
 
-        <VBox alignment="TOP_RIGHT">
-            <Button fx:id="hideBottomPaneButton" prefWidth="20" prefHeight="20"  text="X" onAction="#removeSelection"/>
-            <Button fx:id="showScreeningsButton" prefWidth="100" prefHeight="80" text="Show Screenings" wrapText="true"/>
+            <right>
+                <VBox spacing="10" alignment="CENTER">
 
-        </VBox>
-    </HBox>
-    </Pane>
+                    <Button fx:id="hideBottomPaneButton"   text="X" onAction="#removeSelection">
+                        <VBox.margin>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                        </VBox.margin>
+                    </Button>
+                    <Button fx:id="showScreeningsButton"  text="Show Screenings" wrapText="true">
+                        <VBox.margin>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                        </VBox.margin>
+                    </Button>
+                </VBox>
+            </right>
+    </BorderPane>
 </GridPane>
 

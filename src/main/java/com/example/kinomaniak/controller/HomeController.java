@@ -8,6 +8,8 @@ import com.example.kinomaniak.service.AdminService;
 import com.example.kinomaniak.service.AuthService;
 import com.example.kinomaniak.service.CashierService;
 import com.example.kinomaniak.service.ManagerService;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -26,13 +28,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 @FxmlView("homeView.fxml")
@@ -225,6 +226,12 @@ public class HomeController {
                 disableAllButtons();
                 isUsersVisible.set(true);
                 isEmailVisible.set(true);
+                usersButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        showAccountsAdmin();
+                    }
+                });
 
             }
         }
@@ -261,6 +268,12 @@ public class HomeController {
         mainContent.setCenter(cashierMoviePane);
     }
 
+    public void showAccountsAdmin(){
+        System.out.println("Accounts admin");
+        GridPane adminAccountsPane = fxWeaver.loadView(AdminAccountsViewController.class);
+        mainContent.setCenter(adminAccountsPane);
+    }
+
     public void showFilmsManager() {
         System.out.println("Films manager");
         GridPane managerMoviePane = fxWeaver.loadView(ManagerMovieViewController.class);
@@ -270,6 +283,8 @@ public class HomeController {
 
     public void showHallsManager() {
         System.out.println("Halls manager");
+        GridPane managerHallPane = fxWeaver.loadView(ManagerHallViewController.class);
+        mainContent.setCenter(managerHallPane);
     }
 
     public void logout(){
@@ -278,7 +293,9 @@ public class HomeController {
         fxWeaver.loadController(LoginController.class).setStage(this.stage);
         fxWeaver.loadController(LoginController.class).resetTextFields();
         Parent root = fxWeaver.loadView(LoginController.class);
-        Scene scene = new Scene(root, 800, 400);
+        Scene scene = new Scene(root, 1000, 550);
+        stage.setMinWidth(1000);
+        stage.setMinHeight(550);
         stage.setScene(scene);
         stage.show();
     }
@@ -331,4 +348,48 @@ public class HomeController {
         this.stage = stage;
     }
 
+    public void showAccountEditDialog(Employee employee) {
+        FxControllerAndView<AccountEditDialogPresenter, GridPane> fxControllerAndView =
+                fxWeaver.load(AccountEditDialogPresenter.class,null);
+
+
+        // Create the dialog Stage.
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Edit Account");
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(stage);
+        Scene scene = new Scene(fxControllerAndView.getView().get());
+        dialogStage.setScene(scene);
+
+        // Set the transaction into the presenter.
+        fxControllerAndView.getController().setDialogStage(dialogStage);
+        fxControllerAndView.getController().setData(employee,this);
+
+        // Show the dialog and wait until the user closes it
+        dialogStage.showAndWait();
+
+    }
+
+    public void showAccountDeleteDialog(Employee employee) {
+
+        FxControllerAndView<AccountDeleteDialogPresenter, BorderPane> fxControllerAndView =
+                fxWeaver.load(AccountDeleteDialogPresenter.class,null);
+
+
+        // Create the dialog Stage.
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Delete Account");
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(stage);
+        Scene scene = new Scene(fxControllerAndView.getView().get());
+        dialogStage.setScene(scene);
+
+        // Set the transaction into the presenter.
+        fxControllerAndView.getController().setDialogStage(dialogStage);
+        fxControllerAndView.getController().setData(employee,this);
+
+        // Show the dialog and wait until the user closes it
+        dialogStage.showAndWait();
+
+    }
 }

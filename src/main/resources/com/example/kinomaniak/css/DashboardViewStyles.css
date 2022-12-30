@@ -1,0 +1,62 @@
+* {
+    -fx-maincolor1: rgb(105, 155, 175);
+    -fx-maincolor2: rgb(140, 100, 120);
+    -fx-maincolor3: rgb(150, 110, 130);
+    -fx-maincolor4: #62B6B7;
+    -fx-maincolor5: rgb(190, 150, 170);
+    -fx-font-family: Verdana;
+
+}
+
+#mainOptions,
+#filtersVBox,
+#filtersVBox .label,
+#bottomPane
+{
+    -fx-text-fill: white;
+}
+
+.button, .combo-box {
+    -fx-background-color: linear-gradient(to top, -fx-maincolor2, -fx-maincolor3);
+    -fx-min-width: 150px;
+    -fx-background-radius: 30;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.combo-box {
+    -jfx-focus-color: white;
+    -jfx-unfocus-color: white;
+}
+
+.combo-box > .list-cell {
+    -fx-text-fill: white;
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(to top, -fx-maincolor3, -fx-maincolor2);
+    -fx-cursor: hand;
+}
+
+.button:selected {
+    -fx-background-color: -fx-maincolor3;
+}
+
+
+
+#mainGrid {
+    -fx-background-color: -fx-maincolor4;
+    -fx-background-radius: 30px;
+    -fx-border-radius: 30px;
+    -fx-border-width: 2px;
+    -fx-border-color: -fx-maincolor3;
+}
+
+#mainGrid Line {
+    -fx-stroke: red;
+}
+
+#roleColumn {
+    -fx-alignment: BASELINE_CENTER
+
+}

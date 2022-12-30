@@ -3,6 +3,10 @@ package com.example.kinomaniak.controller;
 import com.example.kinomaniak.model.Movie;
 import com.example.kinomaniak.model.MovieCategory;
 import com.example.kinomaniak.service.CashierService;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -13,7 +17,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,40 +35,46 @@ import java.util.stream.Collectors;
 public class CashierMovieViewController {
     private final CashierService cashierService;
     @FXML
-    public TableView<Movie> moviesTable;
+    private TableView<Movie> moviesTable;
     @FXML
-    public TableColumn<Movie,String> titleColumn;
+    private TableColumn<Movie,String> titleColumn;
     @FXML
-    public TableColumn<Movie,String> directorColumn;
+    private TableColumn<Movie,String> directorColumn;
     @FXML
-    public TableColumn<Movie,Integer> durationColumn;
+    private TableColumn<Movie,Integer> durationColumn;
     @FXML
-    public TableColumn<Movie, LocalDate> premierDateColumn;
+    private TableColumn<Movie, LocalDate> premierDateColumn;
     @FXML
-    public TableColumn<Movie,Integer> ageRestrictionColumn;
+    private TableColumn<Movie,Integer> ageRestrictionColumn;
     @FXML
-    public TextField searchTextField;
+    private TextField searchTextField;
     @FXML
-    public ComboBox<String> genreComboBox;
+    private ComboBox<String> genreComboBox;
     @FXML
-    public Button recommendedMoviesButton;
+    private Button recommendedMoviesButton;
     @FXML
-    public ComboBox<String> ageRestrictionComboBox;
+    private ComboBox<String> ageRestrictionComboBox;
     @FXML
-    public Button showScreeningsButton;
+    private Button showScreeningsButton;
     @FXML
-    public Pane bottomPane;
+    private BorderPane bottomPane;
     @FXML
-    public Button hideBottomPaneButton;
+    private Button hideBottomPaneButton;
 
     @FXML
-    public ImageView moviePosterImageView;
+    private ImageView moviePosterImageView;
     @FXML
-    public Label descriptionLabel;
+    private Label descriptionLabel;
     @FXML
-    public Button resetFiltersButton;
+    private Button resetFiltersButton;
     @FXML
-    public Label titleLabel;
+    private Label titleLabel;
+    @FXML
+    private VBox filtersVBox;
+    @FXML
+    private VBox tableActionsVBox;
+    @FXML
+    private Button toggleFiltersButton;
 
     private FxWeaver fxWeaver;
 
@@ -84,6 +97,8 @@ public class CashierMovieViewController {
         setUpAgeRestrictionComboBox();
 
         setUpSearchTextField();
+
+        setColumnsWidthPercentage();
 
     }
 
@@ -108,11 +123,13 @@ public class CashierMovieViewController {
                 moviesTable.setPrefHeight(moviesTable.getPrefHeight() - 100.0);
                 bottomPane.setPrefHeight(bottomPane.getPrefHeight()+ 100.0);
                 bottomPane.setVisible(true);
+                bottomPane.setManaged(true);
             }
             if(newValue == null){
                 moviesTable.setPrefHeight(moviesTable.getPrefHeight() + 100.0);
                 bottomPane.setPrefHeight(bottomPane.getPrefHeight() - 100.0);
                 bottomPane.setVisible(false);
+                bottomPane.setManaged(false);
             }else{
                 titleLabel.textProperty().bind(new SimpleStringProperty(newValue.getTitle()));
                 descriptionLabel.textProperty().bind(new SimpleStringProperty(newValue.getDescription()));
@@ -188,4 +205,23 @@ public class CashierMovieViewController {
     }
 
 
+    private void setColumnsWidthPercentage() {
+        titleColumn.prefWidthProperty().bind(moviesTable.widthProperty().multiply(0.4));
+        directorColumn.prefWidthProperty().bind(moviesTable.widthProperty().multiply(0.2));
+        premierDateColumn.prefWidthProperty().bind(moviesTable.widthProperty().multiply(0.2));
+        ageRestrictionColumn.prefWidthProperty().bind(moviesTable.widthProperty().multiply(0.1));
+        durationColumn.prefWidthProperty().bind(moviesTable.widthProperty().multiply(0.1));
+    }
+
+    public void toggleFilters(){
+        filtersVBox.setManaged(!filtersVBox.managedProperty().getValue());
+        filtersVBox.setVisible(!filtersVBox.visibleProperty().getValue());
+//        if (filtersVBox.isVisible()){
+//            moviesTable.setPrefHeight(moviesTable.getPrefHeight() - filtersVBox.getPrefHeight());
+//        } else {
+//            moviesTable.setPrefHeight(moviesTable.getPrefHeight() + filtersVBox.getPrefHeight());
+//        }
+
+
+    }
 }

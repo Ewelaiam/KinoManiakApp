@@ -8,13 +8,13 @@ BEGIN
         insert into role(id,role_name) values (1,''manager'');
         insert into role(id,role_name) values (2,''cashier'');
     END IF;
-    IF (NOT EXISTS(SELECT * FROM hall))
-    THEN
-        insert into hall(id, capacity, hall_no) values (0,100,1);
-        insert into hall(id, capacity, hall_no) values (1,100,2);
-        insert into hall(id, capacity, hall_no) values (2,100,3);
-        insert into hall(id, capacity, hall_no) values (3,100,4);
-    END IF;
+--     IF (NOT EXISTS(SELECT * FROM hall))
+--     THEN
+--         insert into hall(id, capacity, hall_no) values (0,100,1);
+--         insert into hall(id, capacity, hall_no) values (1,100,2);
+--         insert into hall(id, capacity, hall_no) values (2,100,3);
+--         insert into hall(id, capacity, hall_no) values (3,100,4);
+--     END IF;
     IF (NOT EXISTS(SELECT * FROM movie_category))
     THEN
         insert into movie_category(id, category_name)

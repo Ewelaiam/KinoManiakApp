@@ -1,6 +1,7 @@
 package com.example.kinomaniak.repository;
 
 import com.example.kinomaniak.model.Role;
+import javafx.beans.Observable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

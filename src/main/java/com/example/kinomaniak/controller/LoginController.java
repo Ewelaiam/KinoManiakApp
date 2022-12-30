@@ -124,7 +124,9 @@ public class LoginController {
     private void loadHomeView(){
         fxWeaver.loadController(HomeController.class).setStage(this.stage);
         Parent root = fxWeaver.loadView(HomeController.class);
-        Scene scene = new Scene(root, 800, 400);
+        Scene scene = new Scene(root, 1000, 550);
+        stage.setMinWidth(1000);
+        stage.setMinHeight(550);
         stage.setScene(scene);
         stage.show();
     }

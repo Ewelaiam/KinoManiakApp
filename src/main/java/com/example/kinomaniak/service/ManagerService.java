@@ -5,6 +5,8 @@ import com.example.kinomaniak.repository.EmployeeRepository;
 import com.example.kinomaniak.repository.FilmShowRepository;
 import com.example.kinomaniak.repository.HallRepository;
 import com.example.kinomaniak.repository.MovieRepository;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -44,4 +46,9 @@ public class ManagerService {
         return hallRepository.save(hall);
 
     }
+
+    public ObservableList<Hall> getHalls(){
+        return FXCollections.observableList(hallRepository.findAll());
+    }
+
 }

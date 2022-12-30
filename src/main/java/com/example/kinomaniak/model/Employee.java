@@ -78,4 +78,19 @@ public class Employee {
         this.password = password;
     }
 
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSurName(String surName) {
+        this.surName = surName;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
 }

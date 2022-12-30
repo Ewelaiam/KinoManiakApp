@@ -3,7 +3,10 @@ package com.example.kinomaniak.service;
 import com.example.kinomaniak.model.*;
 import com.example.kinomaniak.repository.EmployeeRepository;
 import com.example.kinomaniak.repository.FilmShowRepository;
+import com.example.kinomaniak.repository.RoleRepository;
 import com.example.kinomaniak.repository.TicketRepository;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,11 +17,14 @@ public class AdminService {
     public EmployeeRepository employeeRepository;
     public TicketRepository ticketRepository;
     public FilmShowRepository filmShowRepository;
+    public RoleRepository roleRepository;
 
-    public AdminService(EmployeeRepository employeeRepository, TicketRepository ticketRepository, FilmShowRepository filmShowRepository) {
+    public AdminService(EmployeeRepository employeeRepository, TicketRepository ticketRepository,
+                        FilmShowRepository filmShowRepository,RoleRepository roleRepository) {
         this.employeeRepository = employeeRepository;
         this.ticketRepository = ticketRepository;
         this.filmShowRepository = filmShowRepository;
+        this.roleRepository = roleRepository;
     }
 
     public Employee addNewUser(Role role, String name, String surName, String mail, String password){
@@ -49,5 +55,12 @@ public class AdminService {
     public Movie showMovieWithTheMostViewer(){
         Optional<Ticket> ticketData = ticketRepository.findBestMovie();
         return ticketData.map(ticket -> ticket.getFilmShow().getMovie()).orElse(null);
+    }
+
+    public ObservableList<Employee> getEmployees(){
+        return FXCollections.observableList(employeeRepository.findAll());
+    }
+    public ObservableList<Role> getRoles(){
+        return FXCollections.observableList(roleRepository.findAll());
     }
 }
