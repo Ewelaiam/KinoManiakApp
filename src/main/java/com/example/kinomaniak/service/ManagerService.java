@@ -36,7 +36,7 @@ public class ManagerService {
         for(MovieCategory category: categories){
             movie.addCategory(category);
         }
-        return movieRepository.save(movie);
+        return movieRepository.saveAndFlush(movie);
     }
 
     public Hall addHall(Integer hallNo, Integer capacity){

@@ -263,6 +263,8 @@ public class HomeController {
 
     public void showFilmsManager() {
         System.out.println("Films manager");
+        GridPane managerMoviePane = fxWeaver.loadView(ManagerMovieViewController.class);
+        mainContent.setCenter(managerMoviePane);
     }
 
 
