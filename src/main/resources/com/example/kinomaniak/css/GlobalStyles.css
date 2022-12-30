@@ -45,3 +45,7 @@
 .error {
     -fx-text-fill: red;
 }
+
+.hourText {
+    -fx-font-size: 40;
+}

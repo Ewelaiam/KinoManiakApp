@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -53,6 +54,11 @@ public class ManagerService {
 
     public ObservableList<Hall> getHalls(){
         return FXCollections.observableList(hallRepository.findAll());
+    }
+
+    public Boolean existFilmShowWithGivenHallAndTime(Hall hall, ZonedDateTime time){
+        Optional<FilmShow> filmShow = filmShowRepository.findFilmShowByDateAndHall(time, hall);
+        return filmShow.isEmpty();
     }
 
 }

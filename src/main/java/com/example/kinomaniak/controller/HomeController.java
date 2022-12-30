@@ -260,6 +260,8 @@ public class HomeController {
 
     public void showScreeningsManager() {
         System.out.println("Screenings Manager");
+        GridPane managerScreeningPane = fxWeaver.loadView(ManagerScreeningViewController.class);
+        mainContent.setCenter(managerScreeningPane);
     }
 
     public void showFilmsCashier() {

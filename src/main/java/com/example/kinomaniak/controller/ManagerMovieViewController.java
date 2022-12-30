@@ -111,7 +111,7 @@ public class ManagerMovieViewController {
 
     @FXML
     public void submitDeletingMovie() {
-        Movie movieToDelete = movies.stream().filter(movie -> (movie.getTitle().equals(currentMovieTitleToRemove.getValue()))).limit(1).findAny().get();
+        Movie movieToDelete = movies.stream().filter(movie -> (movie.getTitle().equals(currentMovieTitleToRemove.getValue()))).findAny().get();
         managerService.removeMovie(movieToDelete);
     }
 
@@ -142,8 +142,7 @@ public class ManagerMovieViewController {
     }
 
     public void setUpDurationSpinner(){
-        valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,300);
-        valueFactory.setValue(100);
+        valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,300, 100);
         durationSpinner.setValueFactory(valueFactory);
         durationSpinner.setEditable(true);
 

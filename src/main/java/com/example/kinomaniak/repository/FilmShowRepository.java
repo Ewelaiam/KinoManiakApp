@@ -1,6 +1,7 @@
 package com.example.kinomaniak.repository;
 
 import com.example.kinomaniak.model.FilmShow;
+import com.example.kinomaniak.model.Hall;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -16,4 +17,6 @@ public interface FilmShowRepository extends JpaRepository<FilmShow, Integer> {
     Optional<FilmShow> findTheOftenChosenHallForEvents();
 
     Optional<FilmShow> findFilmShowByDate(ZonedDateTime time);
+
+    Optional<FilmShow> findFilmShowByDateAndHall(ZonedDateTime time, Hall hall);
 }
