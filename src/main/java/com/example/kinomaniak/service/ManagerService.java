@@ -28,11 +28,12 @@ public class ManagerService {
         this.hallRepository = hallRepository;
     }
 
-
     public FilmShow addFilmShow(Hall hall, Movie movie, ZonedDateTime date, Double ticketPrice,Boolean withSubtitles,Boolean is3D){
         FilmShow filmShow = new FilmShow(hall, movie, date, ticketPrice,withSubtitles,is3D);
         return filmShowRepository.save(filmShow);
     }
+
+    public void removeFilmShow(FilmShow filmShow){ filmShowRepository.delete(filmShow); }
 
     public Movie addMovie(String title, String director, String description, Set<MovieCategory> categories, Integer duration, LocalDate premierDate, Integer ageRestriction, String posterURL){
         Movie movie = new Movie(title, director, description, duration, premierDate, ageRestriction,posterURL);
@@ -59,6 +60,10 @@ public class ManagerService {
     public Boolean existFilmShowWithGivenHallAndTime(Hall hall, ZonedDateTime time){
         Optional<FilmShow> filmShow = filmShowRepository.findFilmShowByDateAndHall(time, hall);
         return filmShow.isEmpty();
+    }
+
+    public ObservableList<FilmShow> getFilmShows(){
+        return FXCollections.observableList(filmShowRepository.findAll());
     }
 
 }

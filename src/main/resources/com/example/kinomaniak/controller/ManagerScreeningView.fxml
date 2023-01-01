@@ -118,7 +118,27 @@
             <Button text="Submit" onMouseClicked="#submitAddingScreening" prefWidth="100" />
         </VBox>
         <VBox fx:id="removeScreeningForm" visible="false" managed="false" alignment="TOP_CENTER"  spacing="10">
-
+            <Label text="REMOVE SCREENING" />
+            <TableView fx:id="screeningTable" minHeight="400.0" minWidth="300.0">
+                <columns>
+                    <TableColumn fx:id="screeningId" text="Id"/>
+                    <TableColumn fx:id="screeningHall" text="Hall"/>
+                    <TableColumn fx:id="screeningMovie" text="Movie"/>
+                    <TableColumn fx:id="screeningDate" text="Date"/>
+                    <TableColumn fx:id="screeningTicketPrice" text="Ticket price"/>
+                    <TableColumn fx:id="screeningSubtitles" text="Subtitles"/>
+                    <TableColumn fx:id="screening3D" text="3D"/>
+                </columns>
+            </TableView>
+            <VBox fx:id="deleteScreeningConfirmation" visible="false" managed="false" alignment="TOP_CENTER">
+                <Label text="Are you sure you want to delete a screening:" />
+                <Label fx:id="screeningToDelete" />
+                <Button text="Delete" onAction="#submitDeletingScreening">
+                    <VBox.margin>
+                        <Insets bottom="8.0" top="8.0"/>
+                    </VBox.margin>
+                </Button>
+            </VBox>
         </VBox>
     </VBox>
 

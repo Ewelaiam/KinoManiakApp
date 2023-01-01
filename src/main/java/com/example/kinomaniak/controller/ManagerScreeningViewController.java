@@ -1,13 +1,16 @@
 package com.example.kinomaniak.controller;
 
+import com.example.kinomaniak.model.FilmShow;
 import com.example.kinomaniak.model.Hall;
 import com.example.kinomaniak.model.Movie;
 import com.example.kinomaniak.service.CashierService;
 import com.example.kinomaniak.service.ManagerService;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
@@ -56,7 +59,30 @@ public class ManagerScreeningViewController {
     private final CashierService cashierService;
     public List<Hall> halls;
     public List<Movie> movies;
+    public ObservableList<FilmShow> filmShows;
 
+    @FXML
+    public TableView<FilmShow> screeningTable;
+    @FXML
+    public TableColumn<FilmShow, Integer> screeningId;
+    @FXML
+    public TableColumn<FilmShow, String> screeningHall;
+    @FXML
+    public TableColumn<FilmShow, String> screeningMovie;
+    @FXML
+    public TableColumn<FilmShow, ZonedDateTime> screeningDate;
+    @FXML
+    public TableColumn<FilmShow, Double> screeningTicketPrice;
+    @FXML
+    public TableColumn<FilmShow, Boolean> screeningSubtitles;
+    @FXML
+    public TableColumn<FilmShow, Boolean> screening3D;
+    @FXML
+    public VBox deleteScreeningConfirmation;
+    @FXML
+    public Label screeningToDelete;
+
+    private final SimpleStringProperty currentScreeningToRemove;
 
     private SpinnerValueFactory<Integer> hourValueFactory;
     private SpinnerValueFactory<String> minuteValueFactory;
@@ -105,16 +131,25 @@ public class ManagerScreeningViewController {
     }
 
     @FXML
+    public void submitDeletingScreening() {
+        FilmShow filmShowToDelete = filmShows.stream().filter(filmShow -> (filmShow.getId().equals(Integer.valueOf(currentScreeningToRemove.getValue())))).findAny().get();
+        managerService.removeFilmShow(filmShowToDelete);
+    }
+
+    @FXML
     public void initialize(){
         setUpHallComboBox();
         setUpMovieComboBox();
         setUpScreeningDate();
         setUpTicketPrice();
+
+        setUpScreeningTable();
     }
 
     public ManagerScreeningViewController(ManagerService managerService, CashierService cashierService) {
         this.managerService = managerService;
         this.cashierService = cashierService;
+        this.currentScreeningToRemove = new SimpleStringProperty();
     }
 
     public void setUpHallComboBox(){
@@ -175,7 +210,38 @@ public class ManagerScreeningViewController {
         numbersValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,60, 15);
         selectedPriceNumbers.setValueFactory(numbersValueFactory);
         selectedPriceNumbers.setEditable(true);
+    }
 
+    public void setUpScreeningTable(){
+        filmShows = managerService.getFilmShows();
+
+        screeningId.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+        screeningHall.setCellValueFactory(cellValue -> new SimpleStringProperty(cellValue.getValue().getHall().getHallNo().toString()));
+        screeningMovie.setCellValueFactory(cellValue -> new SimpleStringProperty(cellValue.getValue().getMovie().getTitle()));
+
+        screeningDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        screeningTicketPrice.setCellValueFactory(new PropertyValueFactory<>("ticketPrice"));
+        screeningSubtitles.setCellValueFactory(new PropertyValueFactory<>("withSubtitles"));
+        screening3D.setCellValueFactory(new PropertyValueFactory<>("is3D"));
+
+        screeningTable.setItems(filmShows);
+
+        screeningTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
+        {
+            if (oldValue == null) {
+                deleteScreeningConfirmation.setVisible(true);
+                deleteScreeningConfirmation.setManaged(true);
+            }
+            if (newValue == null) {
+                deleteScreeningConfirmation.setVisible(false);
+                deleteScreeningConfirmation.setManaged(false);
+            } else {
+                currentScreeningToRemove.setValue(newValue.getId().toString());
+                screeningToDelete.textProperty().bind(currentScreeningToRemove);
+            }
+
+        });
     }
 
     public boolean inputValidation(){
@@ -195,5 +261,4 @@ public class ManagerScreeningViewController {
         return addScreeningErrorPrompt.getText().isBlank();
 
     }
-
 }
