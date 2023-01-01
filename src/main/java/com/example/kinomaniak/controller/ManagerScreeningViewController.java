@@ -3,6 +3,7 @@ package com.example.kinomaniak.controller;
 import com.example.kinomaniak.model.FilmShow;
 import com.example.kinomaniak.model.Hall;
 import com.example.kinomaniak.model.Movie;
+import com.example.kinomaniak.model.Ticket;
 import com.example.kinomaniak.service.CashierService;
 import com.example.kinomaniak.service.ManagerService;
 import javafx.beans.property.SimpleStringProperty;
@@ -60,7 +61,7 @@ public class ManagerScreeningViewController {
     public List<Hall> halls;
     public List<Movie> movies;
     public ObservableList<FilmShow> filmShows;
-
+    public ObservableList<Ticket> tickets;
     @FXML
     public TableView<FilmShow> screeningTable;
     @FXML
@@ -81,7 +82,8 @@ public class ManagerScreeningViewController {
     public VBox deleteScreeningConfirmation;
     @FXML
     public Label screeningToDelete;
-
+    @FXML
+    public Label removeScreeningErrorPrompt;
     private final SimpleStringProperty currentScreeningToRemove;
 
     private SpinnerValueFactory<Integer> hourValueFactory;
@@ -133,7 +135,13 @@ public class ManagerScreeningViewController {
     @FXML
     public void submitDeletingScreening() {
         FilmShow filmShowToDelete = filmShows.stream().filter(filmShow -> (filmShow.getId().equals(Integer.valueOf(currentScreeningToRemove.getValue())))).findAny().get();
-        managerService.removeFilmShow(filmShowToDelete);
+        tickets = managerService.getTickets();
+        if(tickets.stream().anyMatch(ticket -> (ticket.getFilmShow().getId().toString().equals(currentScreeningToRemove.getValue())))){
+            managerService.removeFilmShow(filmShowToDelete);
+            removeScreeningErrorPrompt.setText("");
+        } else{
+            removeScreeningErrorPrompt.setText("Cannot remove film show with sold tickets!");
+        }
     }
 
     @FXML

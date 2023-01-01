@@ -1,10 +1,7 @@
 package com.example.kinomaniak.service;
 
 import com.example.kinomaniak.model.*;
-import com.example.kinomaniak.repository.EmployeeRepository;
-import com.example.kinomaniak.repository.FilmShowRepository;
-import com.example.kinomaniak.repository.HallRepository;
-import com.example.kinomaniak.repository.MovieRepository;
+import com.example.kinomaniak.repository.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.springframework.stereotype.Service;
@@ -20,12 +17,14 @@ public class ManagerService {
     private final FilmShowRepository filmShowRepository;
     private final MovieRepository movieRepository;
     private final HallRepository hallRepository;
+    private final TicketRepository ticketRepository;
 
-    public ManagerService(EmployeeRepository employeeRepository, FilmShowRepository filmShowRepository, MovieRepository movieRepository, HallRepository hallRepository) {
+    public ManagerService(EmployeeRepository employeeRepository, FilmShowRepository filmShowRepository, MovieRepository movieRepository, HallRepository hallRepository, TicketRepository ticketRepository) {
         this.employeeRepository = employeeRepository;
         this.filmShowRepository = filmShowRepository;
         this.movieRepository = movieRepository;
         this.hallRepository = hallRepository;
+        this.ticketRepository = ticketRepository;
     }
 
     public FilmShow addFilmShow(Hall hall, Movie movie, ZonedDateTime date, Double ticketPrice,Boolean withSubtitles,Boolean is3D){
@@ -64,6 +63,10 @@ public class ManagerService {
 
     public ObservableList<FilmShow> getFilmShows(){
         return FXCollections.observableList(filmShowRepository.findAll());
+    }
+
+    public ObservableList<Ticket> getTickets(){
+        return FXCollections.observableList(ticketRepository.findAll());
     }
 
 }
