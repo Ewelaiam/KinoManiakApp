@@ -1,24 +1,24 @@
 package com.example.kinomaniak.controller;
 
 import com.example.kinomaniak.model.*;
+import com.example.kinomaniak.service.AuthService;
 import com.example.kinomaniak.service.CashierService;
-import javafx.beans.Observable;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
-import java.sql.RowId;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 public class CashierScreeningsViewController {
 
     private final CashierService cashierService;
+    private final AuthService authService;
 
     @FXML
     private TableView<FilmShow> filmShowTable;
@@ -40,7 +41,7 @@ public class CashierScreeningsViewController {
     @FXML
     private TableColumn<FilmShow, Hall> hallIdColumn;
     @FXML
-    private TableColumn<FilmShow, Hall> sumSeatsColumn;
+    private TableColumn<FilmShow, Integer> sumSeatsColumn;
 
     @FXML
     private Button toggleFiltersButton;
@@ -48,19 +49,31 @@ public class CashierScreeningsViewController {
     private VBox filtersVBox;
     @FXML
     private TextField searchTextField;
+    @FXML
+    private BorderPane bottomPane;
+    @FXML
+    private Label priceLabel;
+    @FXML
+    private Label titleLabel;
+    @FXML
+    private ScrollPane seatsScrollPane = new ScrollPane();
+    @FXML
+    private TilePane seatsTilePane = new TilePane();
 
 
     private final FxWeaver fxWeaver;
 
     private ObservableList<FilmShow> filmShows;
     private ObservableList<Movie> movies;
-    private HashMap<Integer, ArrayList<Integer>> seats = new HashMap<>();
+    private HashMap<Integer, Set<Integer>> seats = new HashMap<>();
     private ObservableList<Hall> halls;
     private ObservableList<Ticket> tickets;
+    private FilmShow currFilmShow;
 
 
-    public CashierScreeningsViewController(CashierService cashierService, FxWeaver fxWeaver) {
+    public CashierScreeningsViewController(CashierService cashierService, AuthService authService, FxWeaver fxWeaver) {
         this.cashierService = cashierService;
+        this.authService = authService;
         this.fxWeaver = fxWeaver;
     }
 
@@ -78,6 +91,7 @@ public class CashierScreeningsViewController {
         this.filmShows =this.cashierService.getFilmShows();
         this.movies = this.cashierService.getMovies();
         this.halls = this.cashierService.getHalls();
+        this.tickets = this.cashierService.getTickets();
 
         this.filmShows = FXCollections.observableList(filmShows
                 .stream()
@@ -86,13 +100,15 @@ public class CashierScreeningsViewController {
 
         for(int i=0; i < filmShows.size(); i++){
             FilmShow show = filmShows.get(i);
-            ArrayList<Integer> seatsShow = new ArrayList<>();
+            Set<Integer> seatsShow = new HashSet<Integer>();
             for(int j=0 ; j<show.getHall().getCapacity(); j++ ){
                 seatsShow.add(j+1);
             }
 
             seats.put(show.getId(), seatsShow);
-//            System.out.println(seatsShow.size());
+        }
+        for(Ticket ticket: this.tickets){
+            seats.get(ticket.getFilmShow().getId()).remove(ticket.getSeatNo());
         }
     }
 
@@ -140,23 +156,69 @@ public class CashierScreeningsViewController {
                 }
             }
         });
-        sumSeatsColumn.setCellValueFactory(new PropertyValueFactory<>("hall"));
+        sumSeatsColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         sumSeatsColumn.setCellFactory(column -> new TableCell<>() {
             @Override
-            public void updateItem(Hall hall, boolean empty) {
-                super.updateItem(hall, empty);
-                if (empty || hall == null) {
+            public void updateItem(Integer id, boolean empty) {
+                super.updateItem(id, empty);
+                if (empty || id == null) {
                     setText("");
                 } else {
-                    setText(String.valueOf(hall.getCapacity() - cos));
+                    setText(String.valueOf(seats.get(id).size()));
                 }
             }
         });
 
         filmShowTable.setItems(filmShows);
 
-//        cos@cos.pl
-//        razdwa34
+        filmShowTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
+        {
+            if(oldValue == null){
+                filmShowTable.setPrefHeight(filmShowTable.getPrefHeight() - 100.0);
+                bottomPane.setPrefHeight(bottomPane.getPrefHeight()+ 100.0);
+                bottomPane.setVisible(true);
+                bottomPane.setManaged(true);
+            }
+
+            if(newValue == null){
+                filmShowTable.setPrefHeight(filmShowTable.getPrefHeight() + 100.0);
+                bottomPane.setPrefHeight(bottomPane.getPrefHeight() - 100.0);
+                bottomPane.setVisible(false);
+                bottomPane.setManaged(false);
+            }else{
+                titleLabel.textProperty().bind(new SimpleStringProperty(newValue.getMovie().getTitle()));
+                priceLabel.textProperty().bind(new SimpleStringProperty(String.valueOf(newValue.getTicketPrice())));
+
+                this.currFilmShow = newValue;
+                this.seatsTilePane = new TilePane();
+                for(Integer inti : seats.get(newValue.getId())){
+                    CheckBox checkBox = new CheckBox(String.valueOf(inti));
+                    checkBox.setPrefWidth(40);
+                    this.seatsTilePane.getChildren().add(checkBox);
+
+                }
+                seatsScrollPane.setContent(this.seatsTilePane);
+            }
+        } );
+    }
+
+    @FXML
+    private void buyTickets(){
+        filmShowTable.setPrefHeight(filmShowTable.getPrefHeight() + 100.0);
+        bottomPane.setPrefHeight(bottomPane.getPrefHeight() - 100.0);
+        ArrayList<Integer> seatsNumbers = new ArrayList<Integer>();
+
+        for (Node seat : seatsTilePane.getChildren()){
+            CheckBox checkBox = (CheckBox) seat;
+            if (checkBox.isSelected()){
+                seatsNumbers.add(Integer.valueOf(checkBox.getText()));
+            }
+        }
+
+        for(Integer seat: seatsNumbers){
+            this.cashierService.reserveTicketsForGivenFilm(currFilmShow, authService.getCurrentlyLoggedEmployee(), seat);
+        }
+        initialize();
     }
 
     private void setColumnsWidthPercentage() {
