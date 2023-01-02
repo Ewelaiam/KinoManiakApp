@@ -197,4 +197,8 @@ public class CashierScreeningsViewController {
     private void removeSelection() {
         filmShowTable.getSelectionModel().clearSelection();
     }
+
+    public void searchMovieTitle(String movieTitle){
+        searchTextField.setText(movieTitle);
+    }
 }

@@ -11,6 +11,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -80,11 +81,13 @@ public class CashierMovieViewController {
 
     private ObservableList<Movie> movies;
     private List<MovieCategory> movieCategories;
+    private final HomeController homeController;
 
     @Autowired
-    public CashierMovieViewController(FxWeaver fxWeaver, CashierService cashierService) {
+    public CashierMovieViewController(FxWeaver fxWeaver, CashierService cashierService,HomeController homeController) {
         this.fxWeaver = fxWeaver;
         this.cashierService = cashierService;
+        this.homeController = homeController;
     }
 
     @FXML
@@ -232,6 +235,11 @@ public class CashierMovieViewController {
 //            moviesTable.setPrefHeight(moviesTable.getPrefHeight() + filtersVBox.getPrefHeight());
 //        }
 
+
+    }
+
+    public void showScreenings(ActionEvent actionEvent) {
+        homeController.showScreeningsCashier(titleLabel.getText());
 
     }
 }

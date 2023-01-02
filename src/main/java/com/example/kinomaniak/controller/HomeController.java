@@ -260,12 +260,19 @@ public class HomeController {
         GridPane cashierScreeningPane = fxWeaver.loadView(CashierScreeningsViewController.class);
         mainContent.setCenter(cashierScreeningPane);
     }
+    public void showScreeningsCashier(String movieTitle) {
+        System.out.println("Screenings Cashier");
+        FxControllerAndView<CashierScreeningsViewController,GridPane> controllerAndView = fxWeaver.load(CashierScreeningsViewController.class,null);
+        controllerAndView.getController().searchMovieTitle(movieTitle);
+        mainContent.setCenter(controllerAndView.getView().get());
+    }
 
     public void showScreeningsManager() {
         System.out.println("Screenings Manager");
         GridPane managerScreeningPane = fxWeaver.loadView(ManagerScreeningViewController.class);
         mainContent.setCenter(managerScreeningPane);
     }
+
 
     public void showFilmsCashier() {
         System.out.println("Films cashier");
@@ -397,4 +404,6 @@ public class HomeController {
         dialogStage.showAndWait();
 
     }
+
+
 }
