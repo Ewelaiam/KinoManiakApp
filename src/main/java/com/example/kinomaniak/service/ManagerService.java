@@ -4,6 +4,7 @@ import com.example.kinomaniak.model.*;
 import com.example.kinomaniak.repository.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -18,7 +19,7 @@ public class ManagerService {
     private final MovieRepository movieRepository;
     private final HallRepository hallRepository;
     private final TicketRepository ticketRepository;
-
+    @Autowired
     public ManagerService(EmployeeRepository employeeRepository, FilmShowRepository filmShowRepository, MovieRepository movieRepository, HallRepository hallRepository, TicketRepository ticketRepository) {
         this.employeeRepository = employeeRepository;
         this.filmShowRepository = filmShowRepository;
@@ -39,7 +40,7 @@ public class ManagerService {
         for(MovieCategory category: categories){
             movie.addCategory(category);
         }
-        return movieRepository.saveAndFlush(movie);
+        return movieRepository.save(movie);
     }
 
     public void removeMovie(Movie movie){

@@ -8,6 +8,7 @@ import com.example.kinomaniak.service.AdminService;
 import com.example.kinomaniak.service.AuthService;
 import com.example.kinomaniak.service.CashierService;
 import com.example.kinomaniak.service.ManagerService;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -350,7 +351,7 @@ public class HomeController {
         this.stage = stage;
     }
 
-    public void showAccountEditDialog(Employee employee) {
+    public void showAccountEditDialog(Employee employee, ObservableList<Employee> accounts) {
         FxControllerAndView<AccountEditDialogPresenter, GridPane> fxControllerAndView =
                 fxWeaver.load(AccountEditDialogPresenter.class,null);
 
@@ -365,14 +366,14 @@ public class HomeController {
 
         // Set the transaction into the presenter.
         fxControllerAndView.getController().setDialogStage(dialogStage);
-        fxControllerAndView.getController().setData(employee,this);
+        fxControllerAndView.getController().setData(employee,accounts);
 
         // Show the dialog and wait until the user closes it
         dialogStage.showAndWait();
 
     }
 
-    public void showAccountDeleteDialog(Employee employee) {
+    public void showAccountDeleteDialog(Employee employee,ObservableList<Employee> accounts) {
 
         FxControllerAndView<AccountDeleteDialogPresenter, BorderPane> fxControllerAndView =
                 fxWeaver.load(AccountDeleteDialogPresenter.class,null);
@@ -388,7 +389,7 @@ public class HomeController {
 
         // Set the transaction into the presenter.
         fxControllerAndView.getController().setDialogStage(dialogStage);
-        fxControllerAndView.getController().setData(employee,this);
+        fxControllerAndView.getController().setData(employee,accounts);
 
         // Show the dialog and wait until the user closes it
         dialogStage.showAndWait();

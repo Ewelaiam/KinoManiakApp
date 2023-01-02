@@ -125,6 +125,7 @@ public class CashierMovieViewController {
                 bottomPane.setVisible(true);
                 bottomPane.setManaged(true);
             }
+
             if(newValue == null){
                 moviesTable.setPrefHeight(moviesTable.getPrefHeight() + 100.0);
                 bottomPane.setPrefHeight(bottomPane.getPrefHeight() - 100.0);
@@ -133,7 +134,16 @@ public class CashierMovieViewController {
             }else{
                 titleLabel.textProperty().bind(new SimpleStringProperty(newValue.getTitle()));
                 descriptionLabel.textProperty().bind(new SimpleStringProperty(newValue.getDescription()));
-                moviePosterImageView.imageProperty().bind(new SimpleObjectProperty<>(new Image(newValue.getPosterURL())));
+                Image image;
+                try{
+                    image = new Image(newValue.getPosterURL());
+                    moviePosterImageView.imageProperty().bind(new SimpleObjectProperty<>(image));
+                }catch (IllegalArgumentException e){
+                    System.out.println("wrong url");
+                    moviePosterImageView.imageProperty().unbind();
+                    moviePosterImageView.setImage(null);
+
+                }
             }
         } );
     }

@@ -3,6 +3,7 @@ package com.example.kinomaniak.controller;
 import com.example.kinomaniak.model.Employee;
 import com.example.kinomaniak.service.AdminService;
 import com.example.kinomaniak.service.AuthService;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -28,7 +29,7 @@ public class AccountDeleteDialogPresenter {
     private Stage dialogStage;
     private final AuthService authService;
     private final AdminService adminService;
-    private HomeController homeController;
+    private ObservableList<Employee> accounts;
 
     @Autowired
     AccountDeleteDialogPresenter(AuthService authService, AdminService adminService){
@@ -40,8 +41,8 @@ public class AccountDeleteDialogPresenter {
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
     }
-    public void setData(Employee employee,HomeController homeController) {
-        this.homeController = homeController;
+    public void setData(Employee employee,ObservableList<Employee> accounts) {
+        this.accounts = accounts;
         this.employee = employee;
         updateControls();
 
@@ -59,8 +60,8 @@ public class AccountDeleteDialogPresenter {
             errorPromptLabel.setText("Can't delete admin account");
         }
         else{
-            adminService.employeeRepository.delete(employee);
-            homeController.showAccountsAdmin();
+            adminService.deleteEmployee(employee);
+            accounts.remove(employee);
             dialogStage.close();
 
         }

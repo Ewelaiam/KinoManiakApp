@@ -14,8 +14,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 public class Movie {
-    @GeneratedValue(strategy = IDENTITY)
     @Id
+    @GeneratedValue(strategy = IDENTITY)
     private Integer id;
     private String title;
     private String director;

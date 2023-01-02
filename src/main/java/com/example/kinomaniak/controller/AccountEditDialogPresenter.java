@@ -5,6 +5,7 @@ import com.example.kinomaniak.model.Role;
 import com.example.kinomaniak.repository.RoleRepository;
 import com.example.kinomaniak.service.AdminService;
 import com.example.kinomaniak.service.AuthService;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -46,7 +47,7 @@ public class AccountEditDialogPresenter {
     private final AdminService adminService;
     private final AuthService authService;
 
-    private  HomeController homeController;
+    private ObservableList<Employee> accounts;
 
 
     @Autowired
@@ -65,9 +66,9 @@ public class AccountEditDialogPresenter {
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
     }
-    public void setData(Employee employee,HomeController homeController) {
+    public void setData(Employee employee,ObservableList<Employee> accounts) {
         this.employee = employee;
-        this.homeController = homeController;
+        this.accounts = accounts;
         updateControls();
 
     }
@@ -89,7 +90,7 @@ public class AccountEditDialogPresenter {
         String name = nameTextField.getText();
         String surname = surnameTextField.getText();
         String mail = mailTextField.getText();
-        Optional<Role> role =  adminService.roleRepository.findByRoleName(roleComboBox.getSelectionModel().getSelectedItem());
+        Optional<Role> role =  adminService.getRoleWithName(roleComboBox.getSelectionModel().getSelectedItem());
 
         if(authService.performCredentialsValidation(name,surname) && (mail.equals(employee.getMail()) || authService.performEmailValidation(mail)) &&
                 (roleComboBox.getSelectionModel().getSelectedItem().equals("none") || role.isPresent())){
@@ -102,8 +103,9 @@ public class AccountEditDialogPresenter {
                 role.ifPresent(value -> employee.setRole(value));
             }
 
-            adminService.employeeRepository.save(employee);
-            homeController.showAccountsAdmin();
+            adminService.saveEditedEmployee(employee);
+            accounts.clear();
+            accounts.addAll(adminService.getEmployees());
             dialogStage.close();
         }
         else{
