@@ -86,9 +86,8 @@ public class CashierScreeningsViewController {
 
         for(int i=0; i < filmShows.size(); i++){
             FilmShow show = filmShows.get(i);
-            Integer hallId = show.getHall().getId();
             ArrayList<Integer> seatsShow = new ArrayList<>();
-            for(int j=0 ; j<halls.get(hallId).getCapacity(); j++ ){
+            for(int j=0 ; j<show.getHall().getCapacity(); j++ ){
                 seatsShow.add(j+1);
             }
 
