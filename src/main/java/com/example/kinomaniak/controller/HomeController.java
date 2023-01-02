@@ -257,6 +257,8 @@ public class HomeController {
 
     public void showScreeningsCashier() {
         System.out.println("Screenings Cashier");
+        GridPane cashierScreeningPane = fxWeaver.loadView(CashierScreeningsViewController.class);
+        mainContent.setCenter(cashierScreeningPane);
     }
 
     public void showScreeningsManager() {
