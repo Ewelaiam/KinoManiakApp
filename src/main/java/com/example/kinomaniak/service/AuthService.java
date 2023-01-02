@@ -18,8 +18,8 @@ public class AuthService {
 
     private Employee currentlyLoggedEmployee;
 
-    // states in which mode (cashier, manager or admin) we are currently browsing in
-    private String displayMode = "Cashier";
+    // states in which mode (none, cashier, manager or admin) we are currently browsing in
+    private String displayMode = "None";
 
     private final EmployeeRepository employeeRepository;
     private final RoleRepository roleRepository;
@@ -57,8 +57,8 @@ public class AuthService {
                 && performCredentialsValidation(name, surname)
                 && performPasswordValidation(password)){
 
-            Role userRole = roleRepository.findByRoleName("admin").get();
-            Employee employee = new Employee(userRole, mail, passwordEncoder.encode(password), name, surname);
+//            Role userRole = roleRepository.findByRoleName("admin").get();
+            Employee employee = new Employee(mail, passwordEncoder.encode(password), name, surname);
 
             employeeRepository.save(employee);
             currentlyLoggedEmployee = employee;

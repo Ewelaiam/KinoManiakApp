@@ -9,9 +9,10 @@
 <?import javafx.geometry.Insets?>
 <GridPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
-          stylesheets="@../css/GlobalStyles.css"
+          stylesheets="@../css/DashboardViewStyles.css"
           fx:controller="com.example.kinomaniak.controller.ManagerMovieViewController"
-          prefHeight="700" prefWidth="800" alignment="BASELINE_CENTER">
+          prefHeight="700" prefWidth="800" alignment="BASELINE_CENTER"
+          fx:id="mainGrid">
     <padding><Insets right="25" left="25" top="10"/></padding>
     <VBox>
         <HBox alignment="BASELINE_CENTER" >

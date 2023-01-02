@@ -8,6 +8,7 @@ import com.example.kinomaniak.service.AdminService;
 import com.example.kinomaniak.service.AuthService;
 import com.example.kinomaniak.service.CashierService;
 import com.example.kinomaniak.service.ManagerService;
+import com.fasterxml.jackson.databind.JsonSerializer;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -145,21 +146,22 @@ public class HomeController {
         if (authService.getCurrentlyLoggedEmployee().getRole() == null){
             usageModeRadioButtons.setVisible(false);
             usageModeRadioButtons.setManaged(false);
+            disableAllButtons();
             return;
         }
-
         switch (authService.getCurrentlyLoggedEmployee().getRole().getRoleName()){
-            case "Cashier" -> {
+            case "cashier" -> {
                 usageModeRadioButtons.setVisible(false);
                 usageModeRadioButtons.setManaged(false);
+
             }
-            case "Manager" -> {
+            case "manager" -> {
                 usageModeRadioButtons.setVisible(true);
                 usageModeRadioButtons.setManaged(true);
                 adminModeButton.setVisible(false);
                 adminModeButton.setManaged(false);
             }
-            case "Admin" -> {
+            case "admin" -> {
                 usageModeRadioButtons.setVisible(true);
                 usageModeRadioButtons.setManaged(true);
                 adminModeButton.setVisible(true);
@@ -169,6 +171,7 @@ public class HomeController {
     }
 
     public void changeMode(){
+        clearMainView();
         RadioButton selected = (RadioButton) modeButtonsGroup.getSelectedToggle();
         String selectedMode = selected.getText();
         authService.setDisplayMode(selectedMode);
@@ -176,7 +179,6 @@ public class HomeController {
     }
 
     private void resetMenuButtons(){
-        System.out.println(authService.getDisplayMode());
         switch (authService.getDisplayMode()) {
             case "Cashier" -> {
                 disableAllButtons();
@@ -244,7 +246,6 @@ public class HomeController {
         isScreeningsVisible.set(false);
         isHallVisible.set(false);
         isStatisticsVisible.set(false);
-        isEmailVisible.set(false);
         isUsersVisible.set(false);
 
     }
@@ -253,6 +254,10 @@ public class HomeController {
         Employee currentlyLoggedEmployee = this.authService.getCurrentlyLoggedEmployee();
         String credentials = currentlyLoggedEmployee.getName() + " " + currentlyLoggedEmployee.getSurName();
         this.credentialsLabel.setText(credentials);
+    }
+
+    private void clearMainView() {
+        mainContent.setCenter(null);
     }
 
     public void showScreeningsCashier() {
@@ -306,6 +311,8 @@ public class HomeController {
         fxWeaver.loadController(LoginController.class).resetTextFields();
         Parent root = fxWeaver.loadView(LoginController.class);
         Scene scene = new Scene(root, 1000, 550);
+        stage.setWidth(1000);
+        stage.setHeight(550);
         stage.setMinWidth(1000);
         stage.setMinHeight(550);
         stage.setScene(scene);
