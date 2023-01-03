@@ -136,9 +136,10 @@ public class ManagerScreeningViewController {
     public void submitDeletingScreening() {
         FilmShow filmShowToDelete = filmShows.stream().filter(filmShow -> (filmShow.getId().equals(Integer.valueOf(currentScreeningToRemove.getValue())))).findAny().get();
         tickets = managerService.getTickets();
-        if(tickets.stream().anyMatch(ticket -> (ticket.getFilmShow().getId().toString().equals(currentScreeningToRemove.getValue())))){
+        if(tickets.stream().noneMatch(ticket -> (ticket.getFilmShow().getId().toString().equals(currentScreeningToRemove.getValue())))){
             managerService.removeFilmShow(filmShowToDelete);
             removeScreeningErrorPrompt.setText("");
+            filmShows.remove(filmShowToDelete);
         } else{
             removeScreeningErrorPrompt.setText("Cannot remove film show with sold tickets!");
         }
