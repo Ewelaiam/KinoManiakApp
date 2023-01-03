@@ -223,10 +223,14 @@ public class CashierScreeningsViewController {
     }
 
     private void setUpHallComboBox() {
-        this.hallComboBox.getItems().add("not specified");
-        this.hallComboBox.getItems().addAll((halls.stream().map(Hall::getHallNo).sorted().map(String::valueOf)).toList());
-        this.hallComboBox.getSelectionModel().selectFirst();
-        hallComboBox.valueProperty().addListener(genre-> filmShowTable.setItems(filter()));
+        this.halls = cashierService.getHalls();
+        if(this.hallComboBox.getItems().size() == 0){
+            this.hallComboBox.getItems().add("not specified");
+            this.hallComboBox.getItems().addAll((halls.stream().map(Hall::getHallNo).sorted().map(String::valueOf)).toList());
+            this.hallComboBox.getSelectionModel().selectFirst();
+            hallComboBox.valueProperty().addListener(genre-> filmShowTable.setItems(filter()));
+        }
+
     }
 
     private void setColumnsWidthPercentage() {
