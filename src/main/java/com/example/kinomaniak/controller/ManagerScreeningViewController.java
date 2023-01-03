@@ -129,6 +129,7 @@ public class ManagerScreeningViewController {
                         selectedSubtitle.isSelected(), selected3D.isSelected()));
                 addScreeningForm.setManaged(false);
                 addScreeningForm.setVisible(false);
+                cleanFormFields();
             } else {
                 addScreeningErrorPrompt.setText("Chosen hall is reserved at chosen time for different screening!");
             }
@@ -288,6 +289,19 @@ public class ManagerScreeningViewController {
         }
         addScreeningErrorPrompt.setText(errorMsg);
         return addScreeningErrorPrompt.getText().isBlank();
+    }
+
+    public void cleanFormFields(){
+        selectedHall.setValue("not specified");
+        selectedMovie.setValue("not specified");
+        selectedDate.setValue(LocalDate.now());
+        selectedHour.getValueFactory().setValue(12);
+        selectedMinute.getValueFactory().setValue("00");
+        selectedPriceNumbers.getValueFactory().setValue(15);
+        selectedPriceDecimals.getValueFactory().setValue("50");
+        selectedSubtitle.setSelected(false);
+        selected3D.setSelected(false);
+
 
     }
 }
