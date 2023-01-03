@@ -105,11 +105,12 @@ public class ManagerMovieViewController {
 
         if(inputValidation(movieTitle.getText(), nameOfDirector.getText(), movieDescription.getText(),
                 chosenMovieCategories, ageRestrictionComboBox.getValue(), moviePosterURL.getText())){
-            managerService.addMovie(movieTitle.getText(), nameOfDirector.getText(), movieDescription.getText(),
+            Movie addedMovie = managerService.addMovie(movieTitle.getText(), nameOfDirector.getText(), movieDescription.getText(),
                     chosenMovieCategories, durationSpinner.getValue(), premierDatePicker.getValue(), Integer.valueOf(ageRestrictionComboBox.getValue()), moviePosterURL.getText());
-
+            movies.add(addedMovie);
             addMovieForm.setManaged(false);
             addMovieForm.setVisible(false);
+            cleanFormFields();
         }
 
     }
@@ -217,6 +218,22 @@ public class ManagerMovieViewController {
                 titleToDelete.textProperty().bind(currentMovieTitleToRemove);
             }
         } );
+    }
+
+    public void cleanFormFields(){
+        movieTitle.setText("");
+        nameOfDirector.setText("");
+        movieDescription.setText("");
+        categoryTilePane.getChildren().clear();
+        for (MovieCategory movieCategory : movieCategories){
+            CheckBox checkBox = new CheckBox(movieCategory.getCategoryName());
+            checkBox.setPrefWidth(100);
+            categoryTilePane.getChildren().add(checkBox);
+        }
+        durationSpinner.getValueFactory().setValue(100);
+        premierDatePicker.setValue(LocalDate.now());
+        ageRestrictionComboBox.setValue("not specified");
+        moviePosterURL.setText("");
     }
 
 
