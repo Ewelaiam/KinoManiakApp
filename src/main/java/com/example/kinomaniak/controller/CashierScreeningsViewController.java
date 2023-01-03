@@ -267,7 +267,9 @@ public class CashierScreeningsViewController {
 
     @FXML
     private void resetFilters(){
+
         searchTextField.setText("");
+        hallComboBox.getSelectionModel().selectFirst();
     }
 
     @FXML
@@ -280,6 +282,6 @@ public class CashierScreeningsViewController {
     }
 
     public void searchHallNo(int hallNo){
-
+        hallComboBox.getSelectionModel().select(String.valueOf(hallNo));
     }
 }
