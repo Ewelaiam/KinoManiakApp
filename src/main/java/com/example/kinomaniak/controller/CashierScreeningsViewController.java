@@ -93,7 +93,6 @@ public class CashierScreeningsViewController {
     public void loadData(){
         this.filmShows =this.cashierService.getFilmShows();
         this.movies = this.cashierService.getMovies();
-        this.halls = this.cashierService.getHalls();
         this.tickets = this.cashierService.getTickets();
 
         this.filmShows = FXCollections.observableList(filmShows
@@ -189,13 +188,13 @@ public class CashierScreeningsViewController {
                 bottomPane.setManaged(false);
             }else{
                 titleLabel.textProperty().bind(new SimpleStringProperty(newValue.getMovie().getTitle()));
-                priceLabel.textProperty().bind(new SimpleStringProperty(String.valueOf(newValue.getTicketPrice())));
+                priceLabel.textProperty().bind(new SimpleStringProperty(String.valueOf(newValue.getTicketPrice()) + " zł"));
 
                 this.currFilmShow = newValue;
                 this.seatsTilePane = new TilePane();
                 for(Integer inti : seats.get(newValue.getId())){
                     CheckBox checkBox = new CheckBox(String.valueOf(inti));
-                    checkBox.setPrefWidth(40);
+                    checkBox.setPrefWidth(75);
                     this.seatsTilePane.getChildren().add(checkBox);
 
                 }
@@ -224,10 +223,13 @@ public class CashierScreeningsViewController {
     }
 
     private void setUpHallComboBox() {
-        this.hallComboBox.getItems().add("not specified");
-        this.hallComboBox.getItems().addAll(halls.stream().map(hall -> String.valueOf(hall.getHallNo())).sorted().toList());
-        this.hallComboBox.getSelectionModel().selectFirst();
-        hallComboBox.valueProperty().addListener(genre-> filmShowTable.setItems(filter()));
+        this.halls = cashierService.getHalls();
+        if(this.hallComboBox.getItems().size() == 0){
+            this.hallComboBox.getItems().add("not specified");
+            this.hallComboBox.getItems().addAll((halls.stream().map(Hall::getHallNo).sorted().map(String::valueOf)).toList());
+            this.hallComboBox.getSelectionModel().selectFirst();
+            hallComboBox.valueProperty().addListener(genre-> filmShowTable.setItems(filter()));
+        }
 
     }
 

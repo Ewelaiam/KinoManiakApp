@@ -125,6 +125,10 @@ public class ManagerScreeningViewController {
             if(managerService.existFilmShowWithGivenHallAndTime(hallForFilmShow, time)){
                 managerService.addFilmShow(hallForFilmShow, movieForFilmShow, time, ticketPrice,
                         selectedSubtitle.isSelected(), selected3D.isSelected());
+                filmShows.add(new FilmShow(hallForFilmShow, movieForFilmShow, time, ticketPrice,
+                        selectedSubtitle.isSelected(), selected3D.isSelected()));
+                addScreeningForm.setManaged(false);
+                addScreeningForm.setVisible(false);
             } else {
                 addScreeningErrorPrompt.setText("Chosen hall is reserved at chosen time for different screening!");
 
@@ -269,8 +273,7 @@ public class ManagerScreeningViewController {
         }
 
         List<FilmShow> filmShowsInChosenHallAndTodayDate = filmShows.stream()
-                .filter(filmShow -> (filmShow.getHall().getHallNo().toString().equals(selectedHall.getValue())
-                        && filmShow.getDate().toLocalDate().equals(LocalDate.now(filmShow.getDate().getZone())))).toList();
+                .filter(filmShow -> (filmShow.getHall().getHallNo().toString().equals(selectedHall.getValue()))).toList();
 
         int impossibleToAdd = 0;
         if(filmShowsInChosenHallAndTodayDate.size() > 0){
