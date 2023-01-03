@@ -131,7 +131,6 @@ public class ManagerScreeningViewController {
                 addScreeningForm.setVisible(false);
             } else {
                 addScreeningErrorPrompt.setText("Chosen hall is reserved at chosen time for different screening!");
-
             }
         }
     }
