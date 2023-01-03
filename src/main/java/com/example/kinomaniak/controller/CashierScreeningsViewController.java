@@ -59,6 +59,8 @@ public class CashierScreeningsViewController {
     private ScrollPane seatsScrollPane = new ScrollPane();
     @FXML
     private TilePane seatsTilePane = new TilePane();
+    @FXML
+    private ComboBox<String> hallComboBox;
 
 
     private final FxWeaver fxWeaver;
@@ -66,7 +68,7 @@ public class CashierScreeningsViewController {
     private ObservableList<FilmShow> filmShows;
     private ObservableList<Movie> movies;
     private HashMap<Integer, Set<Integer>> seats = new HashMap<>();
-    private ObservableList<Hall> halls;
+    private List<Hall> halls;
     private ObservableList<Ticket> tickets;
     private FilmShow currFilmShow;
 
@@ -83,6 +85,7 @@ public class CashierScreeningsViewController {
 
         createFilmShowTable();
         setColumnsWidthPercentage();
+        setUpHallComboBox();
         searchTextField.textProperty().addListener(title-> filmShowTable.setItems(filter()));
 
     }
@@ -113,7 +116,6 @@ public class CashierScreeningsViewController {
     }
 
     public void createFilmShowTable() {
-        Integer cos = 0;
         filmShowTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         movieColumn.setCellValueFactory(new PropertyValueFactory<>("movie"));
@@ -221,6 +223,14 @@ public class CashierScreeningsViewController {
         initialize();
     }
 
+    private void setUpHallComboBox() {
+        this.hallComboBox.getItems().add("not specified");
+        this.hallComboBox.getItems().addAll(halls.stream().map(hall -> String.valueOf(hall.getHallNo())).sorted().toList());
+        this.hallComboBox.getSelectionModel().selectFirst();
+        hallComboBox.valueProperty().addListener(genre-> filmShowTable.setItems(filter()));
+
+    }
+
     private void setColumnsWidthPercentage() {
         movieColumn.prefWidthProperty().bind(filmShowTable.widthProperty().multiply(0.3));
         dateColumn.prefWidthProperty().bind(filmShowTable.widthProperty().multiply(0.2));
@@ -241,6 +251,11 @@ public class CashierScreeningsViewController {
         return FXCollections.observableList(filmShows
                 .stream()
                 .filter(filmshow -> filteredMovies.contains(filmshow.getMovie().getTitle()))
+                .filter(filmShow -> {
+                    if(hallComboBox.getValue().equals("not specified"))
+                        return true;
+                    return filmShow.getHall().getHallNo().equals(Integer.valueOf(hallComboBox.getValue()));
+                })
                 .collect(Collectors.toList()));
 
     }
