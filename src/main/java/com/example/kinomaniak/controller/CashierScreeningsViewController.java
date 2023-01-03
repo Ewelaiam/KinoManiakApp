@@ -263,4 +263,8 @@ public class CashierScreeningsViewController {
     public void searchMovieTitle(String movieTitle){
         searchTextField.setText(movieTitle);
     }
+
+    public void searchHallNo(int hallNo){
+
+    }
 }

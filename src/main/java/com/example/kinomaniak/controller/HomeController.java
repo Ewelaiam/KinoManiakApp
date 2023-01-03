@@ -3,22 +3,14 @@ package com.example.kinomaniak.controller;
 import com.example.kinomaniak.model.Employee;
 import com.example.kinomaniak.model.Hall;
 import com.example.kinomaniak.model.Movie;
-import com.example.kinomaniak.model.Role;
 import com.example.kinomaniak.service.AdminService;
 import com.example.kinomaniak.service.AuthService;
 import com.example.kinomaniak.service.CashierService;
 import com.example.kinomaniak.service.ManagerService;
-import com.fasterxml.jackson.databind.JsonSerializer;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -272,6 +264,13 @@ public class HomeController {
         mainContent.setCenter(controllerAndView.getView().get());
     }
 
+    public void showScreeningsCashier(int hallNo) {
+        System.out.println("Screenings Cashier");
+        FxControllerAndView<CashierScreeningsViewController,GridPane> controllerAndView = fxWeaver.load(CashierScreeningsViewController.class,null);
+        controllerAndView.getController().searchHallNo(hallNo);
+        mainContent.setCenter(controllerAndView.getView().get());
+    }
+
     public void showScreeningsManager() {
         System.out.println("Screenings Manager");
         GridPane managerScreeningPane = fxWeaver.loadView(ManagerScreeningViewController.class);
@@ -410,6 +409,10 @@ public class HomeController {
         // Show the dialog and wait until the user closes it
         dialogStage.showAndWait();
 
+    }
+    public void changeModeIntoCashier(){
+        cashierModeButton.setSelected(true);
+        changeMode();
     }
 
 
