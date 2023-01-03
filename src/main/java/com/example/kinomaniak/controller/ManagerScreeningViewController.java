@@ -17,10 +17,12 @@ import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
 import java.time.*;
+import java.time.chrono.ChronoLocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 @Component
 @FxmlView("managerScreeningView.fxml")
@@ -253,20 +255,33 @@ public class ManagerScreeningViewController {
 
     public boolean inputValidation(){
         String errorMsg = "";
-        System.out.println(selectedHall.getValue());
+        LocalDateTime dateToCheck = LocalDateTime.of(selectedDate.getValue().getYear(), selectedDate.getValue().getMonthValue(), selectedDate.getValue().getDayOfMonth(), selectedHour.getValue(), Integer.parseInt(selectedMinute.getValue()), 0);
         if(selectedHall.getValue().equals("not specified")){
-            System.out.println("hall");
             errorMsg += "\t\t Hall is not specified!!";
         }
         if(selectedMovie.getValue().equals("not specified")){
-            System.out.println("movie");
-
             errorMsg += "\t\t Movie is not specified!!";
         }
         if(selectedDate.getValue().equals(LocalDate.now())){
-            LocalDateTime dateToCheck = LocalDateTime.of(selectedDate.getValue().getYear(), selectedDate.getValue().getMonthValue(), selectedDate.getValue().getDayOfMonth(), selectedHour.getValue(), Integer.parseInt(selectedMinute.getValue()));
             if(dateToCheck.isBefore(LocalDateTime.now())){
                 errorMsg += "\t\t Impossible to create film show in the past!!";
+            }
+        }
+
+        List<FilmShow> filmShowsInChosenHallAndTodayDate = filmShows.stream()
+                .filter(filmShow -> (filmShow.getHall().getHallNo().toString().equals(selectedHall.getValue())
+                        && filmShow.getDate().toLocalDate().equals(LocalDate.now(filmShow.getDate().getZone())))).toList();
+
+        int impossibleToAdd = 0;
+        if(filmShowsInChosenHallAndTodayDate.size() > 0){
+            for(FilmShow filmShow : filmShowsInChosenHallAndTodayDate){
+                if(impossibleToAdd == 1) break;
+                Integer filmDuration = filmShow.getMovie().getDuration();
+
+                if(dateToCheck.isBefore(ChronoLocalDateTime.from(filmShow.getDate().plusMinutes(filmDuration).plusMinutes(30))) && dateToCheck.isAfter(ChronoLocalDateTime.from(filmShow.getDate().minusHours(1)))){
+                    errorMsg += "\t\t Other film show is booked on selected time and in selected hall!!";
+                    impossibleToAdd = 1;
+                }
             }
         }
         addScreeningErrorPrompt.setText(errorMsg);
