@@ -16,11 +16,9 @@ import javafx.scene.layout.VBox;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -265,8 +263,13 @@ public class ManagerScreeningViewController {
 
             errorMsg += "\t\t Movie is not specified!!";
         }
+        if(selectedDate.getValue().equals(LocalDate.now())){
+            LocalDateTime dateToCheck = LocalDateTime.of(selectedDate.getValue().getYear(), selectedDate.getValue().getMonthValue(), selectedDate.getValue().getDayOfMonth(), selectedHour.getValue(), Integer.parseInt(selectedMinute.getValue()));
+            if(dateToCheck.isBefore(LocalDateTime.now())){
+                errorMsg += "\t\t Impossible to create film show in the past!!";
+            }
+        }
         addScreeningErrorPrompt.setText(errorMsg);
-
         return addScreeningErrorPrompt.getText().isBlank();
 
     }
