@@ -75,4 +75,7 @@ public class AdminService {
     public Optional<Role> getRoleWithName(String name) {
         return roleRepository.findByRoleName(name);
     }
+    public boolean employeeSoldTickets(Employee employee){
+        return ticketRepository.getNoSoldTickets(employee) > 0;
+    }
 }

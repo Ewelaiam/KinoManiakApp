@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -48,12 +49,14 @@ public class AccountEditDialogPresenter {
     private final AuthService authService;
 
     private ObservableList<Employee> accounts;
+    private HomeController homeController;
 
 
     @Autowired
-    AccountEditDialogPresenter(AdminService adminService, AuthService authService){
+    AccountEditDialogPresenter(AdminService adminService, AuthService authService,HomeController homeController){
         this.adminService = adminService;
         this.authService = authService;
+        this.homeController = homeController;
     }
 
     @FXML
@@ -62,6 +65,7 @@ public class AccountEditDialogPresenter {
         surnameTextField.textProperty().addListener(text->errorPrompt.setText(""));
         mailTextField.textProperty().addListener(text->errorPrompt.setText(""));
         roleComboBox.valueProperty().addListener(value->errorPrompt.setText(""));
+
     }
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
@@ -74,6 +78,9 @@ public class AccountEditDialogPresenter {
     }
 
     private void updateControls() {
+        if(employee.getRole()!=null && employee.getRole().getRoleName().equals("admin")){
+            roleComboBox.setDisable(true);
+        }
         nameTextField.setText(employee.getName());
         surnameTextField.setText(employee.getSurName());
         mailTextField.setText(employee.getMail());
@@ -91,7 +98,7 @@ public class AccountEditDialogPresenter {
         String surname = surnameTextField.getText();
         String mail = mailTextField.getText();
         Optional<Role> role =  adminService.getRoleWithName(roleComboBox.getSelectionModel().getSelectedItem());
-
+        boolean refreshLoggedData = employee.getMail().equals(authService.getCurrentlyLoggedEmployee().getMail());
         if(authService.performCredentialsValidation(name,surname) && (mail.equals(employee.getMail()) || authService.performEmailValidation(mail)) &&
                 (roleComboBox.getSelectionModel().getSelectedItem().equals("none") || role.isPresent())){
             employee.setName(nameTextField.getText());
@@ -106,6 +113,11 @@ public class AccountEditDialogPresenter {
             adminService.saveEditedEmployee(employee);
             accounts.clear();
             accounts.addAll(adminService.getEmployees());
+            if(refreshLoggedData){
+                authService.refreshCurrentlyLoggedEmployeeData(employee);
+                homeController.setCredentialsLabel();
+            }
+
             dialogStage.close();
         }
         else{

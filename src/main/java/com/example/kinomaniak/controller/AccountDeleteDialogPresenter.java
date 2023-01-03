@@ -59,6 +59,9 @@ public class AccountDeleteDialogPresenter {
         else if(employee.getRole()!=null && employee.getRole().getRoleName().equals("admin")){
             errorPromptLabel.setText("Can't delete admin account");
         }
+        else if(adminService.employeeSoldTickets(employee)){
+            errorPromptLabel.setText("Can't delete employee who sold tickets");
+        }
         else{
             adminService.deleteEmployee(employee);
             accounts.remove(employee);

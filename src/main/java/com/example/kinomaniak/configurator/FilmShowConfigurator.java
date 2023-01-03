@@ -38,31 +38,31 @@ public class FilmShowConfigurator implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if(filmShowRepository.findAll().size() == 0){
-            List<Hall> halls = hallRepository.findAll();
-            List<Movie> movies = movieRepository.findAll();
-            ZonedDateTime date = ZonedDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT, ZoneId.systemDefault());
-            List<FilmShow> filmShows = new ArrayList<>();
-
-            Random random = new Random();
-            for(Hall hall:halls){
-                for(int addDay=8;addDay<14;addDay++){
-                    ZonedDateTime movieStartDate = date.plusDays(addDay).plusHours(8);
-                    while(movieStartDate.getHour() >= 8){
-                        Movie movie = movies.get(random.nextInt(movies.size()));
-                        boolean is3D = random.nextBoolean();
-                        boolean withSubtitles = random.nextBoolean();
-                        double ticketPrice = (double)random.nextInt(1000,2000)/100;
-
-                        FilmShow filmShow = new FilmShow(hall,movie,movieStartDate,ticketPrice,withSubtitles,is3D);
-                        filmShows.add(filmShow);
-                        movieStartDate = movieStartDate.plusMinutes(movie.getDuration()).plusMinutes(30);
-                    }
-                }
-            }
-            filmShowRepository.saveAll(filmShows);
-            System.out.println(filmShows.size());
-
-        }
+//        if(filmShowRepository.findAll().size() == 0){
+//            List<Hall> halls = hallRepository.findAll();
+//            List<Movie> movies = movieRepository.findAll();
+//            ZonedDateTime date = ZonedDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT, ZoneId.systemDefault());
+//            List<FilmShow> filmShows = new ArrayList<>();
+//
+//            Random random = new Random();
+//            for(Hall hall:halls){
+//                for(int addDay=8;addDay<14;addDay++){
+//                    ZonedDateTime movieStartDate = date.plusDays(addDay).plusHours(8);
+//                    while(movieStartDate.getHour() >= 8){
+//                        Movie movie = movies.get(random.nextInt(movies.size()));
+//                        boolean is3D = random.nextBoolean();
+//                        boolean withSubtitles = random.nextBoolean();
+//                        double ticketPrice = (double)random.nextInt(1000,2000)/100;
+//
+//                        FilmShow filmShow = new FilmShow(hall,movie,movieStartDate,ticketPrice,withSubtitles,is3D);
+//                        filmShows.add(filmShow);
+//                        movieStartDate = movieStartDate.plusMinutes(movie.getDuration()).plusMinutes(30);
+//                    }
+//                }
+//            }
+//            filmShowRepository.saveAll(filmShows);
+//            System.out.println(filmShows.size());
+//
+//        }
     }
 }

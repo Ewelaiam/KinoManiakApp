@@ -99,4 +99,9 @@ public class AuthService {
     public void logout(){
         currentlyLoggedEmployee = null;
     }
+
+    public void refreshCurrentlyLoggedEmployeeData(Employee employee){
+        Optional<Employee> employeeOptional = employeeRepository.findByMail(employee.getMail());
+        employeeOptional.ifPresent(value -> currentlyLoggedEmployee = value);
+    }
 }
