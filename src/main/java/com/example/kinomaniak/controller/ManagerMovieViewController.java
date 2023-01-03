@@ -113,6 +113,7 @@ public class ManagerMovieViewController {
     public void submitDeletingMovie() {
         Movie movieToDelete = movies.stream().filter(movie -> (movie.getTitle().equals(currentMovieTitleToRemove.getValue()))).findAny().get();
         managerService.removeMovie(movieToDelete);
+        movies.remove(movieToDelete);
     }
 
     @FXML
