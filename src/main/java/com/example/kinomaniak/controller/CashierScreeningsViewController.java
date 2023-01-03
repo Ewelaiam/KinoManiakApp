@@ -93,7 +93,6 @@ public class CashierScreeningsViewController {
     public void loadData(){
         this.filmShows =this.cashierService.getFilmShows();
         this.movies = this.cashierService.getMovies();
-        this.halls = this.cashierService.getHalls();
         this.tickets = this.cashierService.getTickets();
 
         this.filmShows = FXCollections.observableList(filmShows
@@ -224,14 +223,10 @@ public class CashierScreeningsViewController {
     }
 
     private void setUpHallComboBox() {
-        if(this.hallComboBox.getItems().size() == 0){
-            this.hallComboBox.getItems().add("not specified");
-            this.hallComboBox.getItems().addAll((halls.stream().map(Hall::getHallNo).sorted().map(String::valueOf)).toList());
-            this.hallComboBox.getSelectionModel().selectFirst();
-            hallComboBox.valueProperty().addListener(genre-> filmShowTable.setItems(filter()));
-        }
-
-
+        this.hallComboBox.getItems().add("not specified");
+        this.hallComboBox.getItems().addAll((halls.stream().map(Hall::getHallNo).sorted().map(String::valueOf)).toList());
+        this.hallComboBox.getSelectionModel().selectFirst();
+        hallComboBox.valueProperty().addListener(genre-> filmShowTable.setItems(filter()));
     }
 
     private void setColumnsWidthPercentage() {
