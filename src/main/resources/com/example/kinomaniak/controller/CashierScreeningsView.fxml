@@ -42,11 +42,13 @@
                         <left>
                             <VBox spacing="5">
                                 <Label text="Search title: " prefHeight="25"/>
+                                <Label text="Choose hall: " prefHeight="25"/>
                             </VBox>
                         </left>
                         <right>
                             <VBox spacing="5">
                                 <TextField fx:id="searchTextField" promptText="Enter title..." prefHeight="25"/>
+                                <ComboBox fx:id="hallComboBox" prefHeight="25"/>
                             </VBox>
 
                         </right>
@@ -77,7 +79,8 @@
     <BorderPane fx:id="bottomPane" GridPane.rowIndex="3" prefHeight="0" visible="false" managed="false">
         <left>
             <VBox>
-                <Label fx:id="titleLabel" style="-fx-padding: 5 5 0 5; -fx-font-weight: bold;"/>
+                <Label fx:id="titleLabel" style="-fx-padding: 15 5 0 5; -fx-font-weight: bold;"/>
+                <Label style="-fx-padding: 5 5 0 5;"> Ticket price: </Label>
                 <Label fx:id="priceLabel" wrapText="true" text="Ticket price: "
                        style="-fx-padding: 5 5 5 5;"/>
 
@@ -85,8 +88,8 @@
         </left>
 
         <center>
-            <VBox>
-                <Label text="Seats numbers" prefWidth="100.0" >
+            <VBox prefWidth="150.0">
+                <Label text="Seats numbers" prefWidth="150.0" style="-fx-padding: 5 5 0 25; -fx-font-weight: bold;">
                     <HBox.margin>
                         <Insets bottom="8.0" top="8.0"/>
                     </HBox.margin>
@@ -103,7 +106,7 @@
 
                 <Button fx:id="hideBottomPaneButton" text="X" onAction="#removeSelection">
                     <VBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="25.0"/>
                     </VBox.margin>
                 </Button>
                 <Button fx:id="buyTicketsButton"  text="Buy" wrapText="true" onAction="#buyTickets">
