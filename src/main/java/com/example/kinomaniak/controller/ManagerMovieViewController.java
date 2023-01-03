@@ -107,6 +107,9 @@ public class ManagerMovieViewController {
                 chosenMovieCategories, ageRestrictionComboBox.getValue(), moviePosterURL.getText())){
             managerService.addMovie(movieTitle.getText(), nameOfDirector.getText(), movieDescription.getText(),
                     chosenMovieCategories, durationSpinner.getValue(), premierDatePicker.getValue(), Integer.valueOf(ageRestrictionComboBox.getValue()), moviePosterURL.getText());
+
+            addMovieForm.setManaged(false);
+            addMovieForm.setVisible(false);
         }
 
     }

@@ -125,6 +125,8 @@ public class ManagerScreeningViewController {
             if(managerService.existFilmShowWithGivenHallAndTime(hallForFilmShow, time)){
                 managerService.addFilmShow(hallForFilmShow, movieForFilmShow, time, ticketPrice,
                         selectedSubtitle.isSelected(), selected3D.isSelected());
+                addScreeningForm.setManaged(false);
+                addScreeningForm.setVisible(false);
             } else {
                 addScreeningErrorPrompt.setText("Chosen hall is reserved at chosen time for different screening!");
 
