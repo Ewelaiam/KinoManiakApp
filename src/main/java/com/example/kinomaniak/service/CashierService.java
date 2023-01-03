@@ -1,10 +1,7 @@
 package com.example.kinomaniak.service;
 
 import com.example.kinomaniak.model.*;
-import com.example.kinomaniak.repository.EmployeeRepository;
-import com.example.kinomaniak.repository.MovieCategoryRepository;
-import com.example.kinomaniak.repository.MovieRepository;
-import com.example.kinomaniak.repository.TicketRepository;
+import com.example.kinomaniak.repository.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.springframework.data.domain.Page;
@@ -22,13 +19,17 @@ public class CashierService {
 
     private final MovieRepository movieRepository;
     private final MovieCategoryRepository movieCategoryRepository;
+    private final FilmShowRepository filmShowRepository;
+    private final HallRepository hallRepository;
 
     public CashierService(TicketRepository ticketRepository, EmployeeRepository employeeRepository,
-                          MovieRepository movieRepository, MovieCategoryRepository movieCategoryRepository) {
+                          MovieRepository movieRepository, MovieCategoryRepository movieCategoryRepository, FilmShowRepository filmShowRepository, HallRepository hallRepository) {
         this.ticketRepository = ticketRepository;
         this.employeeRepository = employeeRepository;
         this.movieRepository = movieRepository;
         this.movieCategoryRepository = movieCategoryRepository;
+        this.filmShowRepository = filmShowRepository;
+        this.hallRepository = hallRepository;
     }
 
     public void changePassword(String mail, String password){
@@ -55,4 +56,10 @@ public class CashierService {
     public List<MovieCategory> getMovieCategories() {
         return movieCategoryRepository.findAll();
     }
+
+    public ObservableList<FilmShow> getFilmShows() { return FXCollections.observableList(filmShowRepository.findAll()); }
+
+    public ObservableList<Hall> getHalls() { return FXCollections.observableList(hallRepository.findAll()); }
+
+    public ObservableList<Ticket> getTickets() { return FXCollections.observableList(ticketRepository.findAll()); }
 }

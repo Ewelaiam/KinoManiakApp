@@ -3,20 +3,14 @@ package com.example.kinomaniak.controller;
 import com.example.kinomaniak.model.Employee;
 import com.example.kinomaniak.model.Hall;
 import com.example.kinomaniak.model.Movie;
-import com.example.kinomaniak.model.Role;
 import com.example.kinomaniak.service.AdminService;
 import com.example.kinomaniak.service.AuthService;
 import com.example.kinomaniak.service.CashierService;
 import com.example.kinomaniak.service.ManagerService;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -144,21 +138,22 @@ public class HomeController {
         if (authService.getCurrentlyLoggedEmployee().getRole() == null){
             usageModeRadioButtons.setVisible(false);
             usageModeRadioButtons.setManaged(false);
+            disableAllButtons();
             return;
         }
-
         switch (authService.getCurrentlyLoggedEmployee().getRole().getRoleName()){
-            case "Cashier" -> {
+            case "cashier" -> {
                 usageModeRadioButtons.setVisible(false);
                 usageModeRadioButtons.setManaged(false);
+
             }
-            case "Manager" -> {
+            case "manager" -> {
                 usageModeRadioButtons.setVisible(true);
                 usageModeRadioButtons.setManaged(true);
                 adminModeButton.setVisible(false);
                 adminModeButton.setManaged(false);
             }
-            case "Admin" -> {
+            case "admin" -> {
                 usageModeRadioButtons.setVisible(true);
                 usageModeRadioButtons.setManaged(true);
                 adminModeButton.setVisible(true);
@@ -168,6 +163,7 @@ public class HomeController {
     }
 
     public void changeMode(){
+        clearMainView();
         RadioButton selected = (RadioButton) modeButtonsGroup.getSelectedToggle();
         String selectedMode = selected.getText();
         authService.setDisplayMode(selectedMode);
@@ -175,7 +171,6 @@ public class HomeController {
     }
 
     private void resetMenuButtons(){
-        System.out.println(authService.getDisplayMode());
         switch (authService.getDisplayMode()) {
             case "Cashier" -> {
                 disableAllButtons();
@@ -243,7 +238,6 @@ public class HomeController {
         isScreeningsVisible.set(false);
         isHallVisible.set(false);
         isStatisticsVisible.set(false);
-        isEmailVisible.set(false);
         isUsersVisible.set(false);
 
     }
@@ -254,8 +248,27 @@ public class HomeController {
         this.credentialsLabel.setText(credentials);
     }
 
+    private void clearMainView() {
+        mainContent.setCenter(null);
+    }
+
     public void showScreeningsCashier() {
         System.out.println("Screenings Cashier");
+        GridPane cashierScreeningPane = fxWeaver.loadView(CashierScreeningsViewController.class);
+        mainContent.setCenter(cashierScreeningPane);
+    }
+    public void showScreeningsCashier(String movieTitle) {
+        System.out.println("Screenings Cashier");
+        FxControllerAndView<CashierScreeningsViewController,GridPane> controllerAndView = fxWeaver.load(CashierScreeningsViewController.class,null);
+        controllerAndView.getController().searchMovieTitle(movieTitle);
+        mainContent.setCenter(controllerAndView.getView().get());
+    }
+
+    public void showScreeningsCashier(int hallNo) {
+        System.out.println("Screenings Cashier");
+        FxControllerAndView<CashierScreeningsViewController,GridPane> controllerAndView = fxWeaver.load(CashierScreeningsViewController.class,null);
+        controllerAndView.getController().searchHallNo(hallNo);
+        mainContent.setCenter(controllerAndView.getView().get());
     }
 
     public void showScreeningsManager() {
@@ -263,6 +276,7 @@ public class HomeController {
         GridPane managerScreeningPane = fxWeaver.loadView(ManagerScreeningViewController.class);
         mainContent.setCenter(managerScreeningPane);
     }
+
 
     public void showFilmsCashier() {
         System.out.println("Films cashier");
@@ -296,6 +310,8 @@ public class HomeController {
         fxWeaver.loadController(LoginController.class).resetTextFields();
         Parent root = fxWeaver.loadView(LoginController.class);
         Scene scene = new Scene(root, 1000, 550);
+        stage.setWidth(1000);
+        stage.setHeight(550);
         stage.setMinWidth(1000);
         stage.setMinHeight(550);
         stage.setScene(scene);
@@ -350,7 +366,7 @@ public class HomeController {
         this.stage = stage;
     }
 
-    public void showAccountEditDialog(Employee employee) {
+    public void showAccountEditDialog(Employee employee, ObservableList<Employee> accounts) {
         FxControllerAndView<AccountEditDialogPresenter, GridPane> fxControllerAndView =
                 fxWeaver.load(AccountEditDialogPresenter.class,null);
 
@@ -365,14 +381,14 @@ public class HomeController {
 
         // Set the transaction into the presenter.
         fxControllerAndView.getController().setDialogStage(dialogStage);
-        fxControllerAndView.getController().setData(employee,this);
+        fxControllerAndView.getController().setData(employee,accounts);
 
         // Show the dialog and wait until the user closes it
         dialogStage.showAndWait();
 
     }
 
-    public void showAccountDeleteDialog(Employee employee) {
+    public void showAccountDeleteDialog(Employee employee,ObservableList<Employee> accounts) {
 
         FxControllerAndView<AccountDeleteDialogPresenter, BorderPane> fxControllerAndView =
                 fxWeaver.load(AccountDeleteDialogPresenter.class,null);
@@ -388,10 +404,16 @@ public class HomeController {
 
         // Set the transaction into the presenter.
         fxControllerAndView.getController().setDialogStage(dialogStage);
-        fxControllerAndView.getController().setData(employee,this);
+        fxControllerAndView.getController().setData(employee,accounts);
 
         // Show the dialog and wait until the user closes it
         dialogStage.showAndWait();
 
     }
+    public void changeModeIntoCashier(){
+        cashierModeButton.setSelected(true);
+        changeMode();
+    }
+
+
 }

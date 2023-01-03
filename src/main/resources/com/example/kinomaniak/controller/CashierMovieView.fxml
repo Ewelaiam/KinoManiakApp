@@ -99,7 +99,7 @@
                             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </VBox.margin>
                     </Button>
-                    <Button fx:id="showScreeningsButton"  text="Show Screenings" wrapText="true">
+                    <Button fx:id="showScreeningsButton"  text="Show Screenings" wrapText="true" onAction="#showScreenings">
                         <VBox.margin>
                             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                         </VBox.margin>

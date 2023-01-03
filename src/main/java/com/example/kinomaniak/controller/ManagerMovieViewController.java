@@ -13,6 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import net.rgielen.fxweaver.core.FxmlView;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -73,6 +74,7 @@ public class ManagerMovieViewController {
 
 
 
+
     @FXML
     public void toggleAddMovie(){
         removeMovieForm.setManaged(false);
@@ -126,6 +128,7 @@ public class ManagerMovieViewController {
         setUpMovieTable();
     }
 
+    @Autowired
     public ManagerMovieViewController(CashierService cashierService, ManagerService managerService) {
         this.cashierService = cashierService;
         this.managerService = managerService;

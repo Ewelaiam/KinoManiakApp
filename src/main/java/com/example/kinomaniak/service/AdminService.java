@@ -14,10 +14,10 @@ import java.util.Optional;
 
 @Service
 public class AdminService {
-    public EmployeeRepository employeeRepository;
-    public TicketRepository ticketRepository;
-    public FilmShowRepository filmShowRepository;
-    public RoleRepository roleRepository;
+    private final EmployeeRepository employeeRepository;
+    private final TicketRepository ticketRepository;
+    private final FilmShowRepository filmShowRepository;
+    private final RoleRepository roleRepository;
 
     public AdminService(EmployeeRepository employeeRepository, TicketRepository ticketRepository,
                         FilmShowRepository filmShowRepository,RoleRepository roleRepository) {
@@ -62,5 +62,20 @@ public class AdminService {
     }
     public ObservableList<Role> getRoles(){
         return FXCollections.observableList(roleRepository.findAll());
+    }
+
+    public void deleteEmployee(Employee employee) {
+        employeeRepository.delete(employee);
+    }
+
+    public void saveEditedEmployee(Employee employee) {
+        employeeRepository.save(employee);
+    }
+
+    public Optional<Role> getRoleWithName(String name) {
+        return roleRepository.findByRoleName(name);
+    }
+    public boolean employeeSoldTickets(Employee employee){
+        return ticketRepository.getNoSoldTickets(employee) > 0;
     }
 }

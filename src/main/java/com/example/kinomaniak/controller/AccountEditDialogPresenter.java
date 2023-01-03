@@ -5,12 +5,14 @@ import com.example.kinomaniak.model.Role;
 import com.example.kinomaniak.repository.RoleRepository;
 import com.example.kinomaniak.service.AdminService;
 import com.example.kinomaniak.service.AuthService;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -46,13 +48,15 @@ public class AccountEditDialogPresenter {
     private final AdminService adminService;
     private final AuthService authService;
 
-    private  HomeController homeController;
+    private ObservableList<Employee> accounts;
+    private HomeController homeController;
 
 
     @Autowired
-    AccountEditDialogPresenter(AdminService adminService, AuthService authService){
+    AccountEditDialogPresenter(AdminService adminService, AuthService authService,HomeController homeController){
         this.adminService = adminService;
         this.authService = authService;
+        this.homeController = homeController;
     }
 
     @FXML
@@ -61,18 +65,22 @@ public class AccountEditDialogPresenter {
         surnameTextField.textProperty().addListener(text->errorPrompt.setText(""));
         mailTextField.textProperty().addListener(text->errorPrompt.setText(""));
         roleComboBox.valueProperty().addListener(value->errorPrompt.setText(""));
+
     }
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
     }
-    public void setData(Employee employee,HomeController homeController) {
+    public void setData(Employee employee,ObservableList<Employee> accounts) {
         this.employee = employee;
-        this.homeController = homeController;
+        this.accounts = accounts;
         updateControls();
 
     }
 
     private void updateControls() {
+        if(employee.getRole()!=null && employee.getRole().getRoleName().equals("admin")){
+            roleComboBox.setDisable(true);
+        }
         nameTextField.setText(employee.getName());
         surnameTextField.setText(employee.getSurName());
         mailTextField.setText(employee.getMail());
@@ -89,8 +97,8 @@ public class AccountEditDialogPresenter {
         String name = nameTextField.getText();
         String surname = surnameTextField.getText();
         String mail = mailTextField.getText();
-        Optional<Role> role =  adminService.roleRepository.findByRoleName(roleComboBox.getSelectionModel().getSelectedItem());
-
+        Optional<Role> role =  adminService.getRoleWithName(roleComboBox.getSelectionModel().getSelectedItem());
+        boolean refreshLoggedData = employee.getMail().equals(authService.getCurrentlyLoggedEmployee().getMail());
         if(authService.performCredentialsValidation(name,surname) && (mail.equals(employee.getMail()) || authService.performEmailValidation(mail)) &&
                 (roleComboBox.getSelectionModel().getSelectedItem().equals("none") || role.isPresent())){
             employee.setName(nameTextField.getText());
@@ -102,8 +110,14 @@ public class AccountEditDialogPresenter {
                 role.ifPresent(value -> employee.setRole(value));
             }
 
-            adminService.employeeRepository.save(employee);
-            homeController.showAccountsAdmin();
+            adminService.saveEditedEmployee(employee);
+            accounts.clear();
+            accounts.addAll(adminService.getEmployees());
+            if(refreshLoggedData){
+                authService.refreshCurrentlyLoggedEmployeeData(employee);
+                homeController.setCredentialsLabel();
+            }
+
             dialogStage.close();
         }
         else{

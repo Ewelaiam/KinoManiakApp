@@ -39,9 +39,12 @@ public class ManagerHallViewController {
     private ObservableList<Hall> halls;
 
     private final ManagerService managerService;
+    private final HomeController homeController;
 
-    ManagerHallViewController(ManagerService managerService){
+    ManagerHallViewController(ManagerService managerService, HomeController homeController){
+
         this.managerService = managerService;
+        this.homeController = homeController;
     }
 
 
@@ -105,5 +108,7 @@ public class ManagerHallViewController {
 
     @FXML
     private void handleShowScreenings(ActionEvent actionEvent) {
+        homeController.changeModeIntoCashier();
+        homeController.showScreeningsCashier(hallsTable.getSelectionModel().getSelectedItem().getHallNo());
     }
 }

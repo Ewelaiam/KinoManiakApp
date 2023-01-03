@@ -19,7 +19,6 @@ public class ManagerService {
     private final MovieRepository movieRepository;
     private final HallRepository hallRepository;
     private final TicketRepository ticketRepository;
-
     @Autowired
     public ManagerService(EmployeeRepository employeeRepository, FilmShowRepository filmShowRepository, MovieRepository movieRepository, HallRepository hallRepository, TicketRepository ticketRepository) {
         this.employeeRepository = employeeRepository;

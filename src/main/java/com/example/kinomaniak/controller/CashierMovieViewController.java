@@ -11,6 +11,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -80,11 +81,13 @@ public class CashierMovieViewController {
 
     private ObservableList<Movie> movies;
     private List<MovieCategory> movieCategories;
+    private final HomeController homeController;
 
     @Autowired
-    public CashierMovieViewController(FxWeaver fxWeaver, CashierService cashierService) {
+    public CashierMovieViewController(FxWeaver fxWeaver, CashierService cashierService,HomeController homeController) {
         this.fxWeaver = fxWeaver;
         this.cashierService = cashierService;
+        this.homeController = homeController;
     }
 
     @FXML
@@ -125,6 +128,7 @@ public class CashierMovieViewController {
                 bottomPane.setVisible(true);
                 bottomPane.setManaged(true);
             }
+
             if(newValue == null){
                 moviesTable.setPrefHeight(moviesTable.getPrefHeight() + 100.0);
                 bottomPane.setPrefHeight(bottomPane.getPrefHeight() - 100.0);
@@ -133,7 +137,16 @@ public class CashierMovieViewController {
             }else{
                 titleLabel.textProperty().bind(new SimpleStringProperty(newValue.getTitle()));
                 descriptionLabel.textProperty().bind(new SimpleStringProperty(newValue.getDescription()));
-                moviePosterImageView.imageProperty().bind(new SimpleObjectProperty<>(new Image(newValue.getPosterURL())));
+                Image image;
+                try{
+                    image = new Image(newValue.getPosterURL());
+                    moviePosterImageView.imageProperty().bind(new SimpleObjectProperty<>(image));
+                }catch (IllegalArgumentException e){
+                    System.out.println("wrong url");
+                    moviePosterImageView.imageProperty().unbind();
+                    moviePosterImageView.setImage(null);
+
+                }
             }
         } );
     }
@@ -222,6 +235,11 @@ public class CashierMovieViewController {
 //            moviesTable.setPrefHeight(moviesTable.getPrefHeight() + filtersVBox.getPrefHeight());
 //        }
 
+
+    }
+
+    public void showScreenings(ActionEvent actionEvent) {
+        homeController.showScreeningsCashier(titleLabel.getText());
 
     }
 }
