@@ -70,4 +70,8 @@ public class ManagerService {
         return FXCollections.observableList(ticketRepository.findAll());
     }
 
+    public boolean movieIsBeingScreened(Movie movie){
+        return filmShowRepository.getNoFilmShows(movie) > 0;
+    }
+
 }
