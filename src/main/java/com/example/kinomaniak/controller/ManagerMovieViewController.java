@@ -43,10 +43,12 @@ public class ManagerMovieViewController {
 
     private final CashierService cashierService;
     private final ManagerService managerService;
+
     private List<MovieCategory> movieCategories;
     private ObservableList<Movie> movies;
     private SpinnerValueFactory<Integer> valueFactory;
-
+    @FXML
+    private Label removeMovieErrorPrompt;
     @FXML
     public Label addMovieErrorPrompt;
     @FXML
@@ -121,6 +123,9 @@ public class ManagerMovieViewController {
         if(!managerService.movieIsBeingScreened(movieToDelete)){
             managerService.removeMovie(movieToDelete);
             movies.remove(movieToDelete);
+        }
+        else{
+            removeMovieErrorPrompt.setText("Can't remove movie for which there are planned shows!");
         }
 
     }
