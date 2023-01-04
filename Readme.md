@@ -53,7 +53,7 @@ c) **Kasjer**
 <h2>3. Model bazodanowy</h2>
 
   
-![Scheme](images/baza.jpg)
+![Scheme](images/baza_v2.jpg)
 
   
 **Opis tabel:**
