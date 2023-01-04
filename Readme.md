@@ -213,5 +213,5 @@ Dla kasjera stworzono widok CashierMovieView, w którym ma on możliwość spraw
 **Sale w pliku konfiguracyjnym**    
 Utworzono HallConfigurator, który gdy baza sal jest pusta, wczytuje je z pliku konfiguracyjnego (src/main/resources/com/example/kinomaniak/hall_config.json) do bazy. Widok z salami - ManagerHallView oprócz wyświetlania sal i filtracji, umożliwia także przejście do seansów odbywających się w danej sali.   
     
-**Zarządzanie seansami**    
+**Zarządzanie seansami i sprzedaż biletów**    
 Dla kasjera utworzono CashierScreeningsView, w którym może przy użyciu filtrów wybrać seans i zakupić na niego bilety. Widać także ile wolnych miejsc zostało na dany seans. Manager w ManagerScreeningsView może dodawać i usuwać seanse.    
