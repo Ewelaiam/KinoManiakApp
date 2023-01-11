@@ -1,9 +1,6 @@
 package com.example.kinomaniak.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -15,9 +12,11 @@ public class Ticket {
     private Integer id;
 
     @ManyToOne
+    @JoinColumn(name="ID_FILMSHOW")
     private FilmShow filmShow;
 
     @ManyToOne
+    @JoinColumn(name="ID_EMPLOYEE")
     private Employee employee;
 
     private Integer seatNo;

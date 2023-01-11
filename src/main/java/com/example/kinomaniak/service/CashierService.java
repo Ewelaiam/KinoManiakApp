@@ -40,6 +40,7 @@ public class CashierService {
 
     public Ticket reserveTicketsForGivenFilm(FilmShow filmShow, Employee employee, Integer seatNo) {
         Ticket ticket = new Ticket(filmShow, employee, seatNo);
+        System.out.println("IN RESERVE TICKETS FOR GIVEN FILM: " + employee.getName());
         return ticketRepository.save(ticket);
     }
 

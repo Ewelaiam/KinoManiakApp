@@ -215,6 +215,12 @@ public class HomeController {
                         showHallsManager();
                     }
                 });
+                statisticsButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        showStatisticsManager();
+                    }
+                });
 
             }
             case "Admin" -> {
@@ -301,6 +307,12 @@ public class HomeController {
         System.out.println("Halls manager");
         GridPane managerHallPane = fxWeaver.loadView(ManagerHallViewController.class);
         mainContent.setCenter(managerHallPane);
+    }
+
+    public void showStatisticsManager() {
+        System.out.println("Statistics manager");
+        GridPane managerStatisticsPane = fxWeaver.loadView(ManagerStatisticsController.class);
+        mainContent.setCenter(managerStatisticsPane);
     }
 
     public void logout(){
