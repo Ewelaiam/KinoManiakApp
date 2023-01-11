@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="com.example.kinomaniak.controller.AdminAccountsViewController"
+          prefWidth="600.0"
+          fx:id="mainGrid"
+          stylesheets="@../css/DashboardViewStyles.css">
+    <padding><Insets bottom="25" right="25" left="25" top="25"/></padding>
+    <VBox fx:id="filtersVBox" GridPane.rowIndex="0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"  spacing="10">
+        <BorderPane >
+            <left>
+                <VBox prefWidth="150"/>
+            </left>
+            <right>
+                <VBox prefWidth="150"/>
+            </right>
+            <center>
+                <VBox alignment="CENTER" spacing="5">
+                    <padding><Insets bottom="5" right="5" left="5" top="5"/></padding>
+                    <BorderPane>
+                        <padding><Insets bottom="5" right="5" left="5" top="5"/></padding>
+                        <left>
+                            <VBox spacing="5">
+                                <Label text="Search user: " prefHeight="25"/>
+                                <Label text="Role: " prefHeight="25"/>
+                            </VBox>
+                        </left>
+                        <right>
+                            <VBox spacing="5">
+                                <TextField fx:id="searchTextField" promptText="Enter user data..." prefHeight="25"/>
+                                <ComboBox fx:id="roleComboBox" prefHeight="25"/>
+                            </VBox>
+
+                        </right>
+                    </BorderPane>
+                    <Button fx:id="resetFiltersButton" text="Reset Filters" onAction="#resetFilters" prefWidth="100"/>
+                </VBox>
+            </center>
+
+        </BorderPane>
+    </VBox>
+
+    <TableView fx:id="accountsTable"
+               prefHeight="650"
+               prefWidth="550"
+               GridPane.rowIndex="1">
+        <columns>
+            <TableColumn fx:id="nameColumn" prefWidth="100.0"  text="Name"/>
+            <TableColumn fx:id="surnameColumn" prefWidth="100.0"  text="Surname" />
+            <TableColumn fx:id="mailColumn" prefWidth="100.0"  text="Email" />
+            <TableColumn fx:id="roleColumn" prefWidth="100.0"  text="Role" />
+
+        </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+        </columnResizePolicy>
+    </TableView>
+
+
+    <BorderPane GridPane.rowIndex="2" prefHeight="30" style="-fx-padding: 5;">
+
+        <center>
+            <HBox spacing="100" style="-fx-alignment: center;">
+                <Button fx:id="editAccountButton" text="Edit" prefWidth="80" onAction="#handleEditAccount"/>
+                <Button fx:id="deleteAccountButton" text="Delete" prefWidth="80" onAction="#handleDeleteAccount"/>
+            </HBox>
+        </center>
+
+
+    </BorderPane>
+</GridPane>
+

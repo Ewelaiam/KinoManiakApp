@@ -1,0 +1,51 @@
+* {
+    -fx-maincolor1: rgb(105, 155, 175);
+    -fx-maincolor2: rgb(140, 100, 120);
+    -fx-maincolor3: rgb(150, 110, 130);
+}
+
+#mainNavBar {
+    -fx-pref-width: 250px;
+    -fx-background-color: -fx-maincolor1;
+    -fx-alignment: TOP_CENTER;
+}
+
+#usageModeRadioButtons {
+    -fx-alignment: TOP_CENTER;
+}
+
+#credentialsLabel {
+    -fx-font-family: Haettenschweiler;
+    -fx-font-size: 20;
+    -fx-text-fill: white;
+}
+
+#viewButtons {
+    -fx-alignment: center;
+}
+
+#viewButtons .button {
+    -fx-pref-width: 180px;
+    -fx-background-color: linear-gradient(to top, -fx-maincolor2, -fx-maincolor3);
+    -fx-border-radius: 15px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-family: Verdana;
+}
+
+#viewButtons .button:hover {
+    -fx-background-color: linear-gradient(to top, -fx-maincolor3, -fx-maincolor2);
+    -fx-cursor: hand;
+}
+
+#viewButtons .button:selected {
+    -fx-background-color: -fx-maincolor3;
+}
+
+.error {
+    -fx-text-fill: red;
+}
+
+.hourText {
+    -fx-font-size: 40;
+}

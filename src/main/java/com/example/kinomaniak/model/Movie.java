@@ -5,6 +5,7 @@ import javax.persistence.*;
 
 import com.example.kinomaniak.model.MovieCategory;
 
+import java.net.URL;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,8 +14,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 public class Movie {
-    @GeneratedValue(strategy = IDENTITY)
     @Id
+    @GeneratedValue(strategy = IDENTITY)
     private Integer id;
     private String title;
     private String director;
@@ -24,15 +25,18 @@ public class Movie {
     private Integer duration;
     private LocalDate premierDate;
     private Integer ageRestriction;
+
+    private String posterURL;
     public Movie(){}
 
-    public Movie(String title, String director, String description, Integer duration, LocalDate premierDate, Integer ageRestriction) {
+    public Movie(String title, String director, String description, Integer duration, LocalDate premierDate, Integer ageRestriction,String posterURL) {
         this.title = title;
         this.director = director;
         this.description = description;
         this.duration = duration;
         this.premierDate = premierDate;
         this.ageRestriction = ageRestriction;
+        this.posterURL = posterURL;
     }
 
     public Integer getId() {
@@ -65,6 +69,10 @@ public class Movie {
 
     public Integer getAgeRestriction() {
         return ageRestriction;
+    }
+
+    public String getPosterURL() {
+        return posterURL;
     }
 
     public void addCategory(MovieCategory category){

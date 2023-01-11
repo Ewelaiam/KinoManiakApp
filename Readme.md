@@ -53,7 +53,7 @@ c) **Kasjer**
 <h2>3. Model bazodanowy</h2>
 
   
-![Scheme](images/baza.jpg)
+![Scheme](images/baza_v2.jpg)
 
   
 **Opis tabel:**
@@ -71,12 +71,11 @@ jedną kategorie może mieć wiele filmów
 
 <h2>4. Model dziedzinowy</h2>
   
-![Scheme](images/KinoManiak.jpeg)
+![Scheme](images/KinoManiak_new1.jpeg)    
+
+
+![Scheme](images/KinoManiak_new2.jpeg)
   
-
-Rozszerzenie modelu (przyszłość projektu):
-
-![Scheme](images/Extend.jpeg)
 
 **Funkcje klas:**
 - Klasy uruchamiające system
@@ -128,3 +127,91 @@ Baza jest gotowa do użytku
 
 Aby uruchomić aplikację, należy zbudować projekt gradle i wystartować klasę KinoManiakApplication zawierającą metodę main().
 
+<h3> M2 updates </h3>
+
+Zaktualizowano obraz dockerowy dlatego prosimy o pobranie najnowszej wersji   
+
+maile i hasła:    
+admin: mail: admin@mail.com, hasło: admin123    
+manager: mail: manager@mail.com, hasło: manager123    
+kasjer: mail: cashier@mail.com, hasło: cashier123   
+konto bez roli: mail: nobody@mail.com ,hasło: nobody123   
+
+**Controllery i widoki:**   
+HomeView - wybór widoków    
+LoginView - logowanie/tworzenie nowego użytkownika    
+CashierMovieView - prezentacja filmów w repertuarze kina    
+CahierScreeningsView - prezentacja seansów, możliwość zakupu biletów    
+ManagerHallView - prezentacja sal   
+ManagerMovieView - dodawanie/usuwanie filmów    
+ManagerScreeningView - dodawanie/usuwanie seansów   
+AdminAccountsView - prezentacja, edycja, usuwanie kont    
+AccountDeleteDialog - potwierdzenie usunięcia konta   
+AccountEditDialog - edycja wybranego konta    
+
+**Obsługa uprawnień**   
+Zalogowany użytkownik ma różne uprawnienia w zależności od roli.    
+**Użytkownik bez roli** nie ma dostępu do żadnej opcji oprócz wylogowania:    
+
+![Scheme](images/no_role_navbar.jpg)  
+
+
+**Kasjer** ma możliwość wyświetlenia widoku z filmami oraz seansów:     
+    
+
+![Scheme](images/cashier_navbar.jpg)    
+
+W panelu seansów (‘Screenings’) może sprzedać bilet na dany seans:    
+
+
+![Scheme](images/cashier_screenings.jpg)    
+
+
+W panelu z filmami ma możliwość podejrzenia listy granych filmów oraz wyświetlenia ich opisu. Dodatkowo po kliknięciu w ‘Show Screenings’, użytkownik przenosi się do widoku z seansami wybranego filmu:    
+
+![Scheme](images/cashier_movies.jpg)    
+
+**Manager** oprócz dodatkowych opcji, może zmieniać tryb przeglądania aplikacji na tryb dla kasjera. Wtedy będzie mógł korzystać z dostępnych kasjerowi funkcjonalności.    
+
+![Scheme](images/manager_navbar.jpg)  
+
+Widoki ‘Screenings’ oraz ‘Movies’ w trybie managera, pomimo tej samej nazwy, różnią się od tych dla kasjera. W panelu seansów, manager może dodać lub usunąć seans (przy jednoczesnej walidacji wykonalności takiej operacji), analogicznie dla zakładki filmów:    
+
+![Scheme](images/manager_screenings_add.jpg)    
+
+![Scheme](images/manager_screenings_remove.jpg)     
+
+![Scheme](images/manager_movies_add.jpg)      
+
+![Scheme](images/manager_screenings_remove.jpg)   
+
+Ponadto, manager może podejrzeć sale, o których informacje wczytywane są z pliku JSON. Z tego widoku, po kliknięciu w ‘Show Screenings’, użytkownik przenosi się do widoku z seansami mającymi miejsce w danej sali:    
+
+![Scheme](images/manager_halls.jpg)       
+
+Oprócz tego, Manager będzie miał jeszcze możliwość podejrzenia statystyk.   
+    
+**Admin** może przełączać się między wszystkimi trybami, a w trybie administratora udostępnione mu są dwie dodatkowe opcje:   
+
+![Scheme](images/admin_navbar.jpg)      
+
+W zakładce ‘Users’, administrator ma możliwość edycji bądź usunięcia kont innych użytkowników:    
+
+![Scheme](images/admin_users.jpg)     
+
+Przy edycji/usuwaniu użytkownika, wyświetlane są okienka z potwierdzeniem operacji:     
+
+![Scheme](images/admin_users_edit.jpg)    
+
+![Scheme](images/admin_users_delete.jpg)    
+
+Admin będzie mógł dodatkowo wysyłać e-maile użytkownikom.   
+  
+**Zarządzenie filmem**    
+Dla kasjera stworzono widok CashierMovieView, w którym ma on możliwość sprawdzenia filmów znajdujących się w repertuarze kina. Dostępnych jest parę opcji filtracji: po nazwie,po kategoriach i po ograniczeniach wiekowych. Istnieje także przycisk “Recommended Movies” po wciśnięciu, którego wyświetlone zostaną polecane filmy. Po kliknięciu na dany film ukazuje się jego opis, plakat oraz możliwość przejścia do seansów tego filmu. Manager przy użyciu ManagerMovieView może dodawać i usuwać filmy    
+    
+**Sale w pliku konfiguracyjnym**    
+Utworzono HallConfigurator, który gdy baza sal jest pusta, wczytuje je z pliku konfiguracyjnego (src/main/resources/com/example/kinomaniak/hall_config.json) do bazy. Widok z salami - ManagerHallView oprócz wyświetlania sal i filtracji, umożliwia także przejście do seansów odbywających się w danej sali.   
+    
+**Zarządzanie seansami i sprzedaż biletów**    
+Dla kasjera utworzono CashierScreeningsView, w którym może przy użyciu filtrów wybrać seans i zakupić na niego bilety. Widać także ile wolnych miejsc zostało na dany seans. Manager w ManagerScreeningsView może dodawać i usuwać seanse.    

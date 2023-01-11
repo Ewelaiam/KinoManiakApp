@@ -6,22 +6,85 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.geometry.Insets?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
+            stylesheets="@../css/GlobalStyles.css"
             fx:controller="com.example.kinomaniak.controller.HomeController">
+
     <left>
-        <VBox>
-            <Label fx:id="credentialsLabel"/>
-            <Button fx:id="screeningsButton">Seanse</Button>
-            <Button fx:id="moviesButton">Filmy</Button>
-            <Button fx:id="hallButton">Sale</Button>
-            <Button fx:id="logoutButton">Wyloguj</Button>
+        <VBox fx:id="mainNavBar">
+            <Label fx:id="credentialsLabel">
+                <VBox.margin>
+                    <Insets bottom="15.0" left="5.0" right="5.0" top="5.0"/>
+                </VBox.margin>
+            </Label>
+            <HBox fx:id="usageModeRadioButtons">
+                <RadioButton fx:id="cashierModeButton" text="Cashier" onAction="#changeMode">
+                    <HBox.margin>
+                        <Insets bottom="5.0" left="2.0" right="2.0" top="5.0"/>
+                    </HBox.margin>
+                </RadioButton>
+                <RadioButton fx:id="managerModeButton" text="Manager" onAction="#changeMode">
+                    <HBox.margin>
+                        <Insets bottom="5.0" left="2.0" right="2.0" top="5.0"/>
+                    </HBox.margin>
+                </RadioButton>
+                <RadioButton fx:id="adminModeButton" text="Admin" onAction="#changeMode">
+                    <HBox.margin>
+                        <Insets bottom="5.0" left="2.0" right="2.0" top="5.0"/>
+                    </HBox.margin>
+                </RadioButton>
+            </HBox>
+            <VBox fx:id="viewButtons">
+                <Button fx:id="screeningsButton">Screenings
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </VBox.margin>
+                </Button>
+                <Button fx:id="moviesButton">Movies
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </VBox.margin>
+                </Button>
+                <Button fx:id="hallButton">Halls
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </VBox.margin>
+                </Button>
+                <Button fx:id="statisticsButton">Statistics
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </VBox.margin>
+                </Button>
+                <Button fx:id="usersButton">Users
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </VBox.margin>
+                </Button>
+                <Button fx:id="emailButton">E-mail
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </VBox.margin>
+                </Button>
+                <Button fx:id="logoutButton" onMouseClicked="#logout">Sign out
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </VBox.margin>
+                </Button>
+            </VBox>
         </VBox>
     </left>
     <center>
-        <BorderPane>
+        <VBox>
 
-        </BorderPane>
+            <BorderPane fx:id="mainContent">
+                <VBox.margin>
+                    <Insets bottom="25.0" left="25.0" right="25.0" top="25.0"/>
+                </VBox.margin>
+            </BorderPane>
+        </VBox>
+
     </center>
 
 </BorderPane>

@@ -24,7 +24,9 @@ public class CinemaApplication extends Application {
         FxWeaver fxWeaver = applicationContext.getBean(FxWeaver.class);
         setControllersStages(fxWeaver, primaryStage);
         Parent root = fxWeaver.loadView(LoginController.class);
-        Scene scene = new Scene(root, 800, 400);
+        Scene scene = new Scene(root, 1000, 550);
+        primaryStage.setMinWidth(1000);
+        primaryStage.setMinHeight(550);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
