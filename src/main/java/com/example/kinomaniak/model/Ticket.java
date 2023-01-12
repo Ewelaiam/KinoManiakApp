@@ -2,6 +2,8 @@ package com.example.kinomaniak.model;
 
 import javax.persistence.*;
 
+import java.time.ZonedDateTime;
+
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -21,12 +23,15 @@ public class Ticket {
 
     private Integer seatNo;
 
+    private ZonedDateTime purchaseDate;
+
     public Ticket() {}
 
     public Ticket(FilmShow filmShow, Employee employee, Integer seatNo){
         this.filmShow = filmShow;
         this.employee = employee;
         this.seatNo = seatNo;
+        this.purchaseDate = ZonedDateTime.now();
     }
 
     public Integer getId() {
