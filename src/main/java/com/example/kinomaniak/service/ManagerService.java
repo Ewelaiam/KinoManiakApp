@@ -74,4 +74,12 @@ public class ManagerService {
         return filmShowRepository.getNoFilmShows(movie) > 0;
     }
 
+    public ObservableList<Movie> getMovies() {
+        return FXCollections.observableList(movieRepository.findAll());
+    }
+
+    public void saveMovieRecommendation(Movie selectedMovie) {
+        movieRepository.save(selectedMovie);
+    }
+
 }

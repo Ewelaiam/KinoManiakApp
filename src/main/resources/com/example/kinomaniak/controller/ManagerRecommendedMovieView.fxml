@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="com.example.kinomaniak.controller.ManagerRecommendedMovieViewController"
+          prefHeight="900.0" prefWidth="600.0" fx:id="mainGrid"
+          stylesheets="@../css/DashboardViewStyles.css">
+    <padding><Insets bottom="25" right="25" left="25" top="25"/></padding>
+    <BorderPane fx:id="mainOptions" GridPane.rowIndex="0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" minHeight="50">
+        <center>
+            <VBox fx:id="tableActionsVBox" alignment="CENTER">
+                <Button fx:id="toggleFiltersButton" text="Filters" onMouseClicked="#toggleFilters"/>
+            </VBox>
+        </center>
+    </BorderPane>
+
+    <VBox fx:id="filtersVBox" GridPane.rowIndex="1" visible="false" managed="false" spacing="10">
+        <BorderPane >
+            <left>
+                <VBox prefWidth="150"/>
+            </left>
+            <right>
+                <VBox prefWidth="150"/>
+            </right>
+            <center>
+                <VBox alignment="CENTER" spacing="5">
+                    <padding><Insets bottom="5" right="5" left="5" top="5"/></padding>
+                    <BorderPane>
+                        <padding><Insets bottom="5" right="5" left="5" top="5"/></padding>
+                        <left>
+                            <VBox spacing="5">
+                                <Label text="Search title: " prefHeight="25"/>
+                                <Label text="Is recommended: " prefHeight="25"/>
+
+                            </VBox>
+                        </left>
+                        <right>
+                            <VBox spacing="5">
+                                <TextField fx:id="searchTextField" promptText="Enter title..." prefHeight="25"/>
+                                <ComboBox fx:id="isRecommendedComboBox" prefHeight="25"/>
+                            </VBox>
+
+                        </right>
+                    </BorderPane>
+                    <Button fx:id="resetFiltersButton" text="Reset Filters" onAction="#resetFilters"/>
+                </VBox>
+            </center>
+
+        </BorderPane>
+    </VBox>
+
+    <TableView fx:id="moviesTable"
+
+               GridPane.rowIndex="2"
+               prefHeight="650"
+               prefWidth="550"
+    >
+        <columns>
+            <TableColumn fx:id="titleColumn" prefWidth="160.0" maxWidth="Infinity"  text="Title"/>
+            <TableColumn fx:id="directorColumn" prefWidth="160.0"  text="Director" />
+            <TableColumn fx:id="isRecommendedColumn"   text="Is recommended" />
+
+        </columns>
+
+    </TableView>
+
+
+    <BorderPane fx:id="bottomPane" GridPane.rowIndex="3" prefHeight="100" >
+        <center>
+            <HBox spacing="100" style="-fx-alignment:center;-fx-padding: 20 ;" >
+                <Button fx:id="changeRecommendationButton" text="Add to recommended" prefWidth="250" onAction="#handleChangeRecommendation"/>
+            </HBox>
+        </center>
+
+    </BorderPane>
+
+</GridPane>

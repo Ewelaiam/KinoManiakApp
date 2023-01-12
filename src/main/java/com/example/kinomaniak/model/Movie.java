@@ -27,6 +27,8 @@ public class Movie {
     private Integer ageRestriction;
 
     private String posterURL;
+
+    private Boolean isRecommended;
     public Movie(){}
 
     public Movie(String title, String director, String description, Integer duration, LocalDate premierDate, Integer ageRestriction,String posterURL) {
@@ -37,6 +39,7 @@ public class Movie {
         this.premierDate = premierDate;
         this.ageRestriction = ageRestriction;
         this.posterURL = posterURL;
+        this.isRecommended = false;
     }
 
     public Integer getId() {
@@ -73,6 +76,11 @@ public class Movie {
 
     public String getPosterURL() {
         return posterURL;
+    }
+
+    public Boolean getIsRecommended(){return isRecommended;}
+    public void setIsRecommended(Boolean isRecommended){
+        this.isRecommended = isRecommended;
     }
 
     public void addCategory(MovieCategory category){
