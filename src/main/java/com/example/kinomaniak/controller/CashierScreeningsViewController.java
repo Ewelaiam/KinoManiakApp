@@ -22,7 +22,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
-@FxmlView("CashierScreeningsView.fxml")
+@FxmlView("cashierScreeningsView.fxml")
 public class CashierScreeningsViewController {
 
     private final CashierService cashierService;
@@ -98,6 +98,11 @@ public class CashierScreeningsViewController {
         this.filmShows = FXCollections.observableList(filmShows
                 .stream()
                 .filter(filmshow -> ZonedDateTime.now().isBefore(filmshow.getDate()))
+                .collect(Collectors.toList()));
+
+        this.tickets = FXCollections.observableList(tickets
+                .stream()
+                .filter(ticket -> ZonedDateTime.now().isBefore(ticket.getFilmShow().getDate()))
                 .collect(Collectors.toList()));
 
         for(int i=0; i < filmShows.size(); i++){

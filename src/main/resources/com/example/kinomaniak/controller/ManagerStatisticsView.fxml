@@ -45,28 +45,32 @@
 
                         </right>
                     </BorderPane>
-                    <Button fx:id="resetFiltersButton" text="Reset Filters" onAction="#resetSelections"/>
+                    <Button fx:id="resetFiltersButton" text="Reset Selections" onAction="#resetSelections"/>
+                    <HBox alignment="CENTER">
+                        <RadioButton fx:id="tableTypeButton" text="Table" onAction="#displayStatisticsData">
+                            <HBox.margin>
+                                <Insets bottom="5.0" left="2.0" right="2.0" top="5.0"/>
+                            </HBox.margin>
+                        </RadioButton>
+                        <RadioButton fx:id="chartTypeButton" text="Chart" onAction="#displayStatisticsData">
+                            <HBox.margin>
+                                <Insets bottom="5.0" left="2.0" right="2.0" top="5.0"/>
+                            </HBox.margin>
+                        </RadioButton>
+                    </HBox>
                 </VBox>
             </center>
 
         </BorderPane>
     </VBox>
 
-<!--    <TableView fx:id="moviesTable"-->
+<!--    <BorderPane fx:id="statisticsTableBorderPane"-->
 
-<!--               GridPane.rowIndex="2"-->
-<!--               prefHeight="650"-->
-<!--               prefWidth="550"-->
-<!--    >-->
-<!--        <columns>-->
-<!--            <TableColumn fx:id="titleColumn" prefWidth="160.0" maxWidth="Infinity"  text="Title"/>-->
-<!--            <TableColumn fx:id="directorColumn" prefWidth="160.0"  text="Director" />-->
-<!--            <TableColumn fx:id="premierDateColumn" prefWidth="90.0"  text="Premier Date" />-->
-<!--            <TableColumn fx:id="durationColumn" prefWidth="60.0"  text="Duration" />-->
-<!--            <TableColumn fx:id="ageRestrictionColumn" prefWidth="65.0"  text="Age Limit" />-->
-<!--        </columns>-->
+<!--            GridPane.rowIndex="2"-->
+<!--            prefHeight="650"-->
+<!--            prefWidth="550"-->
+<!--    />-->
 
-<!--    </TableView>-->
 
 
 <!--    <BorderPane fx:id="bottomPane" GridPane.rowIndex="3" prefHeight="0" visible="false" managed="false">-->

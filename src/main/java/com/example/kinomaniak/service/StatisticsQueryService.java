@@ -8,6 +8,8 @@ import javax.persistence.Query;
 import javax.persistence.TemporalType;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Calendar;
 import java.util.List;
 
@@ -20,13 +22,13 @@ public class StatisticsQueryService {
     public List<Object[]> getBestCashiers(LocalDate fromDate, LocalDate toDate) {
         Query query =em.createNativeQuery("SELECT e.mail, e.name, e.sur_name, count(*) FROM employee e " +
                 "INNER JOIN ticket t ON t.ID_EMPLOYEE = e.id " +
-                "INNER JOIN film_show fs ON fs.id = t.ID_FILMSHOW " +
-                "WHERE fs.date <= :to_date AND fs.date >= :from_date " +
+//                "INNER JOIN film_show fs ON fs.id = t.ID_FILMSHOW " +
+                "WHERE t.purchase_Date <= :to_date AND t.purchase_Date >= :from_date " +
                 "GROUP BY e.mail, e.name, e.sur_name " +
                 "ORDER BY count(*) desc"
                 );
-        query.setParameter("to_date", toDate);
-        query.setParameter("from_date", fromDate);
+        query.setParameter("to_date", toDate.atStartOfDay().plusDays(1));
+        query.setParameter("from_date", fromDate.atStartOfDay());
         List<Object[]> records = query.getResultList();
         return records;
     }
@@ -39,8 +41,8 @@ public class StatisticsQueryService {
                 "GROUP BY m.title, m.director, m.duration " +
                 "ORDER BY count(*) desc"
         );
-        query.setParameter("to_date", toDate);
-        query.setParameter("from_date", fromDate);
+        query.setParameter("to_date", toDate.atStartOfDay().plusDays(1));
+        query.setParameter("from_date", fromDate.atStartOfDay());
         List<Object[]> records = query.getResultList();
         return records;
     }
@@ -49,12 +51,12 @@ public class StatisticsQueryService {
         Query query =em.createNativeQuery("SELECT m.title, m.director, m.duration, sum(fs.ticket_price) FROM movie m " +
                 "INNER JOIN film_show fs ON fs.movie_id = m.id " +
                 "INNER JOIN ticket t ON t.ID_FILMSHOW = fs.id " +
-                "WHERE fs.date <= :to_date AND fs.date >= :from_date " +
+                "WHERE t.purchase_Date <= :to_date AND t.purchase_Date >= :from_date " +
                 "GROUP BY m.title, m.director, m.duration " +
                 "ORDER BY sum(fs.ticket_price) desc"
         );
-        query.setParameter("to_date", toDate);
-        query.setParameter("from_date", fromDate);
+        query.setParameter("to_date", toDate.atStartOfDay().plusDays(1));
+        query.setParameter("from_date", fromDate.atStartOfDay());
         List<Object[]> records = query.getResultList();
         return records;
     }
@@ -62,13 +64,13 @@ public class StatisticsQueryService {
     public List<Object[]> getMostPopularHalls(LocalDate fromDate, LocalDate toDate) {
         Query query =em.createNativeQuery("SELECT h.hall_no, h.capacity, count(*) FROM hall h " +
                 "INNER JOIN film_show fs ON fs.hall_id = h.id " +
-                "INNER JOIN ticket t ON t.ID_FILMSHOW = fs.id " +
+//                "INNER JOIN ticket t ON t.ID_FILMSHOW = fs.id " +
                 "WHERE fs.date <= :to_date AND fs.date >= :from_date " +
                 "GROUP BY h.hall_no, h.capacity " +
                 "ORDER BY count(*) desc"
         );
-        query.setParameter("to_date", toDate);
-        query.setParameter("from_date", fromDate);
+        query.setParameter("to_date", toDate.atStartOfDay().plusDays(1));
+        query.setParameter("from_date", fromDate.atStartOfDay());
         List<Object[]> records = query.getResultList();
         return records;
     }
@@ -78,15 +80,16 @@ public class StatisticsQueryService {
         Query query;
         LocalDate curDate = fromDate;
         while (curDate.compareTo(toDate)<=0){
-
             query = em.createNativeQuery("SELECT :curDate, coalesce(sum(coalesce(fs.ticket_price, 0)), 0) FROM film_show fs " +
                     "LEFT OUTER JOIN ticket t ON t.ID_FILMSHOW = fs.id " +
-                    "WHERE abs(DATE_PART('day', :curDate - fs.date)) = 0 " +
-                            "AND DATE_PART('day', fs.date) = :curDateDay " +
+                    "WHERE abs(DATE_PART('day', TO_TIMESTAMP(:curDate, 'DD.MM.YYYY') - t.purchase_Date)) = 0 " +
+                            "AND DATE_PART('day', t.purchase_Date) = :curDateDay " +
                     "ORDER BY sum(fs.ticket_price) desc"
             );
-            query.setParameter("curDate", Timestamp.valueOf(curDate.atStartOfDay()));
+            query.setParameter("curDate", curDate.atStartOfDay().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)).toString());
             query.setParameter("curDateDay", curDate.getDayOfMonth());
+
+
 
             if (records == null) records = query.getResultList();
             else records.addAll(query.getResultList());

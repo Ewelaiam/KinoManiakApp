@@ -50,5 +50,7 @@ public class Ticket {
         return seatNo;
     }
 
+    public ZonedDateTime getPurchaseDate() { return purchaseDate; }
+
 
 }
