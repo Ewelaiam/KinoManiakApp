@@ -64,44 +64,11 @@
         </BorderPane>
     </VBox>
 
-<!--    <BorderPane fx:id="statisticsTableBorderPane"-->
+    <BorderPane fx:id="statisticsBorderPane"
 
-<!--            GridPane.rowIndex="2"-->
-<!--            prefHeight="650"-->
-<!--            prefWidth="550"-->
-<!--    />-->
-
-
-
-<!--    <BorderPane fx:id="bottomPane" GridPane.rowIndex="3" prefHeight="0" visible="false" managed="false">-->
-<!--        <left>-->
-<!--            <ImageView fx:id="moviePosterImageView" fitHeight="98" fitWidth="67"/>-->
-<!--        </left>-->
-
-<!--        <center>-->
-<!--            <VBox>-->
-<!--                <Label fx:id="titleLabel" style="-fx-padding: 5 5 0 5; -fx-font-weight: bold;"/>-->
-<!--                <Label fx:id="descriptionLabel" wrapText="true" text="description"-->
-<!--                       style="-fx-padding: 5 5 5 5;"/>-->
-<!--            </VBox>-->
-<!--        </center>-->
-
-
-<!--        <right>-->
-<!--            <VBox spacing="10" alignment="CENTER">-->
-
-<!--                <Button fx:id="hideBottomPaneButton"   text="X" onAction="#removeSelection">-->
-<!--                    <VBox.margin>-->
-<!--                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>-->
-<!--                    </VBox.margin>-->
-<!--                </Button>-->
-<!--                <Button fx:id="showScreeningsButton"  text="Show Screenings" wrapText="true" onAction="#showScreenings">-->
-<!--                    <VBox.margin>-->
-<!--                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>-->
-<!--                    </VBox.margin>-->
-<!--                </Button>-->
-<!--            </VBox>-->
-<!--        </right>-->
-<!--    </BorderPane>-->
+            GridPane.rowIndex="2"
+            prefHeight="650"
+            prefWidth="20000"
+    />
 </GridPane>
 

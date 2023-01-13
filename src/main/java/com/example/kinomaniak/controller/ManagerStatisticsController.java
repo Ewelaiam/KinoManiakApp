@@ -1,35 +1,20 @@
 package com.example.kinomaniak.controller;
 
 import com.example.kinomaniak.enums.StatisticCategory;
-import com.example.kinomaniak.model.Movie;
-import com.example.kinomaniak.model.MovieCategory;
-import com.example.kinomaniak.service.CashierService;
 import com.example.kinomaniak.service.StatisticsQueryService;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.MapValueFactory;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -39,11 +24,10 @@ import java.util.stream.Collectors;
 @Component
 @FxmlView("managerStatisticsView.fxml")
 public class ManagerStatisticsController {
-    private final CashierService cashierService;
-
     List<Object[]> fetchedData;
     List<Map.Entry<String, Number>> chartData;
     List<String> columnNames;
+    Map.Entry<String, String> chartAxisNames;
 
     @FXML
     public DatePicker fromDatePicker;
@@ -52,7 +36,7 @@ public class ManagerStatisticsController {
     @FXML
     public GridPane mainGrid;
     @FXML
-    public BorderPane statisticsTableBorderPane;
+    public BorderPane statisticsBorderPane;
 
     private TableView statisticsTable;
 
@@ -66,60 +50,15 @@ public class ManagerStatisticsController {
     public RadioButton chartTypeButton;
 
     @FXML
-    private TableColumn<Movie,String> titleColumn;
-    @FXML
-    private TableColumn<Movie,String> directorColumn;
-    @FXML
-    private TableColumn<Movie,Integer> durationColumn;
-    @FXML
-    private TableColumn<Movie, LocalDate> premierDateColumn;
-    @FXML
-    private TableColumn<Movie,Integer> ageRestrictionColumn;
-//    @FXML
-//    private TextField searchTextField;
-    @FXML
     private ComboBox<String> categoryComboBox;
-//    @FXML
-//    private Button recommendedMoviesButton;
-//    @FXML
-//    private ComboBox<String> ageRestrictionComboBox;
-    @FXML
-    private Button showScreeningsButton;
-    @FXML
-    private BorderPane bottomPane;
-    @FXML
-    private Button hideBottomPaneButton;
-
-    @FXML
-    private ImageView moviePosterImageView;
-    @FXML
-    private Label descriptionLabel;
-    @FXML
-    private Button resetFiltersButton;
-    @FXML
-    private Label titleLabel;
-    @FXML
-    private VBox filtersVBox;
-    @FXML
-    private VBox tableActionsVBox;
-    @FXML
-    private Button toggleFiltersButton;
 
     private FxWeaver fxWeaver;
-
-    private ObservableList<Movie> movies;
-    private List<MovieCategory> movieCategories;
-    private final HomeController homeController;
     private final StatisticsQueryService statisticsQueryService;
 
     @Autowired
     public ManagerStatisticsController(FxWeaver fxWeaver,
-                                       CashierService cashierService,
-                                       HomeController homeController,
                                        StatisticsQueryService statisticsQueryService) {
         this.fxWeaver = fxWeaver;
-        this.cashierService = cashierService;
-        this.homeController = homeController;
         this.statisticsQueryService = statisticsQueryService;
     }
 
@@ -142,7 +81,7 @@ public class ManagerStatisticsController {
 
     public void displayStatisticsData() {
         if (tableTypeButton.isSelected()) setUpStatisticsTable(fetchedData, columnNames);
-        if (chartTypeButton.isSelected()) setUpStatisticsChart(chartData, columnNames);
+        if (chartTypeButton.isSelected()) setUpStatisticsChart(chartData, chartAxisNames);
     }
 
     private void setUpStatisticsTable(List<Object[]> data, List<String> columnNames) {
@@ -152,7 +91,6 @@ public class ManagerStatisticsController {
         statisticsTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         for (String columnName : columnNames){
-            System.out.println(columnName);
             TableColumn<Map, String> column = new TableColumn<>(columnName);
             column.setCellValueFactory(new MapValueFactory<>(columnName));
             column.prefWidthProperty().bind(statisticsTable.widthProperty().divide(columnNames.size()));
@@ -165,25 +103,21 @@ public class ManagerStatisticsController {
         for (Object[] record : data){
             Map<String, Object> item = new HashMap<>();
             for (int i = 0; i < record.length; i++){
-                System.out.println(columnNames.get(i));
-                System.out.println(record[i].toString());
                 item.put(columnNames.get(i), record[i].toString());
             }
             items.add(item);
         }
 
         statisticsTable.setItems(items);
-        mainGrid.getChildren().remove(statisticsTable);
-        mainGrid.getChildren().remove(statisticsChart);
-        mainGrid.add(statisticsTable, 0, 2);
+        statisticsBorderPane.getChildren().clear();
+        statisticsBorderPane.setCenter(statisticsTable);
     }
 
-    private void setUpStatisticsChart(List<Map.Entry<String, Number>> chartData, List<String> columnNames) {
+    private void setUpStatisticsChart(List<Map.Entry<String, Number>> chartData, Map.Entry<String, String> chartAxisNames) {
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel(columnNames.get(0));
-        yAxis.setLabel(columnNames.get(columnNames.size()-1));
-
+        xAxis.setLabel(chartAxisNames.getKey());
+        yAxis.setLabel(chartAxisNames.getValue());
 
         if (categoryComboBox.getValue().equals(StatisticCategory.EARNINGS_BY_DAY.getLabel())){
             statisticsChart = new LineChart<String,Number>(xAxis,yAxis);
@@ -192,6 +126,7 @@ public class ManagerStatisticsController {
         }
 
         statisticsChart.setTitle(categoryComboBox.getValue());
+        statisticsChart.setLegendVisible(false);
 
         XYChart.Series series = new XYChart.Series();
 
@@ -200,9 +135,8 @@ public class ManagerStatisticsController {
         }
 
         statisticsChart.getData().add(series);
-        mainGrid.getChildren().remove(statisticsTable);
-        mainGrid.getChildren().remove(statisticsChart);
-        mainGrid.add(statisticsChart, 0, 2);
+        statisticsBorderPane.getChildren().clear();
+        statisticsBorderPane.setCenter(statisticsChart);
     }
 
     private void setUpDatePickers() {
@@ -256,7 +190,7 @@ public class ManagerStatisticsController {
     private void loadData() throws ParseException {
         columnNames = new ArrayList<>();
         chartData = new ArrayList<Map.Entry<String, Number>>();
-
+        int i = 1;
         switch (categoryComboBox.getValue()){
             case "Best cashier" -> {
                 columnNames.add("E-mail");
@@ -264,12 +198,18 @@ public class ManagerStatisticsController {
                 columnNames.add("Surname");
                 columnNames.add("Sold tickets");
 
+                chartAxisNames = new AbstractMap.SimpleEntry<>("Employee", "Sold Tickets");
                 fetchedData = statisticsQueryService.getBestCashiers(fromDatePicker.getValue(), toDatePicker.getValue());
 
+
                 for (Object[] record : fetchedData){
-                    Map.Entry<String, Number> chartEntry = new AbstractMap.SimpleEntry<>(record[1].toString() + " " +
-                            record[2].toString(), NumberFormat.getInstance().parse(record[3].toString()));
+                    Map.Entry<String, Number> chartEntry = new AbstractMap.SimpleEntry<>(
+                            record[1].toString() + " " + record[2].toString(),
+                            NumberFormat.getInstance().parse(record[3].toString()));
                     chartData.add(chartEntry);
+
+                    if (i == 10) break;
+                    i++;
                 }
             }
             case "Most watched movies" -> {
@@ -279,10 +219,15 @@ public class ManagerStatisticsController {
                 columnNames.add("Sold tickets");
 
                 fetchedData = statisticsQueryService.getMostWatchedMovies(fromDatePicker.getValue(), toDatePicker.getValue());
+                chartAxisNames = new AbstractMap.SimpleEntry<>("Movie", "Sold Tickets");
+
                 for (Object[] record : fetchedData){
                     Map.Entry<String, Number> chartEntry = new AbstractMap.SimpleEntry<>(record[0].toString(),
                             NumberFormat.getInstance().parse(record[3].toString()));
                     chartData.add(chartEntry);
+
+                    if (i == 10) break;
+                    i++;
                 }
             }
             case "Most profitable movies" -> {
@@ -292,10 +237,15 @@ public class ManagerStatisticsController {
                 columnNames.add("Earnings from tickets");
 
                 fetchedData = statisticsQueryService.getMostProfitableMovies(fromDatePicker.getValue(), toDatePicker.getValue());
+                chartAxisNames = new AbstractMap.SimpleEntry<>("Movie", "Earnings from tickets");
+
                 for (Object[] record : fetchedData){
                     Map.Entry<String, Number> chartEntry = new AbstractMap.SimpleEntry<>(record[0].toString(),
                             NumberFormat.getInstance().parse(record[3].toString()));
                     chartData.add(chartEntry);
+
+                    if (i == 10) break;
+                    i++;
                 }
             }
             case "Most popular halls" -> {
@@ -304,10 +254,15 @@ public class ManagerStatisticsController {
                 columnNames.add("Number of screenings");
 
                 fetchedData = statisticsQueryService.getMostPopularHalls(fromDatePicker.getValue(), toDatePicker.getValue());
+                chartAxisNames = new AbstractMap.SimpleEntry<>("Hall", "Number of screenings");
+
                 for (Object[] record : fetchedData){
                     Map.Entry<String, Number> chartEntry = new AbstractMap.SimpleEntry<>(record[0].toString(),
                             NumberFormat.getInstance().parse(record[2].toString()));
                     chartData.add(chartEntry);
+
+                    if (i == 10) break;
+                    i++;
                 }
             }
             case "Earnings from tickets" -> {
@@ -315,6 +270,8 @@ public class ManagerStatisticsController {
                 columnNames.add("Earnings from tickets");
 
                 fetchedData = statisticsQueryService.getEarningsFromTickets(fromDatePicker.getValue(), toDatePicker.getValue());
+                chartAxisNames = new AbstractMap.SimpleEntry<>("Date", "Earnings from tickets");
+
                 for (Object[] record : fetchedData){
                     Map.Entry<String, Number> chartEntry = new AbstractMap.SimpleEntry<>(record[0].toString(),
                             NumberFormat.getInstance().parse(record[1].toString()));

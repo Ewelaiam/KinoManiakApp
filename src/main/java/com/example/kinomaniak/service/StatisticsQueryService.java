@@ -5,12 +5,9 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.TemporalType;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.Calendar;
 import java.util.List;
 
 @Service
@@ -22,7 +19,6 @@ public class StatisticsQueryService {
     public List<Object[]> getBestCashiers(LocalDate fromDate, LocalDate toDate) {
         Query query =em.createNativeQuery("SELECT e.mail, e.name, e.sur_name, count(*) FROM employee e " +
                 "INNER JOIN ticket t ON t.ID_EMPLOYEE = e.id " +
-//                "INNER JOIN film_show fs ON fs.id = t.ID_FILMSHOW " +
                 "WHERE t.purchase_Date <= :to_date AND t.purchase_Date >= :from_date " +
                 "GROUP BY e.mail, e.name, e.sur_name " +
                 "ORDER BY count(*) desc"
@@ -64,7 +60,6 @@ public class StatisticsQueryService {
     public List<Object[]> getMostPopularHalls(LocalDate fromDate, LocalDate toDate) {
         Query query =em.createNativeQuery("SELECT h.hall_no, h.capacity, count(*) FROM hall h " +
                 "INNER JOIN film_show fs ON fs.hall_id = h.id " +
-//                "INNER JOIN ticket t ON t.ID_FILMSHOW = fs.id " +
                 "WHERE fs.date <= :to_date AND fs.date >= :from_date " +
                 "GROUP BY h.hall_no, h.capacity " +
                 "ORDER BY count(*) desc"
