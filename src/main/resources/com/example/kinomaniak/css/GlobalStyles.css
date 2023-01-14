@@ -27,14 +27,14 @@
 }
 
 #usageModeRadioButtons {
-    -fx-alignment: TOP_CENTER;
+    -fx-alignment: LEFT;
     -fx-background-color: -fx-maincolor2;
-    -fx-padding: 10px 0;
+    -fx-padding: 10px 20px;
 }
 
 #usageModeRadioButtons .radioButtonRole{
     -fx-text-fill: white;
-    -fx-padding: 0 5px;
+    -fx-padding: 5px 5px;
 }
 
 #usageModeRadioButtons .radio-button:selected{
@@ -63,6 +63,8 @@
     -fx-background-color: -fx-maincolor10;
     -fx-font-weight: bold;
     -fx-border-radius: 0;
+    -fx-border-width: 2px;
+    -fx-border-color: -fx-maincolor12;
 }
 
 #profileButtons .button:hover{

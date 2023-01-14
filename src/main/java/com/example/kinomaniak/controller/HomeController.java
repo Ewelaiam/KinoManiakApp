@@ -45,7 +45,7 @@ public class HomeController {
 
 
     @FXML
-    public HBox usageModeRadioButtons;
+    public VBox usageModeRadioButtons;
 
     @FXML
     public RadioButton cashierModeButton;

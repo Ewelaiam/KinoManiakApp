@@ -33,11 +33,11 @@
                     </Button>
                     <Button fx:id="logoutButton" onMouseClicked="#logout">Sign out
                         <VBox.margin>
-                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                            <Insets bottom="5.0" top="5.0"/>
                         </VBox.margin>
                     </Button>
                 </HBox>
-                <HBox fx:id="usageModeRadioButtons" visible="false" managed="false">
+                <VBox fx:id="usageModeRadioButtons" visible="false" managed="false">
                     <RadioButton fx:id="cashierModeButton" text="Cashier" onAction="#changeMode" styleClass="radioButtonRole">
                         <HBox.margin>
                             <Insets bottom="5.0" left="2.0" right="2.0" top="5.0"/>
@@ -53,7 +53,7 @@
                             <Insets bottom="5.0" left="2.0" right="2.0" top="5.0"/>
                         </HBox.margin>
                     </RadioButton>
-                </HBox>
+                </VBox>
             </VBox>
 
             <VBox fx:id="viewButtons">
