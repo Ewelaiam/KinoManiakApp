@@ -14,28 +14,48 @@
 
     <left>
         <VBox fx:id="mainNavBar">
+            <Label fx:id="logoLabel" text="KinoManiak 🎥">
+                <VBox.margin>
+                    <Insets bottom="15.0" left="5.0" right="5.0" top="5.0"/>
+                </VBox.margin>
+            </Label>
             <Label fx:id="credentialsLabel">
                 <VBox.margin>
                     <Insets bottom="15.0" left="5.0" right="5.0" top="5.0"/>
                 </VBox.margin>
             </Label>
-            <HBox fx:id="usageModeRadioButtons">
-                <RadioButton fx:id="cashierModeButton" text="Cashier" onAction="#changeMode">
-                    <HBox.margin>
-                        <Insets bottom="5.0" left="2.0" right="2.0" top="5.0"/>
-                    </HBox.margin>
-                </RadioButton>
-                <RadioButton fx:id="managerModeButton" text="Manager" onAction="#changeMode">
-                    <HBox.margin>
-                        <Insets bottom="5.0" left="2.0" right="2.0" top="5.0"/>
-                    </HBox.margin>
-                </RadioButton>
-                <RadioButton fx:id="adminModeButton" text="Admin" onAction="#changeMode">
-                    <HBox.margin>
-                        <Insets bottom="5.0" left="2.0" right="2.0" top="5.0"/>
-                    </HBox.margin>
-                </RadioButton>
-            </HBox>
+            <VBox >
+                <HBox fx:id="profileButtons">
+                    <Button fx:id="changeRole" onMouseClicked="#changeRole">Change role
+                        <VBox.margin>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                        </VBox.margin>
+                    </Button>
+                    <Button fx:id="logoutButton" onMouseClicked="#logout">Sign out
+                        <VBox.margin>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                        </VBox.margin>
+                    </Button>
+                </HBox>
+                <HBox fx:id="usageModeRadioButtons" visible="false" managed="false">
+                    <RadioButton fx:id="cashierModeButton" text="Cashier" onAction="#changeMode" styleClass="radioButtonRole">
+                        <HBox.margin>
+                            <Insets bottom="5.0" left="2.0" right="2.0" top="5.0"/>
+                        </HBox.margin>
+                    </RadioButton>
+                    <RadioButton fx:id="managerModeButton" text="Manager" onAction="#changeMode" styleClass="radioButtonRole">
+                        <HBox.margin>
+                            <Insets bottom="5.0" left="2.0" right="2.0" top="5.0"/>
+                        </HBox.margin>
+                    </RadioButton>
+                    <RadioButton fx:id="adminModeButton" text="Admin" onAction="#changeMode" styleClass="radioButtonRole">
+                        <HBox.margin>
+                            <Insets bottom="5.0" left="2.0" right="2.0" top="5.0"/>
+                        </HBox.margin>
+                    </RadioButton>
+                </HBox>
+            </VBox>
+
             <VBox fx:id="viewButtons">
                 <Button fx:id="screeningsButton">Screenings
                     <VBox.margin>
@@ -68,11 +88,6 @@
                     </VBox.margin>
                 </Button>
                 <Button fx:id="recommendedMoviesButton">Recommended
-                    <VBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                    </VBox.margin>
-                </Button>
-                <Button fx:id="logoutButton" onMouseClicked="#logout">Sign out
                     <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                     </VBox.margin>

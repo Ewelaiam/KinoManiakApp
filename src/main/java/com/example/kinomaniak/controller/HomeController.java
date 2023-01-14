@@ -79,6 +79,8 @@ public class HomeController {
     private Button recommendedMoviesButton;
     @FXML
     public Button logoutButton;
+    @FXML
+    public Button changeRole;
 
     private final SimpleBooleanProperty isScreeningsVisible = new SimpleBooleanProperty();
     private final SimpleBooleanProperty isMoviesVisible = new SimpleBooleanProperty();
@@ -107,7 +109,6 @@ public class HomeController {
         setModeButtonGroup();
 
         setBindings();
-        setModeButtonsVisibility();
     }
 
     private void setBindings(){
@@ -448,4 +449,14 @@ public class HomeController {
     }
 
 
+    public void changeRole() {
+        if(!usageModeRadioButtons.isVisible()){
+            usageModeRadioButtons.setVisible(true);
+            usageModeRadioButtons.setManaged(true);
+            setModeButtonsVisibility();
+        } else {
+            usageModeRadioButtons.setVisible(false);
+            usageModeRadioButtons.setManaged(false);
+        }
+    }
 }
