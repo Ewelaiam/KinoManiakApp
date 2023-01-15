@@ -25,34 +25,44 @@
     <VBox fx:id="filtersVBox" GridPane.rowIndex="1" visible="false" managed="false" spacing="10">
         <BorderPane >
             <left>
-                <VBox prefWidth="150"/>
-            </left>
-            <right>
-                <VBox prefWidth="150"/>
-            </right>
-            <center>
                 <VBox alignment="CENTER" spacing="5">
                     <padding><Insets bottom="5" right="5" left="5" top="5"/></padding>
                     <BorderPane>
                         <padding><Insets bottom="5" right="5" left="5" top="5"/></padding>
                         <left>
                             <VBox spacing="5">
-                                <Label text="Search title: " prefHeight="25"/>
-                                <Label text="Is recommended: " prefHeight="25"/>
-
+                                <Label text="Search title: " prefHeight="25">
+                                    <VBox.margin>
+                                        <Insets right="10.0"/>
+                                    </VBox.margin>
+                                </Label>
+                                <Label text="Is recommended: " prefHeight="25">
+                                    <VBox.margin>
+                                        <Insets right="10.0"/>
+                                    </VBox.margin>
+                                </Label>
                             </VBox>
                         </left>
                         <right>
                             <VBox spacing="5">
-                                <TextField fx:id="searchTextField" promptText="Enter title..." prefHeight="25"/>
+                                <TextField fx:id="searchTextField" promptText="Enter title..." prefHeight="25" prefWidth="30"/>
                                 <ComboBox fx:id="isRecommendedComboBox" prefHeight="25"/>
                             </VBox>
 
                         </right>
                     </BorderPane>
-                    <Button fx:id="resetFiltersButton" text="Reset Filters" onAction="#resetFilters"/>
                 </VBox>
-            </center>
+            </left>
+            <right>
+                <VBox>
+                    <Button fx:id="resetFiltersButton" text="Reset Filters" onAction="#resetFilters">
+                        <VBox.margin>
+                            <Insets top="20.0"/>
+                        </VBox.margin>
+                    </Button>
+
+                </VBox>
+            </right>
 
         </BorderPane>
     </VBox>

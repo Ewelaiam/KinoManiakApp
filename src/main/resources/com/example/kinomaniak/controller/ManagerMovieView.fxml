@@ -124,7 +124,7 @@
         </VBox>
         <VBox fx:id="removeMovieForm" visible="false" managed="false" alignment="TOP_CENTER"  spacing="10">
             <Label text="REMOVE FILM" />
-            <TableView fx:id="movieTable" minHeight="400.0" minWidth="300.0">
+            <TableView fx:id="movieTable" maxHeight="400.0" maxWidth="350.0">
                 <columns>
                     <TableColumn fx:id="movieColumn" text="Movie"/>
                 </columns>

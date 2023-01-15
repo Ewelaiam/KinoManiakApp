@@ -23,7 +23,7 @@
             </center>
     </BorderPane>
 
-    <VBox fx:id="filtersVBox" GridPane.rowIndex="1" visible="false" managed="false" spacing="10" styleClass="filtersBackground">
+    <VBox fx:id="filtersVBox" GridPane.rowIndex="1" visible="false" managed="false" spacing="10" >
         <BorderPane >
             <left>
                 <VBox alignment="CENTER" spacing="5">

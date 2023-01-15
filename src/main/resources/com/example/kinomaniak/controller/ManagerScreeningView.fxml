@@ -120,7 +120,7 @@
         </VBox>
         <VBox fx:id="removeScreeningForm" visible="false" managed="false" alignment="TOP_CENTER"  spacing="10">
             <Label text="REMOVE SCREENING" />
-            <TableView fx:id="screeningTable" minHeight="400.0" minWidth="300.0">
+            <TableView fx:id="screeningTable" minHeight="400.0" maxWidth="700.0">
                 <columns>
                     <TableColumn fx:id="screeningId" text="Id"/>
                     <TableColumn fx:id="screeningHall" text="Hall"/>
