@@ -62,5 +62,7 @@ public class CashierService {
 
     public ObservableList<Hall> getHalls() { return FXCollections.observableList(hallRepository.findAll()); }
 
-    public ObservableList<Ticket> getTickets() { return FXCollections.observableList(ticketRepository.findAll()); }
+    public ObservableList<Ticket> getNotPastTickets() { return FXCollections.observableList(ticketRepository.notPastTickets()); }
+
+    public ObservableList<Ticket> getAllTickets() { return FXCollections.observableList(ticketRepository.findAll()); }
 }

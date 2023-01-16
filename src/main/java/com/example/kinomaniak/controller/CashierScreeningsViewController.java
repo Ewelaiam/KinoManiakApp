@@ -7,12 +7,16 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
@@ -22,7 +26,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
-@FxmlView("cashierScreeningsView.fxml")
+@FxmlView("CashierScreeningsView.fxml")
 public class CashierScreeningsViewController {
 
     private final CashierService cashierService;
@@ -63,14 +67,17 @@ public class CashierScreeningsViewController {
     private ComboBox<String> hallComboBox;
 
 
+
     private final FxWeaver fxWeaver;
 
+    private double initialx, initialy;
     private ObservableList<FilmShow> filmShows;
     private ObservableList<Movie> movies;
     private HashMap<Integer, Set<Integer>> seats = new HashMap<>();
     private List<Hall> halls;
     private ObservableList<Ticket> tickets;
     private FilmShow currFilmShow;
+    private ArrayList<Integer> toBuy;
 
 
     public CashierScreeningsViewController(CashierService cashierService, AuthService authService, FxWeaver fxWeaver) {
@@ -93,7 +100,7 @@ public class CashierScreeningsViewController {
     public void loadData(){
         this.filmShows =this.cashierService.getFilmShows();
         this.movies = this.cashierService.getMovies();
-        this.tickets = this.cashierService.getTickets();
+        this.tickets = this.cashierService.getAllTickets();
 
         this.filmShows = FXCollections.observableList(filmShows
                 .stream()
@@ -195,13 +202,40 @@ public class CashierScreeningsViewController {
                 titleLabel.textProperty().bind(new SimpleStringProperty(newValue.getMovie().getTitle()));
                 priceLabel.textProperty().bind(new SimpleStringProperty(String.valueOf(newValue.getTicketPrice()) + " zł"));
 
+                this.toBuy = new ArrayList<>();
                 this.currFilmShow = newValue;
                 this.seatsTilePane = new TilePane();
-                for(Integer inti : seats.get(newValue.getId())){
-                    CheckBox checkBox = new CheckBox(String.valueOf(inti));
-                    checkBox.setPrefWidth(75);
-                    this.seatsTilePane.getChildren().add(checkBox);
+                this.seatsTilePane.getStyleClass().add("full");
+                for(int i=0; i < newValue.getHall().getCapacity(); i++){
+                    Button button = new Button(String.valueOf(i+1));
+                    button.getStyleClass().clear();
+                    button.getStyleClass().add("button-seats");
+                    if(i < 9){
+                        button.setPadding(new Insets(5, 15, 5, 18));
+                    }
+                    else {
+                        button.setPadding(new Insets(5, 15, 5, 15));
+                    }
 
+                    if(!this.seats.get(newValue.getId()).contains(i)){
+                        button.setStyle("-fx-background-color: #c40018");
+                    }
+                    else{
+                        button.getStyleClass().add("button-seats-click");
+                    }
+
+                    Integer finalI = i;
+                    button.setOnAction(event -> {
+                        if(this.toBuy.contains(finalI)){
+                            toBuy.remove(finalI);
+                            button.setStyle("-fx-background-color: #8ea6b4;");
+                        }
+                        else if(this.seats.get(newValue.getId()).contains(finalI)){
+                            toBuy.add(finalI);
+                            button.setStyle("-fx-background-color: #4a772f;");
+                        }
+                    });
+                    this.seatsTilePane.getChildren().add(button);
                 }
                 seatsScrollPane.setContent(this.seatsTilePane);
             }
@@ -212,16 +246,8 @@ public class CashierScreeningsViewController {
     private void buyTickets(){
         filmShowTable.setPrefHeight(filmShowTable.getPrefHeight() + 100.0);
         bottomPane.setPrefHeight(bottomPane.getPrefHeight() - 100.0);
-        ArrayList<Integer> seatsNumbers = new ArrayList<Integer>();
 
-        for (Node seat : seatsTilePane.getChildren()){
-            CheckBox checkBox = (CheckBox) seat;
-            if (checkBox.isSelected()){
-                seatsNumbers.add(Integer.valueOf(checkBox.getText()));
-            }
-        }
-
-        for(Integer seat: seatsNumbers){
+        for(Integer seat: toBuy){
             this.cashierService.reserveTicketsForGivenFilm(currFilmShow, authService.getCurrentlyLoggedEmployee(), seat);
         }
         initialize();
