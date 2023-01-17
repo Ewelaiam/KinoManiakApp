@@ -79,17 +79,21 @@
     <BorderPane fx:id="bottomPane" GridPane.rowIndex="3" prefHeight="300" visible="false" managed="false">
         <left>
             <VBox>
-                <Label fx:id="titleLabel" style="-fx-padding: 15 5 0 5; -fx-font-weight: bold;"/>
-                <Label style="-fx-padding: 5 5 0 5;"> Ticket price: </Label>
-                <Label fx:id="priceLabel" wrapText="true" text="Ticket price: "
-                       style="-fx-padding: 5 5 5 5;"/>
-
+                <Label style="-fx-padding: 5 5 0 5; -fx-font-weight: bold" translateY="40"> Ticket price: </Label>
+                <Label fx:id="priceLabel" wrapText="true"
+                       style="-fx-padding: 5 5 5 5;" translateY="40"/>
+                <Label style="-fx-padding: 5 5 0 5;  -fx-font-weight: bold" translateY="40"> Film 3D: </Label>
+                <Label fx:id="is3dLabel" wrapText="true"
+                       style="-fx-padding: 5 5 5 5;" translateY="40"/>
+                <Label style="-fx-padding: 5 5 0 5;  -fx-font-weight: bold" translateY="40"> Napisy: </Label>
+                <Label fx:id="subtitlesLabel" wrapText="true"
+                       style="-fx-padding: 5 5 5 5;" translateY="40"/>
             </VBox>
         </left>
 
         <center>
-            <VBox minWidth="300.0">
-                <Label text="Seats numbers" prefWidth="150.0" style="-fx-padding: 5 5 0 25; -fx-font-weight: bold;">
+            <VBox minWidth="300.0" style="-fx-padding: 15;" alignment="CENTER">
+                <Label fx:id="titleLabel" minWidth="400.0" alignment="CENTER" style="-fx-padding: 0 0 15 10; -fx-font-weight: bold; -fx-end-margin: 20; -fx-font-size: 15px">
                     <HBox.margin>
                         <Insets bottom="8.0" top="8.0"/>
                     </HBox.margin>
@@ -102,14 +106,14 @@
 
 
         <right>
-            <VBox spacing="10" alignment="CENTER">
+            <VBox spacing="60" alignment="CENTER" prefWidth="120">
 
-                <Button fx:id="hideBottomPaneButton" text="X" onAction="#removeSelection">
+                <Button fx:id="hideBottomPaneButton" styleClass="close" text="X" onAction="#removeSelection" translateX="40" translateY="-30">
                     <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="25.0"/>
                     </VBox.margin>
                 </Button>
-                <Button fx:id="buyTicketsButton"  text="Buy" wrapText="true" onAction="#buyTickets">
+                <Button fx:id="buyTicketsButton"  styleClass="buy" text="Buy" wrapText="true" onAction="#buyTickets" translateY="20">
                     <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                     </VBox.margin>

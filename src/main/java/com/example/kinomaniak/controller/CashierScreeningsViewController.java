@@ -3,6 +3,9 @@ package com.example.kinomaniak.controller;
 import com.example.kinomaniak.model.*;
 import com.example.kinomaniak.service.AuthService;
 import com.example.kinomaniak.service.CashierService;
+import javafx.animation.RotateTransition;
+import javafx.animation.ScaleTransition;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,6 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
@@ -60,6 +64,10 @@ public class CashierScreeningsViewController {
     @FXML
     private Label titleLabel;
     @FXML
+    private Label is3dLabel;
+    @FXML
+    private Label subtitlesLabel;
+    @FXML
     private ScrollPane seatsScrollPane = new ScrollPane();
     @FXML
     private TilePane seatsTilePane = new TilePane();
@@ -70,7 +78,7 @@ public class CashierScreeningsViewController {
 
     private final FxWeaver fxWeaver;
 
-    private double initialx, initialy;
+    private boolean rotatedpane =false;
     private ObservableList<FilmShow> filmShows;
     private ObservableList<Movie> movies;
     private HashMap<Integer, Set<Integer>> seats = new HashMap<>();
@@ -201,20 +209,36 @@ public class CashierScreeningsViewController {
             }else{
                 titleLabel.textProperty().bind(new SimpleStringProperty(newValue.getMovie().getTitle()));
                 priceLabel.textProperty().bind(new SimpleStringProperty(String.valueOf(newValue.getTicketPrice()) + " zł"));
+                titleLabel.setWrapText(true);
+                String is3d = "";
+                if(newValue.getIs3D()) is3d = "Tak";
+                else is3d = "Nie";
+                is3dLabel.textProperty().setValue(is3d);
+                String sub = "";
+                if(newValue.getWithSubtitles()) sub = "Tak";
+                else sub = "Nie";
+                subtitlesLabel.textProperty().setValue(sub);
 
+                seatsScrollPane.setFitToWidth(false);
                 this.toBuy = new ArrayList<>();
                 this.currFilmShow = newValue;
                 this.seatsTilePane = new TilePane();
+                seatsTilePane.minWidthProperty().bind(Bindings.createDoubleBinding(() ->
+                        seatsScrollPane.getViewportBounds().getWidth() - 10, seatsScrollPane.viewportBoundsProperty()));
+//                seatsTilePane.setPrefWidth(500);
                 this.seatsTilePane.getStyleClass().add("full");
                 for(int i=0; i < newValue.getHall().getCapacity(); i++){
                     Button button = new Button(String.valueOf(i+1));
                     button.getStyleClass().clear();
                     button.getStyleClass().add("button-seats");
                     if(i < 9){
-                        button.setPadding(new Insets(5, 15, 5, 18));
+                        button.setPadding(new Insets(5, 15, 5, 20));
                     }
-                    else {
-                        button.setPadding(new Insets(5, 15, 5, 15));
+                    else if(i < 99) {
+                        button.setPadding(new Insets(5, 15, 5, 17));
+                    }
+                    else{
+                        button.setPadding(new Insets(5, 12, 5, 11));
                     }
 
                     if(!this.seats.get(newValue.getId()).contains(i)){
@@ -229,10 +253,15 @@ public class CashierScreeningsViewController {
                         if(this.toBuy.contains(finalI)){
                             toBuy.remove(finalI);
                             button.setStyle("-fx-background-color: #8ea6b4;");
+                            popSeat(button);
                         }
                         else if(this.seats.get(newValue.getId()).contains(finalI)){
                             toBuy.add(finalI);
                             button.setStyle("-fx-background-color: #4a772f;");
+                            popSeat(button);
+                        }
+                        else{
+                            rotateButton(button);
                         }
                     });
                     this.seatsTilePane.getChildren().add(button);
@@ -316,5 +345,42 @@ public class CashierScreeningsViewController {
 
     public void searchHallNo(int hallNo){
         hallComboBox.getSelectionModel().select(String.valueOf(hallNo));
+    }
+
+    private void popSeat(Button btn){
+        ScaleTransition st = new ScaleTransition(Duration.millis(200), btn);
+        st.setToX(1.2);
+        st.setToY(1.2);
+        st.setRate(1.5);
+        st.setCycleCount(1);
+        st.play();
+        st.setOnFinished(event -> {
+            ScaleTransition st2 = new ScaleTransition(Duration.millis(200), btn);
+            st2.setToX(1);
+            st2.setToY(1);
+            st2.setRate(1.5);
+            st2.setCycleCount(1);
+            st2.play();
+        });
+    }
+
+    public void rotateButton(Button btn){
+        if(rotatedpane ==false){
+            rotatedpane =true;
+            RotateTransition rt=new RotateTransition(Duration.millis(60),btn);
+            rt.setByAngle(45);
+            rt.setCycleCount(2);
+            rt.setAutoReverse(true);
+            rt.play();
+
+            rt.setOnFinished(event -> {
+                RotateTransition rt2=new RotateTransition(Duration.millis(60),btn);
+                rt2.setByAngle(-45);
+                rt2.setCycleCount(2);
+                rt2.setAutoReverse(true);
+                rt2.play();
+                rt2.setOnFinished(event1 -> rotatedpane =false);
+            });
+        }
     }
 }
