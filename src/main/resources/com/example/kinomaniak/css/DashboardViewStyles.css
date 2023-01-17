@@ -78,8 +78,11 @@
     -fx-border-color: black;
 }
 
-.table-row-cell:selected .text{
-    -fx-fill: yellow ;
+.table-row-cell .text{
+    -fx-fill: white;
 }
 
+.table-row-cell:selected .text{
+    -fx-fill: yellow;
+}
 
