@@ -26,6 +26,8 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 @Component
 @FxmlView("homeView.fxml")
 public class HomeController {
@@ -109,6 +111,7 @@ public class HomeController {
         setModeButtonGroup();
 
         setBindings();
+        showOrHideRoleButton();
     }
 
     private void setBindings(){
@@ -136,21 +139,42 @@ public class HomeController {
         adminModeButton.setToggleGroup(modeButtonsGroup);
 
         cashierModeButton.setSelected(true);
+        if (authService.getCurrentlyLoggedEmployee().getRole() != null) {
+            switch (authService.getCurrentlyLoggedEmployee().getRole().getRoleName()){
+                case "manager" -> {
+                    managerModeButton.setSelected(true);
+                }
+                case "admin" -> {
+                    adminModeButton.setSelected(true);
+                }
+            }
+        }
         changeMode();
     }
 
-    private void setModeButtonsVisibility(){
+    private void showOrHideRoleButton(){
+        changeRole.setVisible(true);
+        changeRole.setManaged(true);
         if (authService.getCurrentlyLoggedEmployee().getRole() == null){
             usageModeRadioButtons.setVisible(false);
             usageModeRadioButtons.setManaged(false);
+            changeRole.setVisible(false);
+            changeRole.setManaged(false);
             disableAllButtons();
             return;
         }
+        if (Objects.equals(authService.getCurrentlyLoggedEmployee().getRole().getRoleName(), "cashier")) {
+            changeRole.setVisible(false);
+            changeRole.setManaged(false);
+        }
+    }
+
+    private void setModeButtonsVisibility(){
+        showOrHideRoleButton();
         switch (authService.getCurrentlyLoggedEmployee().getRole().getRoleName()){
             case "cashier" -> {
                 usageModeRadioButtons.setVisible(false);
                 usageModeRadioButtons.setManaged(false);
-
             }
             case "manager" -> {
                 usageModeRadioButtons.setVisible(true);
@@ -347,52 +371,10 @@ public class HomeController {
         stage.setHeight(550);
         stage.setMinWidth(1000);
         stage.setMinHeight(550);
+        stage.setMaxWidth(1000);
+        stage.setMaxHeight(550);
         stage.setScene(scene);
         stage.show();
-    }
-
-    public void reserveTicketsForGivenFilm() {
-//        cashierService.reserveTicketsForGivenFilm(filmShow, employee, seatNo);
-    }
-
-    public void changePassword() {
-//        cashierService.changePassword(mail, password);
-    }
-
-    public void showRecommendedFilms(){
-//        cashierService.findRecommendedMovies();
-    }
-
-    public void addFilmShow(){
-//        managerService.addFilmShow(hall, movie, date, ticketPrice);
-    }
-
-    public void addMovie(){
-//        managerService.addMovie(title, director, description, category, duration, premierDate, ageRestriction);
-    }
-
-    public void addNewUser(){
-//        adminService.addNewUser(role, name, surName, mail, password);
-    }
-
-    public void showEmployeeWhoSoldTheMostTickets(){
-//        return adminService.showEmployeeWhoSoldTheMostTickets();
-    }
-
-    public void numberOfCashier(){
-//        return adminService.numberOfCashier();
-    }
-
-    public void numberOfManagers(){
-//        return adminService.numberOfManagers();
-    }
-
-    public Hall showTheOftenChosenHallForEvents(){
-        return adminService.showTheOftenChosenHallForEvents();
-    }
-
-    public Movie showMovieWithTheMostViewer(){
-        return adminService.showMovieWithTheMostViewer();
     }
 
     public void setStage(Stage stage) {

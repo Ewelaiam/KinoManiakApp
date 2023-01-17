@@ -27,6 +27,8 @@ public class CinemaApplication extends Application {
         Scene scene = new Scene(root, 1000, 550);
         primaryStage.setMinWidth(1000);
         primaryStage.setMinHeight(550);
+        primaryStage.setMaxWidth(1000);
+        primaryStage.setMaxHeight(550);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

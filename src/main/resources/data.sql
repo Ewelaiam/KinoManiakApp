@@ -302,5 +302,6 @@ DECLARE
 begin
     tmp = (SELECT setval(''movie_id_seq'', (SELECT MAX(id) FROM movie) + 1));
     tmp = (SELECT setval(''movie_category_id_seq'', (SELECT MAX(id) FROM movie_category) + 1));
+    tmp = (SELECT setval(''employee_id_seq'', (SELECT MAX(id) FROM employee) + 1));
 end;
 '  LANGUAGE PLPGSQL;
