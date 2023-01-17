@@ -124,7 +124,7 @@ public class CashierScreeningsViewController {
             FilmShow show = filmShows.get(i);
             Set<Integer> seatsShow = new HashSet<Integer>();
             for(int j=0 ; j<show.getHall().getCapacity(); j++ ){
-                seatsShow.add(j+1);
+                seatsShow.add(j);
             }
 
             seats.put(show.getId(), seatsShow);
@@ -223,9 +223,13 @@ public class CashierScreeningsViewController {
                 this.toBuy = new ArrayList<>();
                 this.currFilmShow = newValue;
                 this.seatsTilePane = new TilePane();
-                seatsTilePane.minWidthProperty().bind(Bindings.createDoubleBinding(() ->
-                        seatsScrollPane.getViewportBounds().getWidth() - 10, seatsScrollPane.viewportBoundsProperty()));
-//                seatsTilePane.setPrefWidth(500);
+
+                seatsTilePane.paddingProperty().bind(Bindings.createObjectBinding(() -> new Insets(0, 0, 0, Math.max((seatsScrollPane.getViewportBounds().getWidth())/2 -550, 0)), seatsScrollPane.viewportBoundsProperty()));
+
+//                seatsTilePane.minWidthProperty().bind(Bindings.createDoubleBinding(() ->
+//                        seatsScrollPane.getViewportBounds().getWidth() - 10));
+
+                seatsTilePane.setPrefWidth(550);
                 this.seatsTilePane.getStyleClass().add("full");
                 for(int i=0; i < newValue.getHall().getCapacity(); i++){
                     Button button = new Button(String.valueOf(i+1));
