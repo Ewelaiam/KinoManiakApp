@@ -91,8 +91,12 @@
     -fx-border-color: black;
 }
 
+.table-row-cell .text{
+    -fx-fill: white;
+}
+
 .table-row-cell:selected .text{
-    -fx-fill: yellow ;
+    -fx-fill: yellow;
 }
 
 .full{
@@ -124,4 +128,8 @@
 .buy:hover {
     -fx-background-color: linear-gradient(to top, orange, yellow);
     -fx-text-fill: black;
+}
+
+.table-view .column-header-background .filler {
+    -fx-background-color: -fx-maincolor2;
 }
