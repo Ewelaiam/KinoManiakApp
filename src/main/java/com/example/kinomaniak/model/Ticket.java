@@ -14,11 +14,11 @@ public class Ticket {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name="ID_FILMSHOW")
+//    @JoinColumn(name="ID_FILMSHOW")
     private FilmShow filmShow;
 
     @ManyToOne
-    @JoinColumn(name="ID_EMPLOYEE")
+//    @JoinColumn(name="ID_EMPLOYEE")
     private Employee employee;
 
     private Integer seatNo;
