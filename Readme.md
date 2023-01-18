@@ -129,13 +129,7 @@ Aby uruchomić aplikację, należy zbudować projekt gradle i wystartować klas�
 
 <h3> M2 updates </h3>
 
-Zaktualizowano obraz dockerowy dlatego prosimy o pobranie najnowszej wersji   
-
-maile i hasła:    
-admin: mail: admin@mail.com, hasło: admin123    
-manager: mail: manager@mail.com, hasło: manager123    
-kasjer: mail: cashier@mail.com, hasło: cashier123   
-konto bez roli: mail: nobody@mail.com ,hasło: nobody123   
+Zaktualizowano obraz dockerowy dlatego prosimy o pobranie najnowszej wersji
 
 **Controllery i widoki:**   
 HomeView - wybór widoków    
@@ -215,3 +209,66 @@ Utworzono HallConfigurator, który gdy baza sal jest pusta, wczytuje je z pliku 
     
 **Zarządzanie seansami i sprzedaż biletów**    
 Dla kasjera utworzono CashierScreeningsView, w którym może przy użyciu filtrów wybrać seans i zakupić na niego bilety. Widać także ile wolnych miejsc zostało na dany seans. Manager w ManagerScreeningsView może dodawać i usuwać seanse.    
+    
+<h3> M3 updates </h3>     
+      
+Zaktualizowano obraz dockerowy dlatego prosimy o pobranie najnowszej wersji   
+    
+maile i hasła:    
+admin: mail: admin@mail.com, hasło: admin123    
+manager: mail: manager@mail.com, hasło: manager123    
+kasjer: mail: cashier@mail.com, hasło: cashier123   
+konto bez roli: mail: nobody@mail.com ,hasło: nobody123   
+    
+**Poprawa UX i UI**   
+Zmianie uległa szata graficzna aplikacji:     
+
+![Scheme](images/ekran_logowania_m3.jpg)      
+
+![Scheme](images/kasjer_filmy_m3.jpg)       
+
+![Scheme](images/manager_dodaj_film_m3.jpg)       
+    
+**Obsługa polecanych filmów.**    
+Manager ma teraz możliwość dodawania i usuwania polecanych filmów.    
+
+![Scheme](images/manager_polecane_filmy_m3.jpg)       
+
+Kasjer w widoku filmów może zobaczyć polecane filmy (po kliknięciu przycisku Recommended Movies)    
+
+![Scheme](images/cashier_polecane_filmy_m3.jpg)     
+    
+**Funkcjonalność do zwalniania pracowników**  
+Administrator ma możliwość usuwania pracowników   
+
+![Scheme](images/admin_usun_konto.jpg)      
+    
+**Statystyki**  
+Manager ma dostęp do różnych statystyk, które można wyświetlić w postaci tabeli lub grafu. Może on także wybrać zakres czasu, którego te statystyki dotyczą. Możliwe do wyboru opcje to:    
+- najlepszy kasjer 
+- najczęściej oglądane filmy
+- najbardziej dochodowe filmy
+- najbardziej popularne sale
+- przychody z biletów
+
+Poniżej zamieszczamy pare ekranów statystyk   
+
+![Scheme](images/manager_stytystyki1_m3.jpg)      
+
+![Scheme](images/manager_stytystyki2_m3.jpg)    
+
+![Scheme](images/manager_stytystyki3_m3.jpg)        
+
+![Scheme](images/manager_stytystyki4_m3.jpg)        
+    
+**Widok sali - kupowanie biletu**
+
+- Podczas kupowania biletu możemy wybrać interesujące nas miejsca na sali.  
+- Sala jest przedstawiona jako prostokąt z 10 miejscami w rzędzie.    
+- Zakup biletu:
+  - Miejsca czerwone - zajęte
+  - szare - wolne
+  - zielone - wybrane przez nas
+
+
+![Scheme](images/kasjer_kup_bilet_m3.jpg)  
