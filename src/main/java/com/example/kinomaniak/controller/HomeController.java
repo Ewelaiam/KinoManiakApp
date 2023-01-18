@@ -74,8 +74,6 @@ public class HomeController {
     public Button statisticsButton;
     @FXML
     public Button usersButton;
-    @FXML
-    public Button emailButton;
 
     @FXML
     private Button recommendedMoviesButton;
@@ -120,7 +118,6 @@ public class HomeController {
         hallButton.managedProperty().bind(isHallVisible);
         statisticsButton.managedProperty().bind(isStatisticsVisible);
         usersButton.managedProperty().bind(isUsersVisible);
-        emailButton.managedProperty().bind(isEmailVisible);
         recommendedMoviesButton.managedProperty().bind(isRecommendedMoviesVisible);
 
         screeningsButton.visibleProperty().bind(isScreeningsVisible);
@@ -128,7 +125,6 @@ public class HomeController {
         hallButton.visibleProperty().bind(isHallVisible);
         statisticsButton.visibleProperty().bind(isStatisticsVisible);
         usersButton.visibleProperty().bind(isUsersVisible);
-        emailButton.visibleProperty().bind(isEmailVisible);
         recommendedMoviesButton.visibleProperty().bind(isRecommendedMoviesVisible);
     }
 
