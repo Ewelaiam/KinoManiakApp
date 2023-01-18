@@ -41,15 +41,9 @@ public class AdminService {
     public void deleteEmployee(Employee employee) {
         for (Employee employeeToNotify : getEmployees()){
             if (Objects.equals(employeeToNotify.getMail(), employee.getMail())){
-                System.out.println("dupa");
                 mailSendingService.sendEmail(employee.getMail(), "Job dismissal",
                         "Unfortunately, you have been fired from your position in KinoManiak Cinemas." +
                                 "You should've tried harder and now you're jobless ://");
-            } else {
-//                mailSendingService.sendEmail(employee.getMail(), "Job dismissal of your colleague",
-//                        "Unfortunately, one of your colleagues, " + employee.getName() + " " + employee.getSurName() +
-//                                ", have been fired from your position in KinoManiak Cinemas." +
-//                                "For now you are safe, but you had better work harder, or else...");
             }
         }
         employeeRepository.delete(employee);
