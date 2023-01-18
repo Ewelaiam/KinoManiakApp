@@ -239,7 +239,7 @@ Kasjer w widoku filmów może zobaczyć polecane filmy (po kliknięciu przycisku
 ![Scheme](images/cashier_polecane_filmy_m3.jpg)     
     
 **Funkcjonalność do zwalniania pracowników**  
-Administrator ma możliwość usuwania pracowników   
+Administrator ma możliwość usuwania pracowników. Do zwolnionego pracownika wysyłany jest pożegnalny mail.   
 
 ![Scheme](images/admin_usun_konto.jpg)      
     
