@@ -48,7 +48,20 @@
     -fx-background-color: -fx-maincolor3;
 }
 
+.button-seats {
+    -fx-background-color: #8ea6b4;
+    -fx-min-width: 50px;
+    -fx-min-height: 50px;
+    -fx-background-radius: 4px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-insets: 5px;
+    -fx-background-insets: 5px;
+}
 
+.button-seats-click:hover{
+    -fx-cursor: hand;
+}
 
 #mainGrid {
     -fx-background-color: -fx-maincolor7;
@@ -86,3 +99,37 @@
     -fx-fill: yellow;
 }
 
+.full{
+    /*-fx-min-width: 300px;*/
+    -fx-min-width: auto;
+}
+
+.close {
+    -fx-min-width: 0px;
+    -fx-background-color: linear-gradient(to top, -fx-maincolor6, -fx-maincolor9);
+    -fx-pref-width: 30px;
+    -fx-pref-height: 30px;
+    -fx-background-radius: 15px;
+}
+
+.close:hover {
+    -fx-background-color: linear-gradient(to top, darkred, red);
+}
+
+.buy {
+    -fx-min-width: 0px;
+    -fx-background-color: linear-gradient(to top, -fx-maincolor6, -fx-maincolor9);
+    -fx-pref-width: 90px;
+    -fx-pref-height: 40px;
+    -fx-font-size: 16px;
+    -fx-background-radius: 10px;
+}
+
+.buy:hover {
+    -fx-background-color: linear-gradient(to top, orange, yellow);
+    -fx-text-fill: black;
+}
+
+.table-view .column-header-background .filler {
+    -fx-background-color: -fx-maincolor2;
+}

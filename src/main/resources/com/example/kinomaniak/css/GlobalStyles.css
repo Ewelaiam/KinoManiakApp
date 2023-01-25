@@ -2,32 +2,84 @@
     -fx-maincolor1: rgb(105, 155, 175);
     -fx-maincolor2: rgb(140, 100, 120);
     -fx-maincolor3: rgb(150, 110, 130);
+
+    -fx-maincolor6: rgb(54, 53, 51);
+    -fx-maincolor7: rgb(23, 6, 92);
+    -fx-maincolor8: rgb(35, 11, 133);
+    /*-fx-maincolor9: rgb(227, 5, 12);*/
+    -fx-maincolor9: rgb(187, 132, 166);
+
+    -fx-maincolor10: rgb(169,169,169);
+    -fx-maincolot11: rgb(54, 53, 51);
+    -fx-maincolor12: rgb(218, 218, 218);
+
 }
 
 #mainNavBar {
     -fx-pref-width: 250px;
-    -fx-background-color: -fx-maincolor1;
+    -fx-background-color: -fx-maincolor6;
     -fx-alignment: TOP_CENTER;
+
+}
+
+#logoLabel {
+    -fx-text-fill: white;
 }
 
 #usageModeRadioButtons {
-    -fx-alignment: TOP_CENTER;
+    -fx-alignment: LEFT;
+    -fx-background-color: -fx-maincolor2;
+    -fx-padding: 10px 20px;
+}
+
+#usageModeRadioButtons .radioButtonRole{
+    -fx-text-fill: white;
+    -fx-padding: 5px 5px;
+}
+
+#usageModeRadioButtons .radio-button:selected{
+    -fx-text-fill: -fx-maincolor11;
+}
+
+.radio-button:selected .radio .dot {
+    -fx-background-color: -fx-maincolor10;
+    -fx-background-insets: 0;
 }
 
 #credentialsLabel {
     -fx-font-family: Haettenschweiler;
     -fx-font-size: 20;
     -fx-text-fill: white;
+
+
 }
 
 #viewButtons {
     -fx-alignment: center;
 }
 
+#profileButtons .button{
+    -fx-pref-width: 125px;
+    -fx-background-color: -fx-maincolor10;
+    -fx-font-weight: bold;
+    -fx-border-radius: 0;
+    -fx-border-width: 2px;
+    -fx-border-color: -fx-maincolor12;
+}
+
+#profileButtons .button:hover{
+    -fx-background-color: linear-gradient(to top, -fx-maincolor10, -fx-maincolor12);
+    -fx-cursor: hand;
+}
+
+
 #viewButtons .button {
-    -fx-pref-width: 180px;
-    -fx-background-color: linear-gradient(to top, -fx-maincolor2, -fx-maincolor3);
-    -fx-border-radius: 15px;
+    /*-fx-pref-width: 180px;*/
+    /*-fx-background-color: linear-gradient(to top, -fx-maincolor7, -fx-maincolor8);*/
+    /*-fx-border-radius: 15px;*/
+    -fx-pref-width: 250px;
+    -fx-padding: 20px 0;
+    -fx-background-color: -fx-maincolor6;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-font-family: Verdana;

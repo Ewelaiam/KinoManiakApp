@@ -1,9 +1,8 @@
 package com.example.kinomaniak.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+
+import java.time.ZonedDateTime;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -15,12 +14,16 @@ public class Ticket {
     private Integer id;
 
     @ManyToOne
+//    @JoinColumn(name="ID_FILMSHOW")
     private FilmShow filmShow;
 
     @ManyToOne
+//    @JoinColumn(name="ID_EMPLOYEE")
     private Employee employee;
 
     private Integer seatNo;
+
+    private ZonedDateTime purchaseDate;
 
     public Ticket() {}
 
@@ -28,6 +31,7 @@ public class Ticket {
         this.filmShow = filmShow;
         this.employee = employee;
         this.seatNo = seatNo;
+        this.purchaseDate = ZonedDateTime.now();
     }
 
     public Integer getId() {
@@ -45,6 +49,8 @@ public class Ticket {
     public Integer getSeatNo() {
         return seatNo;
     }
+
+    public ZonedDateTime getPurchaseDate() { return purchaseDate; }
 
 
 }

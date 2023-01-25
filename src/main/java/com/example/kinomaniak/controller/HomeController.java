@@ -13,10 +13,7 @@ import javafx.fxml.FXML;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -28,6 +25,8 @@ import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
+
+import java.util.Objects;
 
 @Component
 @FxmlView("homeView.fxml")
@@ -48,7 +47,7 @@ public class HomeController {
 
 
     @FXML
-    public HBox usageModeRadioButtons;
+    public VBox usageModeRadioButtons;
 
     @FXML
     public RadioButton cashierModeButton;
@@ -75,10 +74,13 @@ public class HomeController {
     public Button statisticsButton;
     @FXML
     public Button usersButton;
+
     @FXML
-    public Button emailButton;
+    private Button recommendedMoviesButton;
     @FXML
     public Button logoutButton;
+    @FXML
+    public Button changeRole;
 
     private final SimpleBooleanProperty isScreeningsVisible = new SimpleBooleanProperty();
     private final SimpleBooleanProperty isMoviesVisible = new SimpleBooleanProperty();
@@ -86,6 +88,8 @@ public class HomeController {
     private final SimpleBooleanProperty isStatisticsVisible = new SimpleBooleanProperty();
     private final SimpleBooleanProperty isUsersVisible = new SimpleBooleanProperty();
     private final SimpleBooleanProperty isEmailVisible = new SimpleBooleanProperty();
+
+    private final SimpleBooleanProperty isRecommendedMoviesVisible = new SimpleBooleanProperty();
 
     public HomeController(ManagerService managerService,
                           CashierService cashierService,
@@ -105,7 +109,7 @@ public class HomeController {
         setModeButtonGroup();
 
         setBindings();
-        setModeButtonsVisibility();
+        showOrHideRoleButton();
     }
 
     private void setBindings(){
@@ -114,14 +118,14 @@ public class HomeController {
         hallButton.managedProperty().bind(isHallVisible);
         statisticsButton.managedProperty().bind(isStatisticsVisible);
         usersButton.managedProperty().bind(isUsersVisible);
-        emailButton.managedProperty().bind(isEmailVisible);
+        recommendedMoviesButton.managedProperty().bind(isRecommendedMoviesVisible);
 
         screeningsButton.visibleProperty().bind(isScreeningsVisible);
         moviesButton.visibleProperty().bind(isMoviesVisible);
         hallButton.visibleProperty().bind(isHallVisible);
         statisticsButton.visibleProperty().bind(isStatisticsVisible);
         usersButton.visibleProperty().bind(isUsersVisible);
-        emailButton.visibleProperty().bind(isEmailVisible);
+        recommendedMoviesButton.visibleProperty().bind(isRecommendedMoviesVisible);
     }
 
     private void setModeButtonGroup(){
@@ -131,21 +135,42 @@ public class HomeController {
         adminModeButton.setToggleGroup(modeButtonsGroup);
 
         cashierModeButton.setSelected(true);
+        if (authService.getCurrentlyLoggedEmployee().getRole() != null) {
+            switch (authService.getCurrentlyLoggedEmployee().getRole().getRoleName()){
+                case "manager" -> {
+                    managerModeButton.setSelected(true);
+                }
+                case "admin" -> {
+                    adminModeButton.setSelected(true);
+                }
+            }
+        }
         changeMode();
     }
 
-    private void setModeButtonsVisibility(){
+    private void showOrHideRoleButton(){
+        changeRole.setVisible(true);
+        changeRole.setManaged(true);
         if (authService.getCurrentlyLoggedEmployee().getRole() == null){
             usageModeRadioButtons.setVisible(false);
             usageModeRadioButtons.setManaged(false);
+            changeRole.setVisible(false);
+            changeRole.setManaged(false);
             disableAllButtons();
             return;
         }
+        if (Objects.equals(authService.getCurrentlyLoggedEmployee().getRole().getRoleName(), "cashier")) {
+            changeRole.setVisible(false);
+            changeRole.setManaged(false);
+        }
+    }
+
+    private void setModeButtonsVisibility(){
+        showOrHideRoleButton();
         switch (authService.getCurrentlyLoggedEmployee().getRole().getRoleName()){
             case "cashier" -> {
                 usageModeRadioButtons.setVisible(false);
                 usageModeRadioButtons.setManaged(false);
-
             }
             case "manager" -> {
                 usageModeRadioButtons.setVisible(true);
@@ -196,6 +221,7 @@ public class HomeController {
                 isScreeningsVisible.set(true);
                 isHallVisible.set(true);
                 isStatisticsVisible.set(true);
+                isRecommendedMoviesVisible.set(true);
 
                 screeningsButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
@@ -213,6 +239,20 @@ public class HomeController {
                     @Override
                     public void handle(MouseEvent event) {
                         showHallsManager();
+                    }
+                });
+
+                statisticsButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        showStatisticsManager();
+                    }
+                });
+
+                recommendedMoviesButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        showRecommendedMoviesManager();
                     }
                 });
 
@@ -239,6 +279,7 @@ public class HomeController {
         isHallVisible.set(false);
         isStatisticsVisible.set(false);
         isUsersVisible.set(false);
+        isRecommendedMoviesVisible.set(false);
 
     }
 
@@ -290,6 +331,12 @@ public class HomeController {
         mainContent.setCenter(adminAccountsPane);
     }
 
+    private void showRecommendedMoviesManager() {
+        System.out.println("Recommended movies manager");
+        GridPane managerRecommendedMoviesPane = fxWeaver.loadView(ManagerRecommendedMovieViewController.class);
+        mainContent.setCenter(managerRecommendedMoviesPane);
+    }
+
     public void showFilmsManager() {
         System.out.println("Films manager");
         GridPane managerMoviePane = fxWeaver.loadView(ManagerMovieViewController.class);
@@ -303,6 +350,12 @@ public class HomeController {
         mainContent.setCenter(managerHallPane);
     }
 
+    public void showStatisticsManager() {
+        System.out.println("Statistics manager");
+        GridPane managerStatisticsPane = fxWeaver.loadView(ManagerStatisticsController.class);
+        mainContent.setCenter(managerStatisticsPane);
+    }
+
     public void logout(){
         authService.logout();
 
@@ -314,59 +367,17 @@ public class HomeController {
         stage.setHeight(550);
         stage.setMinWidth(1000);
         stage.setMinHeight(550);
+        stage.setMaxWidth(1000);
+        stage.setMaxHeight(550);
         stage.setScene(scene);
         stage.show();
-    }
-
-    public void reserveTicketsForGivenFilm() {
-//        cashierService.reserveTicketsForGivenFilm(filmShow, employee, seatNo);
-    }
-
-    public void changePassword() {
-//        cashierService.changePassword(mail, password);
-    }
-
-    public void showRecommendedFilms(){
-//        cashierService.findRecommendedMovies();
-    }
-
-    public void addFilmShow(){
-//        managerService.addFilmShow(hall, movie, date, ticketPrice);
-    }
-
-    public void addMovie(){
-//        managerService.addMovie(title, director, description, category, duration, premierDate, ageRestriction);
-    }
-
-    public void addNewUser(){
-//        adminService.addNewUser(role, name, surName, mail, password);
-    }
-
-    public void showEmployeeWhoSoldTheMostTickets(){
-//        return adminService.showEmployeeWhoSoldTheMostTickets();
-    }
-
-    public void numberOfCashier(){
-//        return adminService.numberOfCashier();
-    }
-
-    public void numberOfManagers(){
-//        return adminService.numberOfManagers();
-    }
-
-    public Hall showTheOftenChosenHallForEvents(){
-        return adminService.showTheOftenChosenHallForEvents();
-    }
-
-    public Movie showMovieWithTheMostViewer(){
-        return adminService.showMovieWithTheMostViewer();
     }
 
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
-    public void showAccountEditDialog(Employee employee, ObservableList<Employee> accounts) {
+    public void showAccountEditDialog(Employee employee, TableView<Employee> accountsTable) {
         FxControllerAndView<AccountEditDialogPresenter, GridPane> fxControllerAndView =
                 fxWeaver.load(AccountEditDialogPresenter.class,null);
 
@@ -381,7 +392,7 @@ public class HomeController {
 
         // Set the transaction into the presenter.
         fxControllerAndView.getController().setDialogStage(dialogStage);
-        fxControllerAndView.getController().setData(employee,accounts);
+        fxControllerAndView.getController().setData(employee,accountsTable);
 
         // Show the dialog and wait until the user closes it
         dialogStage.showAndWait();
@@ -416,4 +427,14 @@ public class HomeController {
     }
 
 
+    public void changeRole() {
+        if(!usageModeRadioButtons.isVisible()){
+            usageModeRadioButtons.setVisible(true);
+            usageModeRadioButtons.setManaged(true);
+            setModeButtonsVisibility();
+        } else {
+            usageModeRadioButtons.setVisible(false);
+            usageModeRadioButtons.setManaged(false);
+        }
+    }
 }

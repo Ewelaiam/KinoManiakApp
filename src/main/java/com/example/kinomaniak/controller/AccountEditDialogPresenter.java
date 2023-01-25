@@ -8,10 +8,7 @@ import com.example.kinomaniak.service.AuthService;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -48,7 +45,7 @@ public class AccountEditDialogPresenter {
     private final AdminService adminService;
     private final AuthService authService;
 
-    private ObservableList<Employee> accounts;
+    private TableView<Employee> accountsTable;
     private HomeController homeController;
 
 
@@ -70,9 +67,9 @@ public class AccountEditDialogPresenter {
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
     }
-    public void setData(Employee employee,ObservableList<Employee> accounts) {
+    public void setData(Employee employee,TableView<Employee> accountsTable) {
         this.employee = employee;
-        this.accounts = accounts;
+        this.accountsTable = accountsTable;
         updateControls();
 
     }
@@ -111,8 +108,7 @@ public class AccountEditDialogPresenter {
             }
 
             adminService.saveEditedEmployee(employee);
-            accounts.clear();
-            accounts.addAll(adminService.getEmployees());
+            accountsTable.refresh();
             if(refreshLoggedData){
                 authService.refreshCurrentlyLoggedEmployeeData(employee);
                 homeController.setCredentialsLabel();

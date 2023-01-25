@@ -206,7 +206,7 @@ public class CashierMovieViewController {
         resetFilters();
         moviesTable.setItems(FXCollections.observableList(movies
                 .stream()
-                .filter(movie -> movie.getPremierDate().isAfter(LocalDate.now().minusMonths(1)))
+                .filter(Movie::getIsRecommended)
                 .collect(Collectors.toList()))
         );
 

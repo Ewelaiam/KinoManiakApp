@@ -40,6 +40,7 @@ public class CashierService {
 
     public Ticket reserveTicketsForGivenFilm(FilmShow filmShow, Employee employee, Integer seatNo) {
         Ticket ticket = new Ticket(filmShow, employee, seatNo);
+        System.out.println("IN RESERVE TICKETS FOR GIVEN FILM: " + employee.getName());
         return ticketRepository.save(ticket);
     }
 
@@ -61,5 +62,7 @@ public class CashierService {
 
     public ObservableList<Hall> getHalls() { return FXCollections.observableList(hallRepository.findAll()); }
 
-    public ObservableList<Ticket> getTickets() { return FXCollections.observableList(ticketRepository.findAll()); }
+    public ObservableList<Ticket> getNotPastTickets() { return FXCollections.observableList(ticketRepository.notPastTickets()); }
+
+    public ObservableList<Ticket> getAllTickets() { return FXCollections.observableList(ticketRepository.findAll()); }
 }

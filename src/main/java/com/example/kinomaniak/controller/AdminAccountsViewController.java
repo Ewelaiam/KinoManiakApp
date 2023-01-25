@@ -131,7 +131,7 @@ public class AdminAccountsViewController {
 
     @FXML
     private void handleEditAccount(ActionEvent actionEvent) {
-        homeController.showAccountEditDialog(accountsTable.getSelectionModel().getSelectedItem(),accounts);
+        homeController.showAccountEditDialog(accountsTable.getSelectionModel().getSelectedItem(),accountsTable);
     }
     @FXML
     private void handleDeleteAccount(ActionEvent actionEvent) {
