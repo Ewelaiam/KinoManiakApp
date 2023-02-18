@@ -1,0 +1,88 @@
+* {
+    -fx-maincolor1: rgb(105, 155, 175);
+    -fx-maincolor2: rgb(140, 100, 120);
+    -fx-maincolor3: rgb(150, 110, 130);
+    -fx-maincolor4: #62B6B7;
+    -fx-maincolor5: rgb(190, 150, 170);
+    -fx-font-family: Verdana;
+
+    -fx-maincolot6: rgb(54, 53, 51);
+    -fx-maincolor7: rgb(232, 232, 232);
+    -fx-maincolor8: rgb(148, 147, 147);
+    -fx-maincolor9: rgb(70, 69, 68);
+    -fx-maincolor10: rgb(204, 204, 204);
+
+}
+
+#mainOptions,
+#filtersVBox,
+#filtersVBox .label,
+#bottomPane
+{
+    -fx-text-fill: black;
+}
+
+.button, .combo-box {
+    -fx-background-color: linear-gradient(to top, -fx-maincolor2, -fx-maincolor3);
+    -fx-min-width: 150px;
+    -fx-background-radius: 2;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.combo-box {
+    -jfx-focus-color: white;
+    -jfx-unfocus-color: white;
+}
+
+.combo-box > .list-cell {
+    -fx-text-fill: white;
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(to top, -fx-maincolor3, -fx-maincolor2);
+    -fx-cursor: hand;
+}
+
+.button:selected {
+    -fx-background-color: -fx-maincolor3;
+}
+
+
+
+#mainGrid {
+    -fx-background-color: -fx-maincolor7;
+    -fx-background-radius: 2px;
+    -fx-border-radius: 2px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+
+}
+
+#mainGrid Line {
+    -fx-stroke: red;
+}
+
+#roleColumn {
+    -fx-alignment: BASELINE_CENTER
+
+}
+
+.table-column {
+    -fx-background-color: -fx-maincolor2;
+}
+
+.cell {
+    -fx-background-color: -fx-maincolor9;
+    -fx-text-fill: white;
+    -fx-border-width: 1;
+    -fx-border-color: black;
+}
+
+.table-row-cell .text{
+    -fx-fill: white;
+}
+
+.table-row-cell:selected .text{
+    -fx-fill: yellow;
+}
+

@@ -3,51 +3,60 @@ package com.example.kinomaniak.service;
 import com.example.kinomaniak.model.*;
 import com.example.kinomaniak.repository.EmployeeRepository;
 import com.example.kinomaniak.repository.FilmShowRepository;
+import com.example.kinomaniak.repository.RoleRepository;
 import com.example.kinomaniak.repository.TicketRepository;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class AdminService {
-    public EmployeeRepository employeeRepository;
-    public TicketRepository ticketRepository;
-    public FilmShowRepository filmShowRepository;
+    private final EmployeeRepository employeeRepository;
+    private final TicketRepository ticketRepository;
+    private final FilmShowRepository filmShowRepository;
+    private final RoleRepository roleRepository;
+    private final MailSendingService mailSendingService;
 
-    public AdminService(EmployeeRepository employeeRepository, TicketRepository ticketRepository, FilmShowRepository filmShowRepository) {
+    public AdminService(EmployeeRepository employeeRepository, TicketRepository ticketRepository,
+                        FilmShowRepository filmShowRepository,RoleRepository roleRepository,
+                        MailSendingService mailSendingService) {
         this.employeeRepository = employeeRepository;
         this.ticketRepository = ticketRepository;
         this.filmShowRepository = filmShowRepository;
+        this.roleRepository = roleRepository;
+        this.mailSendingService = mailSendingService;
     }
 
-    public Employee addNewUser(Role role, String name, String surName, String mail, String password){
-        Employee employee = new Employee(role, name, surName, mail, password);
-        return employeeRepository.save(employee);
+    public ObservableList<Employee> getEmployees(){
+        return FXCollections.observableList(employeeRepository.findAll());
+    }
+    public ObservableList<Role> getRoles(){
+        return FXCollections.observableList(roleRepository.findAll());
     }
 
-    public Employee showEmployeeWhoSoldTheMostTickets(){
-        Optional<Ticket> ticketData = ticketRepository.findBestEmployee();
-        return ticketData.map(Ticket::getEmployee).orElse(null);
+    public void deleteEmployee(Employee employee) {
+        for (Employee employeeToNotify : getEmployees()){
+            if (Objects.equals(employeeToNotify.getMail(), employee.getMail())){
+                mailSendingService.sendEmail(employee.getMail(), "Job dismissal",
+                        "Unfortunately, you have been fired from your position in KinoManiak Cinemas." +
+                                "You should've tried harder and now you're jobless ://");
+            }
+        }
+        employeeRepository.delete(employee);
     }
 
-//    public Integer numberOfCashier(){
-//        Optional<List<Employee>> cashiers = employeeRepository.findAllByRoleName("cashier");
-//        return cashiers.map(List::size).orElse(0);
-//    }
-
-//    public Integer numberOfManagers(){
-//        Optional<List<Employee>> managers = employeeRepository.findAllByRoleName("manager");
-//        return managers.map(List::size).orElse(0);
-//    }
-
-    public Hall showTheOftenChosenHallForEvents(){
-        Optional<FilmShow> oftenChosenHallData = filmShowRepository.findTheOftenChosenHallForEvents();
-        return oftenChosenHallData.map(FilmShow::getHall).orElse(null);
+    public void saveEditedEmployee(Employee employee) {
+        employeeRepository.save(employee);
     }
 
-    public Movie showMovieWithTheMostViewer(){
-        Optional<Ticket> ticketData = ticketRepository.findBestMovie();
-        return ticketData.map(ticket -> ticket.getFilmShow().getMovie()).orElse(null);
+    public Optional<Role> getRoleWithName(String name) {
+        return roleRepository.findByRoleName(name);
+    }
+    public boolean employeeSoldTickets(Employee employee){
+        return ticketRepository.getNoSoldTickets(employee) > 0;
     }
 }

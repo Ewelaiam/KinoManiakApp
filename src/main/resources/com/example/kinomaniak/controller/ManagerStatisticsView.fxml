@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="com.example.kinomaniak.controller.ManagerStatisticsController"
+          prefWidth="600.0"
+          fx:id="mainGrid"
+          stylesheets="@../css/DashboardViewStyles.css">
+    <padding><Insets bottom="25" right="25" left="25" top="25"/></padding>
+
+    <VBox fx:id="filtersVBox" GridPane.rowIndex="1" spacing="10">
+        <BorderPane >
+            <left>
+                <VBox alignment="CENTER" spacing="5">
+                    <padding><Insets bottom="5" right="5" left="5" top="5"/></padding>
+                    <BorderPane>
+                        <padding><Insets bottom="5" right="5" left="5" top="5"/></padding>
+                        <left>
+                            <VBox spacing="10">
+                                <Label text="Category: " prefHeight="25">
+                                    <VBox.margin>
+                                        <Insets right="10.0"/>
+                                    </VBox.margin>
+                                </Label>
+                                <Label text="Date from: " prefHeight="25">
+                                    <VBox.margin>
+                                        <Insets right="10.0"/>
+                                    </VBox.margin>
+                                </Label>
+                                <Label text="Date to: " prefHeight="25">
+                                    <VBox.margin>
+                                        <Insets right="10.0"/>
+                                    </VBox.margin>
+                                </Label>
+                            </VBox>
+                        </left>
+                        <right>
+                            <VBox spacing="10">
+                                <ComboBox fx:id="categoryComboBox" />
+                                <DatePicker fx:id="fromDatePicker" prefWidth="215.0"/>
+                                <DatePicker fx:id="toDatePicker" prefWidth="215.0"/>
+                            </VBox>
+                        </right>
+                    </BorderPane>
+
+                </VBox>
+            </left>
+            <right>
+                <VBox>
+                    <Button fx:id="resetFiltersButton" text="Reset Selections" onAction="#resetSelections">
+                        <VBox.margin>
+                            <Insets bottom="5.0" left="2.0" top="45.0"/>
+                        </VBox.margin>
+                    </Button>
+                </VBox>
+            </right>
+        </BorderPane>
+        <HBox alignment="CENTER">
+            <RadioButton fx:id="tableTypeButton" text="Table" onAction="#displayStatisticsData">
+                <HBox.margin>
+                    <Insets bottom="5.0" left="2.0" right="2.0" top="5.0"/>
+                </HBox.margin>
+            </RadioButton>
+            <RadioButton fx:id="chartTypeButton" text="Chart" onAction="#displayStatisticsData">
+                <HBox.margin>
+                    <Insets bottom="5.0" left="2.0" right="2.0" top="5.0"/>
+                </HBox.margin>
+            </RadioButton>
+        </HBox>
+    </VBox>
+
+    <BorderPane fx:id="statisticsBorderPane"
+
+            GridPane.rowIndex="2"
+            prefHeight="650"
+            prefWidth="20000"
+    />
+</GridPane>
+

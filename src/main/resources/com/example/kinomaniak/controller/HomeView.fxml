@@ -6,22 +6,100 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.geometry.Insets?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
+            stylesheets="@../css/GlobalStyles.css"
             fx:controller="com.example.kinomaniak.controller.HomeController">
+
     <left>
-        <VBox>
-            <Label fx:id="credentialsLabel"/>
-            <Button fx:id="screeningsButton">Seanse</Button>
-            <Button fx:id="moviesButton">Filmy</Button>
-            <Button fx:id="hallButton">Sale</Button>
-            <Button fx:id="logoutButton">Wyloguj</Button>
+        <VBox fx:id="mainNavBar">
+            <Label fx:id="logoLabel" text="KinoManiak 🎥">
+                <VBox.margin>
+                    <Insets bottom="15.0" left="5.0" right="5.0" top="5.0"/>
+                </VBox.margin>
+            </Label>
+            <Label fx:id="credentialsLabel">
+                <VBox.margin>
+                    <Insets bottom="15.0" left="5.0" right="5.0" top="5.0"/>
+                </VBox.margin>
+            </Label>
+            <VBox >
+                <HBox fx:id="profileButtons" alignment="CENTER">
+                    <Button fx:id="changeRole" onMouseClicked="#changeRole">Change role
+                        <VBox.margin>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                        </VBox.margin>
+                    </Button>
+                    <Button fx:id="logoutButton" onMouseClicked="#logout" alignment="CENTER">Sign out
+                        <VBox.margin>
+                            <Insets bottom="5.0" top="5.0"/>
+                        </VBox.margin>
+                    </Button>
+                </HBox>
+                <VBox fx:id="usageModeRadioButtons" visible="false" managed="false">
+                    <RadioButton fx:id="cashierModeButton" text="Cashier" onAction="#changeMode" styleClass="radioButtonRole">
+                        <HBox.margin>
+                            <Insets bottom="5.0" left="2.0" right="2.0" top="5.0"/>
+                        </HBox.margin>
+                    </RadioButton>
+                    <RadioButton fx:id="managerModeButton" text="Manager" onAction="#changeMode" styleClass="radioButtonRole">
+                        <HBox.margin>
+                            <Insets bottom="5.0" left="2.0" right="2.0" top="5.0"/>
+                        </HBox.margin>
+                    </RadioButton>
+                    <RadioButton fx:id="adminModeButton" text="Admin" onAction="#changeMode" styleClass="radioButtonRole">
+                        <HBox.margin>
+                            <Insets bottom="5.0" left="2.0" right="2.0" top="5.0"/>
+                        </HBox.margin>
+                    </RadioButton>
+                </VBox>
+            </VBox>
+
+            <VBox fx:id="viewButtons">
+                <Button fx:id="screeningsButton">Screenings
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </VBox.margin>
+                </Button>
+                <Button fx:id="moviesButton">Movies
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </VBox.margin>
+                </Button>
+                <Button fx:id="hallButton">Halls
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </VBox.margin>
+                </Button>
+                <Button fx:id="statisticsButton">Statistics
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </VBox.margin>
+                </Button>
+                <Button fx:id="usersButton">Users
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </VBox.margin>
+                </Button>
+                <Button fx:id="recommendedMoviesButton">Recommended
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </VBox.margin>
+                </Button>
+            </VBox>
         </VBox>
     </left>
     <center>
-        <BorderPane>
+        <VBox>
 
-        </BorderPane>
+            <BorderPane fx:id="mainContent">
+                <VBox.margin>
+                    <Insets bottom="25.0" left="25.0" right="25.0" top="25.0"/>
+                </VBox.margin>
+            </BorderPane>
+        </VBox>
+
     </center>
 
 </BorderPane>

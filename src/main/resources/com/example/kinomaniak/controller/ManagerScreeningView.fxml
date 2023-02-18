@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          stylesheets="@../css/DashboardViewStyles.css"
+          fx:controller="com.example.kinomaniak.controller.ManagerScreeningViewController"
+          prefHeight="700" prefWidth="800" alignment="BASELINE_CENTER"
+          fx:id="mainGrid">
+    <padding><Insets right="25" left="25" top="10"/></padding>
+    <VBox>
+        <HBox alignment="BASELINE_CENTER" >
+            <Button fx:id="addScreeningBtn" text="Add screening" onAction="#toggleAddScreening" />
+            <Button fx:id="removeScreeningBtn" text="Remove screening" onAction="#toggleRemoveScreening" />
+            <padding><Insets right="25" left="25" bottom="20"/></padding>
+        </HBox>
+        <VBox fx:id="addScreeningForm" visible="false" managed="false" alignment="BASELINE_CENTER"  spacing="10">
+            <Label text="ADD NEW SCREENING" />
+            <HBox>
+                <Label text="Hall" prefWidth="100.0">
+                    <HBox.margin>
+                        <Insets bottom="8.0" top="8.0"/>
+                    </HBox.margin>
+                </Label>
+
+                <ComboBox fx:id="selectedHall" prefWidth="350.0">
+                    <HBox.margin>
+                        <Insets bottom="8.0" top="8.0"/>
+                    </HBox.margin>
+                </ComboBox>
+            </HBox>
+            <HBox>
+                <Label text="Movie" prefWidth="100.0">
+                    <HBox.margin>
+                        <Insets bottom="8.0" top="8.0"/>
+                    </HBox.margin>
+                </Label>
+
+                <ComboBox fx:id="selectedMovie" prefWidth="350.0">
+                    <HBox.margin>
+                        <Insets bottom="8.0" top="8.0"/>
+                    </HBox.margin>
+                </ComboBox>
+            </HBox>
+            <HBox>
+                <Label text="Premier date" prefWidth="100.0" >
+                    <HBox.margin>
+                        <Insets bottom="8.0" top="8.0"/>
+                    </HBox.margin>
+                </Label>
+                <DatePicker fx:id="selectedDate" prefWidth="350.0" >
+                    <HBox.margin>
+                        <Insets bottom="8.0" top="8.0"/>
+                    </HBox.margin>
+                </DatePicker>
+            </HBox>
+            <HBox>
+                <Label prefWidth="100.0"/>
+                <Spinner fx:id="selectedHour" prefWidth="70.0">
+                    <HBox.margin>
+                        <Insets bottom="8.0" top="15.0"/>
+                    </HBox.margin>
+                </Spinner>
+                <Label text=":" styleClass="hourText" prefWidth="30.0" alignment="CENTER"/>
+                <Spinner fx:id="selectedMinute" prefWidth="70.0">
+                    <HBox.margin>
+                        <Insets bottom="8.0" top="15.0"/>
+                    </HBox.margin>
+                </Spinner>
+                <Label prefWidth="180.0"/>
+            </HBox>
+            <HBox>
+                <Label text="Ticket price" prefWidth="100.0"/>
+                <Spinner fx:id="selectedPriceNumbers" prefWidth="70.0">
+                    <HBox.margin>
+                        <Insets bottom="8.0" top="15.0"/>
+                    </HBox.margin>
+                </Spinner>
+                <Label text="." styleClass="hourText" prefWidth="30.0" alignment="CENTER"/>
+                <Spinner fx:id="selectedPriceDecimals" prefWidth="70.0">
+                    <HBox.margin>
+                        <Insets bottom="8.0" top="15.0"/>
+                    </HBox.margin>
+                </Spinner>
+                <Label prefWidth="180.0"/>
+            </HBox>
+            <HBox>
+                <Label text="Subtitle" prefWidth="100.0">
+                    <HBox.margin>
+                        <Insets bottom="8.0" top="8.0"/>
+                    </HBox.margin>
+                </Label>
+
+                <CheckBox fx:id="selectedSubtitle" prefWidth="350.0">
+                    <HBox.margin>
+                        <Insets bottom="8.0" top="8.0"/>
+                    </HBox.margin>
+                </CheckBox>
+            </HBox>
+            <HBox>
+                <Label text="3D" prefWidth="100.0">
+                    <HBox.margin>
+                        <Insets bottom="8.0" top="8.0"/>
+                    </HBox.margin>
+                </Label>
+                <CheckBox fx:id="selected3D" prefWidth="350.0">
+                    <HBox.margin>
+                        <Insets bottom="8.0" top="8.0"/>
+                    </HBox.margin>
+                </CheckBox>
+            </HBox>
+            <Label fx:id="addScreeningErrorPrompt" styleClass="error" prefWidth="500" />
+            <Button text="Submit" onMouseClicked="#submitAddingScreening" prefWidth="100" />
+        </VBox>
+        <VBox fx:id="removeScreeningForm" visible="false" managed="false" alignment="TOP_CENTER"  spacing="10">
+            <Label text="REMOVE SCREENING" />
+            <TableView fx:id="screeningTable" minHeight="400.0" maxWidth="700.0">
+                <columns>
+                    <TableColumn fx:id="screeningId" text="Id"/>
+                    <TableColumn fx:id="screeningHall" text="Hall"/>
+                    <TableColumn fx:id="screeningMovie" text="Movie"/>
+                    <TableColumn fx:id="screeningDate" text="Date"/>
+                    <TableColumn fx:id="screeningTicketPrice" text="Ticket price"/>
+                    <TableColumn fx:id="screeningSubtitles" text="Subtitles"/>
+                    <TableColumn fx:id="screening3D" text="3D"/>
+                </columns>
+            </TableView>
+            <VBox fx:id="deleteScreeningConfirmation" visible="false" managed="false" alignment="TOP_CENTER">
+                <Label text="Are you sure you want to delete a screening:" />
+                <Label fx:id="screeningToDelete" />
+                <Button text="Delete" onAction="#submitDeletingScreening">
+                    <VBox.margin>
+                        <Insets bottom="8.0" top="8.0"/>
+                    </VBox.margin>
+                </Button>
+            </VBox>
+            <Label fx:id="removeScreeningErrorPrompt" styleClass="error" prefWidth="500" alignment="CENTER"/>
+        </VBox>
+    </VBox>
+
+</GridPane>

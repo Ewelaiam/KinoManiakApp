@@ -1,0 +1,46 @@
+* {
+    -fx-maincolor1: rgb(140, 100, 120);
+    -fx-maincolor2: rgb(150, 110, 130);
+    -fx-maincolor3: rgb(232, 232, 232);
+    -fx-maincolor4: rgb(70, 69, 68);
+
+    -fx-font-family: Verdana;
+
+
+}
+
+#mainGrid {
+    -fx-background-color: -fx-maincolor3;
+}
+
+.button, .combo-box {
+    -fx-background-color: linear-gradient(to top, -fx-maincolor1, -fx-maincolor2);
+    -fx-min-width: 150px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.combo-box {
+    -jfx-focus-color: white;
+    -jfx-unfocus-color: white;
+}
+
+.combo-box > .list-cell {
+    -fx-text-fill: white;
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(to top, -fx-maincolor3, -fx-maincolor2);
+    -fx-cursor: hand;
+}
+
+.button:selected {
+    -fx-background-color: -fx-maincolor3;
+}
+
+.cell {
+    -fx-background-color: -fx-maincolor4;
+    -fx-text-fill: white;
+    -fx-border-width: 1;
+    -fx-border-color: black;
+}

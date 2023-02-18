@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="com.example.kinomaniak.controller.CashierMovieViewController"
+          prefWidth="600.0"
+          fx:id="mainGrid"
+          stylesheets="@../css/DashboardViewStyles.css">
+    <padding><Insets bottom="25" right="25" left="25" top="25"/></padding>
+    <BorderPane fx:id="mainOptions" GridPane.rowIndex="0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" minHeight="50">
+            <center>
+                <VBox fx:id="tableActionsVBox" alignment="CENTER" >
+                    <Button fx:id="toggleFiltersButton" text="Filters" onMouseClicked="#toggleFilters"/>
+                </VBox>
+            </center>
+    </BorderPane>
+
+    <VBox fx:id="filtersVBox" GridPane.rowIndex="1" visible="false" managed="false" spacing="10" >
+        <BorderPane >
+            <left>
+                <VBox alignment="CENTER" spacing="5">
+                    <padding><Insets bottom="5" right="5" left="5" top="5"/></padding>
+                    <BorderPane>
+                        <padding><Insets bottom="5" right="5" left="5" top="5"/></padding>
+                        <left>
+                            <VBox spacing="5">
+                                <Label text="Search title: " prefHeight="25" >
+                                    <VBox.margin>
+                                        <Insets right="20.0" />
+                                    </VBox.margin>
+                                </Label>
+                                <Label text="Genre: " prefHeight="25"/>
+                                <Label text="Age limit: " prefHeight="25"/>
+                            </VBox>
+                        </left>
+                        <right>
+                            <VBox spacing="5">
+                                <TextField fx:id="searchTextField" promptText="Enter title..." prefHeight="25" prefWidth="50"/>
+                                <ComboBox fx:id="genreComboBox" prefHeight="25"/>
+                                <ComboBox fx:id="ageRestrictionComboBox" prefHeight="25"/>
+                            </VBox>
+
+                        </right>
+                    </BorderPane>
+
+                </VBox>
+            </left>
+            <right>
+                <VBox >
+                    <Button fx:id="resetFiltersButton" text="Reset Filters" onAction="#resetFilters" >
+                        <VBox.margin>
+                            <Insets bottom="8.0" top="8.0"/>
+                        </VBox.margin>
+                    </Button>
+                    <Button fx:id="recommendedMoviesButton" text="Recommended Movies" onAction="#showRecommendedMovies" />
+                </VBox>
+
+            </right>
+            <center>
+
+            </center>
+
+        </BorderPane>
+      </VBox>
+
+    <TableView fx:id="moviesTable"
+
+               GridPane.rowIndex="2"
+               prefHeight="650"
+               prefWidth="550"
+                >
+        <columns>
+            <TableColumn fx:id="titleColumn" prefWidth="160.0" maxWidth="Infinity"  text="Title"/>
+            <TableColumn fx:id="directorColumn" prefWidth="160.0"  text="Director" />
+            <TableColumn fx:id="premierDateColumn" prefWidth="90.0"  text="Premier Date" />
+            <TableColumn fx:id="durationColumn" prefWidth="60.0"  text="Duration" />
+            <TableColumn fx:id="ageRestrictionColumn" prefWidth="65.0"  text="Age Limit" />
+        </columns>
+
+    </TableView>
+
+
+    <BorderPane fx:id="bottomPane" GridPane.rowIndex="3" prefHeight="0" visible="false" managed="false">
+            <left>
+                <ImageView fx:id="moviePosterImageView" fitHeight="98" fitWidth="67"/>
+            </left>
+
+            <center>
+                <VBox>
+                    <Label fx:id="titleLabel" style="-fx-padding: 5 5 0 5; -fx-font-weight: bold;"/>
+                    <Label fx:id="descriptionLabel" wrapText="true" text="description"
+                           style="-fx-padding: 5 5 5 5;"/>
+                </VBox>
+            </center>
+
+
+            <right>
+                <VBox spacing="10" alignment="CENTER">
+
+                    <Button fx:id="hideBottomPaneButton"   text="X" onAction="#removeSelection">
+                        <VBox.margin>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                        </VBox.margin>
+                    </Button>
+                    <Button fx:id="showScreeningsButton"  text="Show Screenings" wrapText="true" onAction="#showScreenings">
+                        <VBox.margin>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                        </VBox.margin>
+                    </Button>
+                </VBox>
+            </right>
+    </BorderPane>
+</GridPane>
+

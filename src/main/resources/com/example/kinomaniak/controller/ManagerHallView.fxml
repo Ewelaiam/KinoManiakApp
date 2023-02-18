@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="com.example.kinomaniak.controller.ManagerHallViewController"
+          prefWidth="600.0"
+          fx:id="mainGrid"
+          stylesheets="@../css/DashboardViewStyles.css">
+    <padding><Insets bottom="25" right="25" left="25" top="25"/></padding>
+    <VBox fx:id="filtersVBox" GridPane.rowIndex="0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"  spacing="10">
+        <BorderPane >
+            <left>
+                <VBox prefWidth="150"/>
+            </left>
+            <right>
+                <VBox prefWidth="150"/>
+            </right>
+            <center>
+                <VBox alignment="CENTER" spacing="5">
+                    <padding><Insets bottom="5" right="5" left="5" top="5"/></padding>
+                    <BorderPane>
+                        <padding><Insets bottom="5" right="5" left="5" top="5"/></padding>
+                        <left>
+                            <VBox spacing="5">
+                                <Label text="Search hall: " prefHeight="25"/>
+                                <Label text="Min capacity:" prefHeight="25"/>
+                                <Label text="Max capacity:" prefHeight="25"/>
+
+                            </VBox>
+                        </left>
+                        <right>
+                            <VBox spacing="5">
+                                <TextField fx:id="hallNoTextField" promptText="Enter hall number" prefHeight="25"/>
+                                <TextField fx:id="minCapacityTextField" promptText="Enter min capacity" prefHeight="25"/>
+                                <TextField fx:id="maxCapacityTextField" promptText="Enter max capacity" prefHeight="25"/>
+
+                            </VBox>
+
+                        </right>
+                    </BorderPane>
+                    <Button fx:id="resetFiltersButton" text="Reset Filters" onAction="#resetFilters" prefWidth="100"/>
+                </VBox>
+            </center>
+
+        </BorderPane>
+    </VBox>
+
+    <TableView fx:id="hallsTable"
+               prefHeight="650"
+               prefWidth="550"
+               GridPane.rowIndex="1">
+        <columns>
+            <TableColumn fx:id="hallNoColumn" prefWidth="100.0"  text="Hall Number"/>
+            <TableColumn fx:id="capacityColumn" prefWidth="100.0"  text="Capacity" />
+        </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+        </columnResizePolicy>
+    </TableView>
+
+
+    <BorderPane GridPane.rowIndex="2" prefHeight="30" style="-fx-padding: 5;">
+
+        <center>
+            <HBox spacing="100" style="-fx-alignment: center;">
+                <Button fx:id="showScreeningsButton" text="Show Screenings" prefWidth="80" onAction="#handleShowScreenings"/>
+            </HBox>
+        </center>
+
+
+    </BorderPane>
+</GridPane>
+
